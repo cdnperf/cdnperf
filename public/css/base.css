@@ -1,0 +1,20 @@
+.panel h1 {
+    display: inline;
+}
+.panel .tagline {
+    margin-left: 2em;
+    display: inline;
+}
+
+.cdnHeader {
+    width: 10%;
+}
+.uptimeHeader {
+    width: 10%;
+}
+.projectsHeader {
+    width: 10%;
+}
+.providerHeader {
+    width: 10%;
+}

@@ -6,16 +6,21 @@ html
         link(rel='stylesheet', href='css/vendor/normalize.css')
         link(rel='stylesheet', href='css/vendor/foundation.min.css')
         link(rel='stylesheet', href='css/base.css')
+
         script(src='js/vendor/jquery/jquery.js')
         script(src='js/base.js')
 
         block head
     body
-        header
-            p TODO
+        .row
+            .nine.columns
+                header.panel
+                    h1 CDNperf
 
-        article
-            block content
+                    p.tagline CDN performance in numbers
 
-        footer
-            p TODO
+                article
+                    block content
+
+                footer.panel
+                    p Brought to you by ...
