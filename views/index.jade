@@ -1,4 +1,17 @@
 extends layout
 
 block content
-    p TODO
+    table.cdns(cellpadding=0, cellspacing=0)
+        thead
+            tr
+                each type in types
+                    th(class= type.toLowerCase() + 'Header')= type
+        tbody
+            each cdn in cdns
+                tr
+                    td
+                        a(href= cdn.link)= cdn.name
+                    td= cdn.uptime
+                    td= cdn.latency
+                    td= cdn.projects
+                    td= cdn.provider

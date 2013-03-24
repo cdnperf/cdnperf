@@ -6,6 +6,10 @@
     display: inline;
 }
 
+.cdns {
+    width: 100%;
+}
+
 .cdnHeader {
     width: 10%;
 }
