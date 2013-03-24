@@ -1,0 +1,30 @@
+{
+    "name": "cdnperf",
+    "private": true,
+    "description": "CDN performance monitoring service",
+    "author": "Juho Vepsalainen <bebraw@gmail.com>",
+    "version": "0.1.0",
+
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    },
+
+    "dependencies": {
+        "express": "3.1.0",
+        "jade": "*"
+    },
+
+    "repository": {
+        "type": "git",
+        "url": "https://bebraw@github.com/bebraw/cdnperf.git"
+    },
+
+    "homepage": "https://github.com/bebraw/cdnperf",
+
+    "bugs": {
+        "url": "https://github.com/bebraw/cdnperf/issues"
+    },
+
+    "keywords": ["cdn", "monitoring"]
+}
