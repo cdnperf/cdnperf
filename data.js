@@ -1,27 +1,33 @@
+var async = require('async');
+
 var pingdom = require('./pingdom');
 var config = require('./config');
 
 
 // TODO: https://npmjs.org/package/node-cache
 
-// TODO: use pingdom api to access checks/results and format that data in a renderable form
-function checks(limit, cb) {
+// TODO: format the data in renderable form
+function checks(limit, done) {
     var api = pingdom(config.pingdom);
 
     api.checks(function(err, checks) {
         if(err) return console.error(err);
 
-        // TODO: return checks and associated results now
-        api.results(function(err, results) {
-            if(err) return cb(err);
+        async.map(checks, function(check, cb) {
+            api.results(function(err, results) {
+                if(err) return cb(err);
 
-            cb(null, results);
-        }, {
-            target: checks[0].id,
-            qs: {
-                limit: limit
-            }
-        });
+                cb(null, {
+                    check: check,
+                    results: results
+                });
+            }, {
+                target: check.id,
+                qs: {
+                    limit: limit
+                }
+            });
+        }, done);
     });
 }
 exports.checks = checks;
