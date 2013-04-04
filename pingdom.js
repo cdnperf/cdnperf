@@ -1,5 +1,15 @@
 var request = require('request');
 
+function init(config) {
+    var baseUrl = 'https://api.pingdom.com/api/2.0/';
+
+    return {
+        checks: checks.bind(undefined, config),
+        results: results.bind(undefined, config)
+    };
+}
+module.exports = init;
+
 function checks(config, cb) {
     var url = 'https://api.pingdom.com/api/2.0/checks';
 
@@ -12,7 +22,6 @@ function checks(config, cb) {
         cb(err, JSON.parse(res.body).checks);
     });
 }
-exports.checks = checks;
 
 function results(config, check, limit, cb) {
     var url = 'https://api.pingdom.com/api/2.0/results/' + check;
@@ -29,4 +38,3 @@ function results(config, check, limit, cb) {
         cb(err, JSON.parse(res.body).results);
     });
 }
-exports.results = results;
