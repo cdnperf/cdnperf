@@ -1,40 +1,29 @@
 var request = require('request');
+var ziptoo = require('funkit').functional.ziptoo;
+
 
 function init(config) {
     var baseUrl = 'https://api.pingdom.com/api/2.0/';
+    var resources = ['checks', 'results'];
 
-    return {
-        checks: checks.bind(undefined, config),
-        results: results.bind(undefined, config)
-    };
+    return ziptoo(resources.map(function(resource) {
+        return [resource, template.bind(undefined, config, baseUrl, resource)];
+    }))
 }
 module.exports = init;
 
-function checks(config, cb) {
-    var url = 'https://api.pingdom.com/api/2.0/checks';
+function template(config, baseUrl, property, cb, o) {
+    o = o || {};
+    var target = o.target || '';
+    var qs = o.qs || {};
 
-    request.get(url, {
-        auth: config,
-        headers: {
-            'App-Key': config.appkey
-        }
-    }, function(err, res) {
-        cb(err, JSON.parse(res.body).checks);
-    });
-}
-
-function results(config, check, limit, cb) {
-    var url = 'https://api.pingdom.com/api/2.0/results/' + check;
-
-    request.get(url, {
+    request.get(baseUrl + property + '/' + target, {
         auth: config,
         headers: {
             'App-Key': config.appkey
         },
-        qs: {
-            limit: limit
-        }
+        qs: qs
     }, function(err, res) {
-        cb(err, JSON.parse(res.body).results);
+        cb(err, JSON.parse(res.body)[property]);
     });
 }

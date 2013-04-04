@@ -11,10 +11,15 @@ function main() {
     api.checks(function(err, checks) {
         if(err) return console.error(err);
 
-        api.results(checks[0].id, 5, function(err, results) {
+        api.results(function(err, results) {
             if(err) return console.error(err);
 
             console.log(results);
+        }, {
+            target: checks[0].id,
+            qs: {
+                limit: 5
+            }
         });
     });
 }
