@@ -8,6 +8,6 @@ function main() {
     data.checks(5, function(err, results) {
         if(err) return console.error(err);
 
-        console.log(results);
+        console.log(results, results[0].data);
     });
 }

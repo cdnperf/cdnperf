@@ -6,7 +6,6 @@ var config = require('./config');
 
 // TODO: https://npmjs.org/package/node-cache
 
-// TODO: format the data in renderable form
 function checks(limit, done) {
     var api = pingdom(config.pingdom);
 
@@ -18,8 +17,16 @@ function checks(limit, done) {
                 if(err) return cb(err);
 
                 cb(null, {
-                    check: check,
-                    results: results
+                    name: check.name,
+                    host: check.hostname,
+                    type: check.type,
+                    lastresponse: check.lastresponsetime,
+                    data: results.map(function(result) {
+                        return {
+                            x: result.time,
+                            y: result.responsetime
+                        };
+                    })
                 });
             }, {
                 target: check.id,
