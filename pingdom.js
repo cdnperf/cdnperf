@@ -8,7 +8,9 @@ function getChecks(config, cb) {
         headers: {
             'App-Key': config.appkey
         }
-    }, cb);
+    }, function(err, res) {
+        cb(err, JSON.parse(res.body).checks);
+    });
 }
 exports.getChecks = getChecks;
 
