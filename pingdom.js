@@ -15,6 +15,18 @@ function checks(config, cb) {
 exports.checks = checks;
 
 function results(config, check, limit, cb) {
-    // TODO: results/<check number>?limit=n
+    var url = 'https://api.pingdom.com/api/2.0/results/' + check;
+
+    request.get(url, {
+        auth: config,
+        headers: {
+            'App-Key': config.appkey
+        },
+        qs: {
+            limit: limit
+        }
+    }, function(err, res) {
+        cb(err, JSON.parse(res.body).results);
+    });
 }
 exports.results = results;
