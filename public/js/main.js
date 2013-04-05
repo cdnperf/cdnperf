@@ -1,42 +1,17 @@
 $(main);
 
 function main() {
-    var data = {
-        "xScale": "ordinal",
-        "yScale": "linear",
-        "type": "bar",
-        "main": [
-            {
-            "className": ".pizza",
-            "data": [
-                {
-                "x": "Pepperoni",
-                "y": 12
-            },
-            {
-                "x": "Cheese",
-                "y": 8
-            }
-            ]
-        }
-        ],
-        "comp": [
-            {
-            "className": ".pizza",
-            "type": "line-dotted",
-            "data": [
-                {
-                "x": "Pepperoni",
-                "y": 10
-            },
-            {
-                "x": "Cheese",
-                "y": 4
-            }
-            ]
-        }
-        ]
-    };
+    $.getJSON('./data.json', function(data) {
+        var d = {
+            xScale: 'time',
+            yScale: 'linear',
+            type: 'line',
+            main: [{
+                className: 'latency',
+                data: data[0].data
+            }]
+        };
 
-    var chart = new xChart('bar', data, '#myChart');
+        new xChart('latency', d, '#myChart');
+    });
 }
