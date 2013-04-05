@@ -4,6 +4,7 @@ var path = require('path');
 
 var express = require('express');
 
+var cronjobs = require('./cronjobs');
 var routes = require('./routes');
 var config = require('./config');
 
@@ -36,6 +37,8 @@ function main() {
     });
 
     app.get('/', routes.index);
+
+    cronjobs();
 
     http.createServer(app).listen(config.port, function() {
         console.log('Server running at ' + config.port);
