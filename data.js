@@ -1,13 +1,10 @@
 var async = require('async');
 
 var pingdom = require('./pingdom');
-var config = require('./config');
 
 
-// TODO: https://npmjs.org/package/node-cache
-
-function checks(limit, done) {
-    var api = pingdom(config.pingdom);
+function checks(config, limit, done) {
+    var api = pingdom(config);
 
     api.checks(function(err, checks) {
         if(err) return console.error(err);
