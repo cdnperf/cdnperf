@@ -20,7 +20,7 @@ function checks(config, limit, done) {
                     lastresponse: check.lastresponsetime,
                     data: results.map(function(result) {
                         return {
-                            x: result.time,
+                            x: result.time * 1000, // s to ms
                             y: result.responsetime
                         };
                     })
