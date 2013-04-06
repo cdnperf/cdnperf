@@ -6,24 +6,11 @@
     display: inline;
 }
 
-.cdns {
-    width: 100%;
+.latency {
+    display: inline-block;
 }
 
-.cdnHeader {
-    width: 10%;
-}
-.uptimeHeader {
-    width: 10%;
-}
-.projectsHeader {
-    width: 10%;
-}
-.providerHeader {
-    width: 10%;
-}
-
-#myChart {
+.chart {
     width: 400px;
     height: 300px;
 }
