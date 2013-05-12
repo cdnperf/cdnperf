@@ -1,0 +1,25 @@
+{
+  "name": "Chart.js",
+  "version": "0.0.0",
+  "description": "Simple HTML5 Charts using the canvas element",
+  "keywords": [
+    "charts"
+  ],
+  "homepage": "https://github.com/nnnick/Chart.js",
+  "author": {
+    "name": "nnnick"
+  },
+  "main": [
+    "Chart.min.js"
+  ],
+  "dependencies": {},
+  "gitHead": "2e083962556ce901cc80028fe2814ec10dc317fa",
+  "readme": "Chart.js\n=======\n*Simple HTML5 Charts using the canvas element* [chartjs.org](http://www.chartjs.org)\n\n\nDocumentation\n-------\nYou can find documentation at [chartjs.org/docs](http://www.chartjs.org/docs).\n\nLicense\n-------\nChart.js was taken down on the 19th March. It is now back online for good and IS available under MIT license.\n\nChart.js is available under the [MIT license] (http://opensource.org/licenses/MIT).",
+  "readmeFilename": "readme.md",
+  "_id": "Chart.js@0.2.0",
+  "commit": "2e083962556ce901cc80028fe2814ec10dc317fa",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nnnick/Chart.js.git"
+  }
+}
