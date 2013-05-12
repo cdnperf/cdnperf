@@ -16,7 +16,7 @@ function checks(config, limit, done) {
                 cb(null, {
                     name: check.name,
                     host: check.hostname,
-                    type: check.type,
+                    type: check.name.split(' ')[1].toLowerCase(),
                     lastresponse: check.lastresponsetime,
                     data: results.map(function(result) {
                         return {
