@@ -2,23 +2,63 @@ $(main);
 
 function main() {
     $.getJSON('./data.json', function(providers) {
-        var $p = $('.latencies');
+        var $c = $('.latencies');
 
-        createChart($p, providers);
+        createChart($c, providers);
     });
 
-    function createChart($p, providers) {
-        // TODO: figure out how many charts this can display at once
-        new xChart('line-dotted', {
-            xScale: 'time',
-            yScale: 'linear',
-            yMax: 100, // TODO: figure out a nice value for this, auto isn't that nice
-            main: providers.map(function(p) {
-                return {
-                    className: '.latency',
-                    data: p.data
-                };
-            })
-        }, $('.chart').get(0));
+    function createChart($c, providers) {
+        var ctx = $c[0].getContext('2d');
+        var data = getData(providers);
+        var options = {
+            datasetFill: false
+        };
+
+        new Chart(ctx).Line(data, options);
+    }
+
+    function getData(providers) {
+        return {
+            labels: getLabels(providers),
+            datasets: getDatasets(providers)
+        };
+    }
+
+    function getLabels(providers) {
+        return providers[0].data.map(prop('x'));
+    }
+
+    function getDatasets(providers) {
+        var pointColor = '#222';
+
+        return providers.map(function(provider) {
+            return {
+                strokeColor: getColor(provider.name.split(' ')[0].toLowerCase()),
+                pointColor: pointColor,
+                pointStrokeColor: pointColor,
+                data: provider.data.map(prop('y'))
+            };
+        });
+    }
+
+    function getColor(name) {
+        var colors = {
+            jsdelivr: '#b00',
+            yandex: 'green',
+            microsoft: 'blue',
+            cdnjs: '#c64012',
+            google: '#333',
+            'jquery(mt)': 'red'
+        };
+
+        if(name in colors) return colors[name];
+
+        console.warn('Failed to get a color for ', name);
+    }
+
+    function prop(name) {
+        return function(v) {
+            return v[name];
+        };
     }
 }

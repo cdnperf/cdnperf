@@ -3,11 +3,8 @@ extends layout
 block head
     link(rel='stylesheet', href='css/vendor/xcharts.css')
 
-    script(src='js/vendor/underscore/underscore.js')
-    script(src='js/vendor/d3.js')
-    script(src='js/vendor/xcharts.js')
+    script(src='js/vendor/Chart.js/Chart.js')
     script(src='js/main.js')
 
 block content
-    .latency
-        figure.chart
+    canvas.latencies(width=800, height=400)
