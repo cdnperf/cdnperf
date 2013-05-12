@@ -24,6 +24,10 @@
         "url": "https://bebraw@github.com/bebraw/cdnperf.git"
     },
 
+    "scripts": {
+        "start": "node ./serve"
+    },
+
     "homepage": "https://github.com/bebraw/cdnperf",
 
     "bugs": {
