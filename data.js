@@ -8,6 +8,7 @@ function checks(config, limit, done) {
 
     api.checks(function(err, checks) {
         if(err) return console.error(err);
+        if(!checks) return console.warn('Check your credentials!');
 
         async.map(checks, function(check, cb) {
             api.results(function(err, results) {
