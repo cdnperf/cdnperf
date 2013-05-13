@@ -2,12 +2,80 @@ $(main);
 
 function main() {
     $.getJSON('./data.json', function(providers) {
-        var $c = $('.latencies');
+        var $e = $('.latencies');
 
-        createChart($c, providers);
+        createControls($e);
+        createChart($e, providers);
     });
 
-    function createChart($c, providers) {
+    function createControls($p) {
+        var $e = $('<div>', {'class': 'controls'}).appendTo($p);
+
+        createTypes($e);
+        createRanges($e);
+        createCategories($e);
+    }
+
+    function createTypes($p) {
+        $controls($p, 'types', 'type', {
+            'ping': function() {
+                console.log('should show ping now');
+            },
+            'http': function() {
+                console.log('should show http now');
+            },
+            'https': function() {
+                console.log('should show https now');
+            }
+        });
+    }
+
+    function createRanges($p) {
+        $controls($p, 'ranges', 'range', {
+            '1 day': function() {
+                console.log('change to 1 day view');
+            },
+            '7 days': function() {
+                console.log('change to 7 days view');
+            },
+            '30 days': function() {
+                console.log('change to 30 days view');
+            }
+        });
+    }
+
+    function createCategories($p) {
+        $controls($p, 'categories', 'category', {
+            'latency': function() {
+                console.log('change to latency view');
+            },
+            'uptime': function() {
+                console.log('change to uptime view');
+            }
+        });
+    }
+
+    function $controls($p, containerClass, itemClass, controls) {
+        var $e = $('<div>', {'class': 'controlsContainer ' + containerClass}).appendTo($p);
+
+        for(var control in controls) $control($e, itemClass, control, controls[control]);
+
+        $('.control', $e).first().addClass('selected');
+    }
+
+    function $control($p, type, name, handler) {
+        var $e = $('<a>', {'class': 'control ' + type, href: '#'}).text(name).on('click', function(e) {
+            e.preventDefault();
+
+            $e.siblings().removeClass('selected');
+            $e.addClass('selected');
+
+            handler(e);
+        }).appendTo($p);
+    }
+
+    function createChart($p, providers) {
+        var $c = $('<canvas>').attr({width: 800, height: 400}).appendTo($p);
         var ctx = $c[0].getContext('2d');
         var data = getData(providers);
         var options = {

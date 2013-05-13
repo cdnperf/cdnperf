@@ -14,3 +14,32 @@
     width: 400px;
     height: 300px;
 }
+
+.controls .selected.control {
+    font-weight: bold;
+}
+
+.controlsContainer {
+    margin-bottom: 1em;
+}
+
+.controlsContainer .control {
+    margin-right: 1em;
+}
+
+.types {
+    margin-left: 1em;
+}
+
+.types {
+    float: left;
+}
+
+.categories {
+    float: left;
+    margin-left: 2em;
+}
+
+.ranges {
+    float: right;
+}
