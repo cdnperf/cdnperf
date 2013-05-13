@@ -6,6 +6,7 @@ function main() {
 
         createControls($e);
         createChart($e, providers);
+        createLegend($e, providers);
     });
 
     function createControls($p) {
@@ -75,7 +76,7 @@ function main() {
     }
 
     function createChart($p, providers) {
-        var $c = $('<canvas>').attr({width: 800, height: 400}).appendTo($p);
+        var $c = $('<canvas>', {'class': 'chart'}).attr({width: 750, height: 400}).appendTo($p);
         var ctx = $c[0].getContext('2d');
         var data = getData(providers);
         var options = {
@@ -85,11 +86,34 @@ function main() {
         new Chart(ctx).Line(data, options);
     }
 
+    function createLegend($p, providers) {
+        var providerNames = getProviderNames(providers).sort();
+        var $table = $('<table>', {'class': 'legend'}).appendTo($p);
+        var $header = $('<tr>').appendTo($table);
+
+        $('<th>', {'class': 'colorLegend'}).appendTo($header);
+        $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
+        $('<th>', {'class': 'category'}).text('Latency').appendTo($header);
+
+        providerNames.map(function(name) {
+            var $row = $('<tr>').appendTo($table);
+            var lowerName = name.toLowerCase();
+
+            $('<td>', {'class': 'color ' + lowerName}).css('background-color', getColor(lowerName)).appendTo($row);
+            $('<td>', {'class': 'name ' + lowerName}).text(name).appendTo($row);
+            $('<td>', {'class': 'value ' + lowerName}).appendTo($row);
+        });
+    }
+
     function getData(providers) {
         return {
             labels: getLabels(providers),
             datasets: getDatasets(providers)
         };
+    }
+
+    function getProviderNames(providers) {
+        return unique(providers.map(prop('name')).map(getProviderName));
     }
 
     function getLabels(providers) {
@@ -101,7 +125,7 @@ function main() {
 
         return providers.map(function(provider) {
             return {
-                strokeColor: getColor(provider.name.split(' ')[0].toLowerCase()),
+                strokeColor: getColor(getProviderName(provider.name)),
                 pointColor: pointColor,
                 pointStrokeColor: pointColor,
                 data: provider.data.map(prop('y'))
@@ -109,7 +133,14 @@ function main() {
         });
     }
 
+    function getProviderName(fullname) {
+        return fullname.split(' ')[0];
+    }
+
     function getColor(name) {
+        if(!name) return console.warn('getColor is missing name parameter');
+
+        name = name.toLowerCase();
         var colors = {
             jsdelivr: '#b00',
             yandex: 'green',
@@ -122,6 +153,16 @@ function main() {
         if(name in colors) return colors[name];
 
         console.warn('Failed to get a color for ', name);
+    }
+
+    function unique(arr) {
+        var ret = {};
+
+        arr.forEach(function(v) {
+            ret[v] = true;
+        });
+
+        return Object.keys(ret);
     }
 
     function prop(name) {

@@ -1,7 +1,12 @@
-.panel h1 {
+article {
+    overflow: auto;
+    margin: 1em;
+}
+
+.panel .siteName {
     display: inline;
 }
-.panel .tagline {
+.panel .tagLine {
     margin-left: 2em;
     display: inline;
 }
@@ -15,7 +20,7 @@
     height: 300px;
 }
 
-.controls .selected.control {
+.controls .selected {
     font-weight: bold;
 }
 
@@ -41,5 +46,13 @@
 }
 
 .ranges {
+    float: right;
+}
+
+.chart {
+    float: left;
+}
+
+.legend {
     float: right;
 }
