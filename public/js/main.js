@@ -1,6 +1,8 @@
 $(main);
 
 function main() {
+    // TODO: load json based on control status (types, ranges, categories)
+    // TODO: figure out how to deal with this (file for each permutation?)
     $.getJSON('./data.json', function(providers) {
         var $e = $('.latencies');
 
