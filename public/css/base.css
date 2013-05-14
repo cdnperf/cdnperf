@@ -20,12 +20,18 @@ article {
     height: 300px;
 }
 
+.controls {
+    overflow: auto;
+    margin-bottom: 1em;
+}
+
 .controls .selected {
     font-weight: bold;
 }
 
 .controlsContainer {
-    margin-bottom: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .controlsContainer .control {

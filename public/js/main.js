@@ -67,7 +67,7 @@ function main() {
     }
 
     function $control($p, type, name, handler) {
-        var $e = $('<a>', {'class': 'control ' + type, href: '#'}).text(name).on('click', function(e) {
+        var $e = $('<a>', {'class': 'panel control ' + type, href: '#'}).text(name).on('click', function(e) {
             e.preventDefault();
 
             $e.siblings().removeClass('selected');
