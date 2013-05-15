@@ -78,7 +78,7 @@ function main() {
     }
 
     function createChart($p, providers) {
-        var $c = $('<canvas>', {'class': 'chart'}).attr({width: 750, height: 400}).appendTo($p);
+        var $c = $('<canvas>', {'class': 'chart'}).attr({width: 1000, height: 400}).appendTo($p);
         var ctx = $c[0].getContext('2d');
         var data = getData(providers);
         var options = {

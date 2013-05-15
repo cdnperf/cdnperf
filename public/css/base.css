@@ -60,5 +60,8 @@ article {
 }
 
 .legend {
-    float: right;
+    opacity: 0.8;
+    z-index: 10;
+    position: absolute;
+    right: 0;
 }
