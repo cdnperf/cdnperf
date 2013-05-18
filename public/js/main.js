@@ -6,8 +6,6 @@ function main() {
     var range = 3;
     var data;
 
-    // TODO: load json based on control status (types, ranges, categories)
-    // TODO: figure out how to deal with this (file for each permutation?)
     $.getJSON('./data.json', function(d) {
         var $e = $('.latencies');
 
