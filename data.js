@@ -8,12 +8,12 @@ var pingdom = require('./pingdom');
 
 module.exports = function(config) {
     var funcs = [
-        dayAverageLatency,
-        dayUptime,
-        weekAverageLatency,
-        weekUptime,
         monthAverageLatency,
         monthUptime,
+        weekAverageLatency,
+        weekUptime,
+        dayAverageLatency,
+        dayUptime,
         checks
     ];
     var ret = {};
@@ -24,6 +24,22 @@ module.exports = function(config) {
 
     return ret;
 };
+
+function monthAverageLatency(config, o, done) {
+    // TODO: this should get avg latency for each day within a month (30 days)
+}
+
+function monthUptime(config, o, done) {
+    // TODO: this should get avg uptime for each day within a month (30 days)
+}
+
+function weekAverageLatency(config, o, done) {
+    // TODO: this should get avg latency for each day within a week (7 days)
+}
+
+function weekUptime(config, o, done) {
+    // TODO: this should get uptime for each day within a week (7 days)
+}
 
 function dayAverageLatency(config, o, done) {
     dayTemplate(config, o, function(err, data) {
@@ -57,22 +73,6 @@ function dayUptime(config, o, done) {
             return d;
         }));
     });
-}
-
-function weekAverageLatency(config, o, done) {
-
-}
-
-function weekUptime(config, o, done) {
-
-}
-
-function monthAverageLatency(config, o, done) {
-
-}
-
-function monthUptime(config, o, done) {
-
 }
 
 function dayTemplate(config, o, done) {
