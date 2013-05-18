@@ -12,9 +12,6 @@ function main() {
     weekUptime();
     dayLatency();
     dayUptime();
-
-    // kernel
-    checks();
 }
 
 function monthLatency() {

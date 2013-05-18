@@ -9,46 +9,17 @@ require('date-utils');
 var pingdom = require('./pingdom');
 
 module.exports = function(config) {
-    var funcs = [
-        monthLatency,
-        monthUptime,
-        weekLatency,
-        weekUptime,
-        dayLatency,
-        dayUptime,
-        checks
-    ];
-    var ret = {};
-
-    funcs.forEach(function(v) {
-        ret[v.name] = v.bind(undefined, config);
-    });
-
-    return ret;
+    return {
+        monthLatency: getTemplate.bind(undefined, config, 30, dayLatency),
+        monthUptime: getTemplate.bind(undefined, config, 30, dayUptime),
+        weekLatency: getTemplate.bind(undefined, config, 7, dayLatency),
+        weekUptime: getTemplate.bind(undefined, config, 7, dayUptime),
+        dayLatency: dayLatency.bind(undefined, config),
+        dayUptime: dayUptime.bind(undefined, config)
+    };
 };
 
-function monthLatency(config, o, done) {
-    o.range = 30;
-
-    getLatency(config, o, done);
-}
-
-function monthUptime(config, o, done) {
-    // TODO: this should get avg uptime for each day within a month (30 days)
-}
-
-function weekLatency(config, o, done) {
-    o.range = 7;
-
-    getLatency(config, o, done);
-}
-
-
-function weekUptime(config, o, done) {
-    // TODO: this should get uptime for each day within a week (7 days)
-}
-
-function getLatency(config, o, done) {
+function getTemplate(config, dayRange, fn, o, done) {
     async.parallel(generateFunctions(), function(err, data) {
         done(err, data.map(function(item) {
             return item.map(function(v) {
@@ -66,11 +37,11 @@ function getLatency(config, o, done) {
     });
 
     function generateFunctions() {
-        return range(o.range).map(function(offset) {
+        return range(dayRange).map(function(offset) {
             var date = offsetDay(o.date, -offset);
 
             return function(done) {
-                dayLatency(config, {
+                fn(config, {
                     date: date
                 }, done);
             };
