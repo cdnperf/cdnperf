@@ -1,6 +1,8 @@
 var async = require('async');
-var prop = require('funkit').common.prop;
-var not = require('funkit').functional.not;
+var funkit = require('funkit');
+var prop = funkit.common.prop;
+var not = funkit.functional.not;
+var range = funkit.math.range;
 var is = require('annois');
 require('date-utils');
 
@@ -34,7 +36,33 @@ function monthUptime(config, o, done) {
 }
 
 function weekAverageLatency(config, o, done) {
-    // TODO: this should get avg latency for each day within a week (7 days)
+    async.parallel(generateFunctions(), function(err, data) {
+        done(err, data.map(function(item) {
+            return item.map(function(v) {
+                v.data = [v.data];
+
+                return v;
+            });
+        }).reduce(function(a, b) {
+            return a.map(function(v, i) {
+                v.data = v.data.concat(b[i].data);
+
+                return v;
+            });
+        }));
+    });
+
+    function generateFunctions() {
+        return range(7).map(function(offset) {
+            var date = offsetDay(o.date, -offset);
+
+            return function(done) {
+                dayAverageLatency(config, {
+                    date: date
+                }, done);
+            };
+        });
+    }
 }
 
 function weekUptime(config, o, done) {
@@ -47,6 +75,7 @@ function dayAverageLatency(config, o, done) {
             var dataLen = 0;
 
             d.data = d.data.map(prop('y')).reduce(function(a, b) {
+                if(!is.number(a)) a = 0;
                 if(is.number(a) && is.number(b)) {
                     dataLen++;
 
@@ -82,16 +111,25 @@ function dayTemplate(config, o, done) {
     o.to = o.date;
     delete o.date;
 
-    d = o.to.clone();
-    d.addDays(-1);
-
-    o.from = d;
+    o.from = dateToUnix(offsetDay(o.to, -1));
+    o.to = dateToUnix(o.to);
 
     checks(config, o, function(err, data) {
         if(err) return done(err);
 
         done(err, data);
     });
+}
+
+function dateToUnix(date) {
+    return parseInt(date.getTime() / 1000, 10);
+}
+
+function offsetDay(d, offset) {
+    d = d.clone();
+    d.addDays(offset);
+
+    return d;
 }
 
 function checks(config, o, done) {
