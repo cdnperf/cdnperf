@@ -1,47 +1,62 @@
 $(main);
 
 function main() {
+    var type = 'ping';
+    var category = 'latency';
+    var range = 3;
+    var data;
+
     // TODO: load json based on control status (types, ranges, categories)
     // TODO: figure out how to deal with this (file for each permutation?)
-    $.getJSON('./data.json', function(data) {
+    $.getJSON('./data.json', function(d) {
         var $e = $('.latencies');
 
-        console.log(data);
+        data = d;
 
-        createControls($e, data);
-        updateChart($e, data.latency);
+        createControls($e);
+        updateChart($e);
         createLegend($e, data.latency);
     });
 
-    function createControls($p, data) {
+    function createControls($p) {
         var $e = $('<div>', {'class': 'controls'}).appendTo($p);
 
-        createTypes($e, data);
-        createRanges($e, data);
-        createCategories($e, data);
+        createTypes($e);
+        createRanges($e);
+        createCategories($e);
     }
 
     function createTypes($p, data) {
         $controls($p, 'types', 'type', {
             'ping': function() {
-                console.log('should show ping now');
+                type = 'ping';
+
+                updateChart($p);
             },
             'http': function() {
-                console.log('should show http now');
+                type = 'http';
+
+                updateChart($p);
             },
             'https': function() {
-                console.log('should show https now');
+                type = 'https';
+
+                updateChart($p);
             }
         });
     }
 
     function createRanges($p, data) {
         $controls($p, 'ranges', 'range', {
-            '1 day': function() {
-                console.log('change to 1 day view');
+            '3 days': function() {
+                range = 3;
+
+                updateChart($p);
             },
             '7 days': function() {
-                console.log('change to 7 days view');
+                range = 7;
+
+                updateChart($p);
             }/*,
             '30 days': function() {
                 console.log('change to 30 days view');
@@ -52,10 +67,14 @@ function main() {
     function createCategories($p, data) {
         $controls($p, 'categories', 'category', {
             'latency': function() {
-                updateChart($p, data.latency);
+                category = 'latency';
+
+                updateChart($p);
             },
             'uptime': function() {
-                updateChart($p, data.uptime);
+                category = 'uptime';
+
+                updateChart($p);
             }
         });
     }
@@ -79,18 +98,15 @@ function main() {
         }).appendTo($p);
     }
 
-    function updateChart($p, data) {
+    function updateChart($p) {
         var $c = $('canvas.chart:first');
 
         if(!$c.length) $c = $('<canvas>', {'class': 'chart'}).attr({width: 1000, height: 400}).appendTo($p);
 
         var ctx = $c[0].getContext('2d');
-        var d = getData(data);
-        var options = {
+        new Chart(ctx).Line(getData(), {
             datasetFill: false
-        };
-
-        new Chart(ctx).Line(d, options);
+        });
     }
 
     function createLegend($p, data) {
@@ -112,10 +128,12 @@ function main() {
         });
     }
 
-    function getData(data) {
+    function getData() {
+        var d = data[category];
+
         return {
-            labels: getLabels(data),
-            datasets: getDatasets(data)
+            labels: getLabels(d, range),
+            datasets: getDatasets(d, range)
         };
     }
 
@@ -123,19 +141,21 @@ function main() {
         return unique(data.map(prop('name')).map(getProviderName));
     }
 
-    function getLabels(data) {
-        return data[0].data.map(function(v, i) {return i;});
+    function getLabels(d, amount) {
+        return d[0].data.slice(-amount).map(function(v, i) {return i;});
     }
 
-    function getDatasets(data) {
+    function getDatasets(data, amount) {
         var pointColor = '#222';
 
-        return data.map(function(d) {
+        return data.filter(function(d) {
+            return d.type == type;
+        }).map(function(d) {
             return {
                 strokeColor: getColor(getProviderName(d.name)),
                 pointColor: pointColor,
                 pointStrokeColor: pointColor,
-                data: d.data
+                data: d.data.slice(-amount)
             };
         });
     }
