@@ -8,20 +8,20 @@ function main() {
 
         console.log(data);
 
-        createControls($e);
-        createChart($e, data.latency);
+        createControls($e, data);
+        updateChart($e, data.latency);
         createLegend($e, data.latency);
     });
 
-    function createControls($p) {
+    function createControls($p, data) {
         var $e = $('<div>', {'class': 'controls'}).appendTo($p);
 
-        createTypes($e);
-        createRanges($e);
-        createCategories($e);
+        createTypes($e, data);
+        createRanges($e, data);
+        createCategories($e, data);
     }
 
-    function createTypes($p) {
+    function createTypes($p, data) {
         $controls($p, 'types', 'type', {
             'ping': function() {
                 console.log('should show ping now');
@@ -35,7 +35,7 @@ function main() {
         });
     }
 
-    function createRanges($p) {
+    function createRanges($p, data) {
         $controls($p, 'ranges', 'range', {
             '1 day': function() {
                 console.log('change to 1 day view');
@@ -49,13 +49,13 @@ function main() {
         });
     }
 
-    function createCategories($p) {
+    function createCategories($p, data) {
         $controls($p, 'categories', 'category', {
             'latency': function() {
-                console.log('change to latency view');
+                updateChart($p, data.latency);
             },
             'uptime': function() {
-                console.log('change to uptime view');
+                updateChart($p, data.uptime);
             }
         });
     }
@@ -79,8 +79,11 @@ function main() {
         }).appendTo($p);
     }
 
-    function createChart($p, data) {
-        var $c = $('<canvas>', {'class': 'chart'}).attr({width: 1000, height: 400}).appendTo($p);
+    function updateChart($p, data) {
+        var $c = $('canvas.chart:first');
+
+        if(!$c.length) $c = $('<canvas>', {'class': 'chart'}).attr({width: 1000, height: 400}).appendTo($p);
+
         var ctx = $c[0].getContext('2d');
         var d = getData(data);
         var options = {
