@@ -138,7 +138,9 @@ function checks(config, o, done) {
             }, {
                 target: check.id,
                 qs: {
-                    limit: o.limit
+                    limit: o.limit,
+                    from: o.from,
+                    to: o.to
                 }
             });
         }, done);
