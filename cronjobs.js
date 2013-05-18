@@ -17,7 +17,9 @@ function writeJSON() {
     new cronJob('*/5 * * * *', write, null, true);
 
     function write() {
-        data.checks(config.pingdom, 50, function(err, data) {
+        data.checks(config.pingdom, {
+            limit: 50
+        }, function(err, data) {
             fs.writeFile('./public/data.json', JSON.stringify(data), function(err) {
                 if(err) return console.error(err);
 

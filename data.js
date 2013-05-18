@@ -3,7 +3,7 @@ var async = require('async');
 var pingdom = require('./pingdom');
 
 
-function checks(config, limit, done) {
+function checks(config, o, done) {
     var api = pingdom(config);
 
     api.checks(function(err, checks) {
@@ -29,7 +29,7 @@ function checks(config, limit, done) {
             }, {
                 target: check.id,
                 qs: {
-                    limit: limit
+                    limit: o.limit
                 }
             });
         }, done);
