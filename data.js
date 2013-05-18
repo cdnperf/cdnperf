@@ -10,11 +10,11 @@ var pingdom = require('./pingdom');
 
 module.exports = function(config) {
     var funcs = [
-        monthAverageLatency,
+        monthLatency,
         monthUptime,
-        weekAverageLatency,
+        weekLatency,
         weekUptime,
-        dayAverageLatency,
+        dayLatency,
         dayUptime,
         checks
     ];
@@ -27,7 +27,7 @@ module.exports = function(config) {
     return ret;
 };
 
-function monthAverageLatency(config, o, done) {
+function monthLatency(config, o, done) {
     // TODO: this should get avg latency for each day within a month (30 days)
 }
 
@@ -35,7 +35,20 @@ function monthUptime(config, o, done) {
     // TODO: this should get avg uptime for each day within a month (30 days)
 }
 
-function weekAverageLatency(config, o, done) {
+function weekLatency(config, o, done) {
+    o.range = 7;
+
+    getLatency(config, o, done);
+}
+
+
+function weekUptime(config, o, done) {
+    // TODO: this should get uptime for each day within a week (7 days)
+}
+
+
+
+function getLatency(config, o, done) {
     async.parallel(generateFunctions(), function(err, data) {
         done(err, data.map(function(item) {
             return item.map(function(v) {
@@ -53,11 +66,11 @@ function weekAverageLatency(config, o, done) {
     });
 
     function generateFunctions() {
-        return range(7).map(function(offset) {
+        return range(o.range).map(function(offset) {
             var date = offsetDay(o.date, -offset);
 
             return function(done) {
-                dayAverageLatency(config, {
+                dayLatency(config, {
                     date: date
                 }, done);
             };
@@ -65,11 +78,7 @@ function weekAverageLatency(config, o, done) {
     }
 }
 
-function weekUptime(config, o, done) {
-    // TODO: this should get uptime for each day within a week (7 days)
-}
-
-function dayAverageLatency(config, o, done) {
+function dayLatency(config, o, done) {
     dayTemplate(config, o, function(err, data) {
         done(err, data && data.map(function(d) {
             var dataLen = 0;

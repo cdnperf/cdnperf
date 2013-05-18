@@ -6,19 +6,19 @@ main();
 
 function main() {
     // these are supposed to return an average per day
-    monthAverageLatency();
+    monthLatency();
     monthUptime();
-    weekAverageLatency();
+    weekLatency();
     weekUptime();
-    dayAverageLatency();
+    dayLatency();
     dayUptime();
 
     // kernel
     checks();
 }
 
-function monthAverageLatency() {
-    data.monthAverageLatency({
+function monthLatency() {
+    data.monthLatency({
         date: new Date()
     }, logResults('month averages'));
 }
@@ -29,8 +29,8 @@ function monthUptime() {
     }, logResults('month uptime'));
 }
 
-function weekAverageLatency() {
-    data.weekAverageLatency({
+function weekLatency() {
+    data.weekLatency({
         date: new Date()
     }, logResults('week averages'));
 }
@@ -41,8 +41,8 @@ function weekUptime() {
     }, logResults('week uptime'));
 }
 
-function dayAverageLatency() {
-    data.dayAverageLatency({
+function dayLatency() {
+    data.dayLatency({
         date: new Date()
     }, logResults('day averages'));
 }
