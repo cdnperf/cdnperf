@@ -20,37 +20,45 @@ function main() {
 function dayAverageLatency() {
     data.dayAverageLatency({
         date: new Date()
-    }, function(err, results) {
-        if(err) return console.error(err);
-
-        console.log('day averages', results);
-    });
+    }, logResults('day averages'));
 }
 
 function dayUptime() {
     data.dayUptime({
         date: new Date()
-    }, function(err, results) {
-        if(err) return console.error(err);
-
-        console.log('day uptime', results);
-    });
+    }, logResults('day uptime'));
 }
 
 function weekAverageLatency() {
-    data.weekAverageLatency();
+    data.weekAverageLatency({
+        date: new Date()
+    }, logResults('week averages'));
 }
 
 function weekUptime() {
-    data.weekUptime();
+    data.weekUptime({
+        date: new Date()
+    }, logResults('week uptime'));
 }
 
 function monthAverageLatency() {
-    data.monthAverageLatency();
+    data.monthAverageLatency({
+        date: new Date()
+    }, logResults('month averages'));
 }
 
 function monthUptime() {
-    data.monthUptime();
+    data.monthUptime({
+        date: new Date()
+    }, logResults('month uptime'));
+}
+
+function logResults(prefix) {
+    return function(err, results) {
+        if(err) return console.error(err);
+
+        console.log(prefix, results);
+    };
 }
 
 function checks() {
