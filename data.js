@@ -10,16 +10,14 @@ var pingdom = require('./pingdom');
 
 module.exports = function(config) {
     return {
-        monthLatency: getTemplate.bind(undefined, config, 30, dayLatency),
-        monthUptime: getTemplate.bind(undefined, config, 30, dayUptime),
-        weekLatency: getTemplate.bind(undefined, config, 7, dayLatency),
-        weekUptime: getTemplate.bind(undefined, config, 7, dayUptime),
-        dayLatency: dayLatency.bind(undefined, config),
-        dayUptime: dayUptime.bind(undefined, config)
+        latency: getTemplate.bind(undefined, config, dayLatency),
+        uptime: getTemplate.bind(undefined, config, dayUptime)
     };
 };
 
-function getTemplate(config, dayRange, fn, o, done) {
+function getTemplate(config, fn, o, done) {
+    var dayRange = o.range || console.warn('Missing day range!');
+
     async.parallel(generateFunctions(), function(err, data) {
         done(err, data.map(function(item) {
             return item.map(function(v) {
