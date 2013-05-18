@@ -43,6 +43,26 @@ function dayUptime(config, o, done) {
 }
 exports.dayUptime = dayUptime;
 
+function weekAverageLatency(config, o, done) {
+
+}
+exports.weekAverageLatency = weekAverageLatency;
+
+function weekUptime(config, o, done) {
+
+}
+exports.weekUptime = weekUptime;
+
+function monthAverageLatency(config, o, done) {
+
+}
+exports.monthAverageLatency = monthAverageLatency;
+
+function monthUptime(config, o, done) {
+
+}
+exports.monthUptime = monthUptime;
+
 function dayTemplate(config, o, done) {
     var d;
 

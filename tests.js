@@ -6,8 +6,15 @@ var data = require('./data');
 main();
 
 function main() {
+    // these are supposed to return an average per day
     dayAverageLatency();
     dayUptime();
+    weekAverageLatency();
+    weekUptime();
+    monthAverageLatency();
+    monthUptime();
+
+    // kernel
     checks();
 }
 
@@ -29,6 +36,22 @@ function dayUptime() {
 
         console.log('day uptime', results);
     });
+}
+
+function weekAverageLatency() {
+    data.weekAverageLatency();
+}
+
+function weekUptime() {
+    data.weekUptime();
+}
+
+function monthAverageLatency() {
+    data.monthAverageLatency();
+}
+
+function monthUptime() {
+    data.monthUptime();
 }
 
 function checks() {
