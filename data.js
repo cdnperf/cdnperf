@@ -28,7 +28,9 @@ module.exports = function(config) {
 };
 
 function monthLatency(config, o, done) {
-    // TODO: this should get avg latency for each day within a month (30 days)
+    o.range = 30;
+
+    getLatency(config, o, done);
 }
 
 function monthUptime(config, o, done) {
@@ -45,8 +47,6 @@ function weekLatency(config, o, done) {
 function weekUptime(config, o, done) {
     // TODO: this should get uptime for each day within a week (7 days)
 }
-
-
 
 function getLatency(config, o, done) {
     async.parallel(generateFunctions(), function(err, data) {
