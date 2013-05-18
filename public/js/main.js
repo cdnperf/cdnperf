@@ -3,12 +3,14 @@ $(main);
 function main() {
     // TODO: load json based on control status (types, ranges, categories)
     // TODO: figure out how to deal with this (file for each permutation?)
-    $.getJSON('./data.json', function(providers) {
+    $.getJSON('./data.json', function(data) {
         var $e = $('.latencies');
 
+        console.log(data);
+
         createControls($e);
-        createChart($e, providers);
-        createLegend($e, providers);
+        createChart($e, data.latency);
+        createLegend($e, data.latency);
     });
 
     function createControls($p) {
@@ -40,10 +42,10 @@ function main() {
             },
             '7 days': function() {
                 console.log('change to 7 days view');
-            },
+            }/*,
             '30 days': function() {
                 console.log('change to 30 days view');
-            }
+            }*/
         });
     }
 
@@ -77,19 +79,19 @@ function main() {
         }).appendTo($p);
     }
 
-    function createChart($p, providers) {
+    function createChart($p, data) {
         var $c = $('<canvas>', {'class': 'chart'}).attr({width: 1000, height: 400}).appendTo($p);
         var ctx = $c[0].getContext('2d');
-        var data = getData(providers);
+        var d = getData(data);
         var options = {
             datasetFill: false
         };
 
-        new Chart(ctx).Line(data, options);
+        new Chart(ctx).Line(d, options);
     }
 
-    function createLegend($p, providers) {
-        var providerNames = getProviderNames(providers).sort();
+    function createLegend($p, data) {
+        var providerNames = getProviderNames(data).sort();
         var $table = $('<table>', {'class': 'legend'}).appendTo($p);
         var $header = $('<tr>').appendTo($table);
 
@@ -107,30 +109,30 @@ function main() {
         });
     }
 
-    function getData(providers) {
+    function getData(data) {
         return {
-            labels: getLabels(providers),
-            datasets: getDatasets(providers)
+            labels: getLabels(data),
+            datasets: getDatasets(data)
         };
     }
 
-    function getProviderNames(providers) {
-        return unique(providers.map(prop('name')).map(getProviderName));
+    function getProviderNames(data) {
+        return unique(data.map(prop('name')).map(getProviderName));
     }
 
-    function getLabels(providers) {
-        return providers[0].data.map(prop('x'));
+    function getLabels(data) {
+        return data[0].data.map(function(v, i) {return i;});
     }
 
-    function getDatasets(providers) {
+    function getDatasets(data) {
         var pointColor = '#222';
 
-        return providers.map(function(provider) {
+        return data.map(function(d) {
             return {
-                strokeColor: getColor(getProviderName(provider.name)),
+                strokeColor: getColor(getProviderName(d.name)),
                 pointColor: pointColor,
                 pointStrokeColor: pointColor,
-                data: provider.data.map(prop('y'))
+                data: d.data
             };
         });
     }
