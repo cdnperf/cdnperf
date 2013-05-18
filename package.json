@@ -16,7 +16,9 @@
         "request": "2.16.6",
         "funkit": "0.7.7",
         "async": "0.2.6",
-        "cron": "1.0.1"
+        "cron": "1.0.1",
+        "date-utils": "1.2.12",
+        "annois": "0.2.0"
     },
 
     "repository": {
