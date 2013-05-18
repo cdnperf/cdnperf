@@ -6,6 +6,24 @@ require('date-utils');
 
 var pingdom = require('./pingdom');
 
+module.exports = function(config) {
+    var funcs = [
+        dayAverageLatency,
+        dayUptime,
+        weekAverageLatency,
+        weekUptime,
+        monthAverageLatency,
+        monthUptime,
+        checks
+    ];
+    var ret = {};
+
+    funcs.forEach(function(v) {
+        ret[v.name] = v.bind(undefined, config);
+    });
+
+    return ret;
+};
 
 function dayAverageLatency(config, o, done) {
     dayTemplate(config, o, function(err, data) {
@@ -26,7 +44,6 @@ function dayAverageLatency(config, o, done) {
         }));
     });
 }
-exports.dayAverageLatency = dayAverageLatency;
 
 function dayUptime(config, o, done) {
     dayTemplate(config, o, function(err, data) {
@@ -41,27 +58,22 @@ function dayUptime(config, o, done) {
         }));
     });
 }
-exports.dayUptime = dayUptime;
 
 function weekAverageLatency(config, o, done) {
 
 }
-exports.weekAverageLatency = weekAverageLatency;
 
 function weekUptime(config, o, done) {
 
 }
-exports.weekUptime = weekUptime;
 
 function monthAverageLatency(config, o, done) {
 
 }
-exports.monthAverageLatency = monthAverageLatency;
 
 function monthUptime(config, o, done) {
 
 }
-exports.monthUptime = monthUptime;
 
 function dayTemplate(config, o, done) {
     var d;
@@ -114,4 +126,3 @@ function checks(config, o, done) {
         }, done);
     });
 }
-exports.checks = checks;

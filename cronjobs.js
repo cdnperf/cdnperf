@@ -2,8 +2,7 @@ var fs = require('fs');
 
 var cronJob = require('cron').CronJob;
 
-var config = require('./config');
-var data = require('./data');
+var data = require('./data')(require('./config').pingdom);
 
 
 function init() {
@@ -17,7 +16,7 @@ function writeJSON() {
     new cronJob('*/5 * * * *', write, null, true);
 
     function write() {
-        data.checks(config.pingdom, {
+        data.checks({
             limit: 50
         }, function(err, data) {
             fs.writeFile('./public/data.json', JSON.stringify(data), function(err) {

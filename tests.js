@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-var config = require('./config');
-var data = require('./data');
+var data = require('./data')(require('./config').pingdom);
 
 
 main();
@@ -19,7 +18,7 @@ function main() {
 }
 
 function dayAverageLatency() {
-    data.dayAverageLatency(config.pingdom, {
+    data.dayAverageLatency({
         date: new Date()
     }, function(err, results) {
         if(err) return console.error(err);
@@ -29,7 +28,7 @@ function dayAverageLatency() {
 }
 
 function dayUptime() {
-    data.dayUptime(config.pingdom, {
+    data.dayUptime({
         date: new Date()
     }, function(err, results) {
         if(err) return console.error(err);
@@ -55,7 +54,7 @@ function monthUptime() {
 }
 
 function checks() {
-    data.checks(config.pingdom, {
+    data.checks({
         limit: 5
     }, function(err, results) {
         if(err) return console.error(err);
