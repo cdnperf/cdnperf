@@ -78,7 +78,6 @@ function checks(config, o, done) {
                     name: check.name,
                     host: check.hostname,
                     type: check.name.split(' ')[1].toLowerCase(),
-                    lastresponse: check.lastresponsetime,
                     data: results.map(function(result) {
                         return {
                             x: result.time * 1000, // s to ms
