@@ -1,5 +1,6 @@
 var async = require('async');
 var prop = require('funkit').common.prop;
+var not = require('funkit').functional.not;
 var is = require('annois');
 require('date-utils');
 
@@ -7,22 +8,8 @@ var pingdom = require('./pingdom');
 
 
 function dayAverageLatency(config, o, done) {
-    var d;
-
-    o.limit = 1000;
-    o.to = o.date;
-    delete o.date;
-
-    d = o.to.clone();
-    d.addDays(-1);
-
-    o.from = d;
-
-    checks(config, o, function(err, data) {
-        if(err) return done(err);
-
-        // TODO: calculate averages
-        done(err, data.map(function(d) {
+    dayTemplate(config, o, function(err, data) {
+        done(err, data && data.map(function(d) {
             var dataLen = 0;
 
             d.data = d.data.map(prop('y')).reduce(function(a, b) {
@@ -40,6 +27,40 @@ function dayAverageLatency(config, o, done) {
     });
 }
 exports.dayAverageLatency = dayAverageLatency;
+
+function dayUptime(config, o, done) {
+    dayTemplate(config, o, function(err, data) {
+        done(err, data && data.map(function(d) {
+            var downs = d.data.map(prop('y')).filter(not(is.number));
+            var downsLen = downs.length;
+            var dataLen = d.data.length;
+
+            d.data = (dataLen - downsLen) / dataLen;
+
+            return d;
+        }));
+    });
+}
+exports.dayUptime = dayUptime;
+
+function dayTemplate(config, o, done) {
+    var d;
+
+    o.limit = 1000;
+    o.to = o.date;
+    delete o.date;
+
+    d = o.to.clone();
+    d.addDays(-1);
+
+    o.from = d;
+
+    checks(config, o, function(err, data) {
+        if(err) return done(err);
+
+        done(err, data);
+    });
+}
 
 function checks(config, o, done) {
     var api = pingdom(config);

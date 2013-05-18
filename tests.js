@@ -7,6 +7,7 @@ main();
 
 function main() {
     dayAverageLatency();
+    dayUptime();
     checks();
 }
 
@@ -17,6 +18,16 @@ function dayAverageLatency() {
         if(err) return console.error(err);
 
         console.log('day averages', results);
+    });
+}
+
+function dayUptime() {
+    data.dayUptime(config.pingdom, {
+        date: new Date()
+    }, function(err, results) {
+        if(err) return console.error(err);
+
+        console.log('day uptime', results);
     });
 }
 
