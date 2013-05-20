@@ -20,7 +20,7 @@ function main() {
     });
 
     function createControls($p) {
-        var $e = $('<div>', {'class': 'controls'}).appendTo($p);
+        var $e = $('<div>', {'class': 'row controls'}).appendTo($p);
 
         createTypes($e);
         createRanges($e);
@@ -81,7 +81,7 @@ function main() {
     }
 
     function $controls($p, containerClass, itemClass, controls) {
-        var $e = $('<div>', {'class': 'controlsContainer ' + containerClass}).appendTo($p);
+        var $e = $('<div>', {'class': 'small-12 large-4 columns controlsContainer ' + containerClass}).appendTo($p);
 
         for(var control in controls) $control($e, itemClass, control, controls[control]);
 
@@ -89,7 +89,7 @@ function main() {
     }
 
     function $control($p, type, name, handler) {
-        var $e = $('<a>', {'class': 'panel control ' + type, href: '#'}).text(name).on('click', function(e) {
+        var $e = $('<a>', {'class': 'control ' + type, href: '#'}).text(name).on('click', function(e) {
             e.preventDefault();
 
             $e.siblings().removeClass('selected');

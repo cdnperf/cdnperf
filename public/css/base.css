@@ -25,34 +25,17 @@ article {
     margin-bottom: 1em;
 }
 
+.controlsContainer {
+    margin-bottom: 0.5em;
+}
+
 .controls .selected {
     font-weight: bold;
 }
 
-.controlsContainer {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-.controlsContainer .control {
-    margin-right: 1em;
-}
-
-.types {
-    margin-left: 1em;
-}
-
-.types {
-    float: left;
-}
-
-.categories {
-    float: left;
-    margin-left: 2em;
-}
-
-.ranges {
-    float: right;
+.control {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
 .chart {
