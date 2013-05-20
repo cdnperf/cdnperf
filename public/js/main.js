@@ -103,7 +103,8 @@ function main() {
 
         var ctx = $c[0].getContext('2d');
         new Chart(ctx).Line(getData(), {
-            datasetFill: false
+            datasetFill: false,
+            animation: false
         });
     }
 
