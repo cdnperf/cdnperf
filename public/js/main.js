@@ -8,12 +8,15 @@ function main() {
 
     $.getJSON('./data.json', function(d) {
         var $e = $('.latencies');
+        var update = updateChart.bind(undefined, $e);
 
         data = d;
 
+        $(window).on('resize', update);
+
         createControls($e);
-        updateChart($e);
         createLegend($e, data.latency);
+        update();
     });
 
     function createControls($p) {
@@ -98,8 +101,12 @@ function main() {
 
     function updateChart($p) {
         var $c = $('canvas.chart:first');
+        var width = $p.width();
+        var height = 400;
 
-        if(!$c.length) $c = $('<canvas>', {'class': 'chart'}).attr({width: 1000, height: 400}).appendTo($p);
+        if(!$c.length) $c = $('<canvas>', {'class': 'chart'}).appendTo($p);
+
+        $c.attr({width: width, height: height});
 
         var ctx = $c[0].getContext('2d');
         new Chart(ctx).Line(getData(), {
