@@ -85,15 +85,15 @@ function main() {
 
         for(var control in controls) $control($e, itemClass, control, controls[control]);
 
-        $('.control', $e).first().addClass('selected');
+        $('.control', $e).first().addClass('selected label');
     }
 
     function $control($p, type, name, handler) {
         var $e = $('<a>', {'class': 'control ' + type, href: '#'}).text(name).on('click', function(e) {
             e.preventDefault();
 
-            $e.siblings().removeClass('selected');
-            $e.addClass('selected');
+            $e.siblings().removeClass('selected').removeClass('label');
+            $e.addClass('selected label');
 
             handler(e);
         }).appendTo($p);
