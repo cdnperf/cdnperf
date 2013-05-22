@@ -179,7 +179,7 @@ function main() {
             '#5d96d7',
             '#444',
             '#e388eb',
-            '#88ebe6',
+            '#aadd5e'
         ][index];
     }
 
