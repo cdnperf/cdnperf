@@ -8,56 +8,90 @@ function main() {
 
     $.getJSON('./data.json', function(d) {
         var $e = $('.latencies');
-        var update = updateChart.bind(undefined, $e);
+        var update = updateAll.bind(undefined, $e);
 
-        data = d;
+        data = attachColors(groupData(d));
 
         $(window).on('resize', update);
 
-        createControls($e);
-        createLegend($e, data.latency);
+        createControls($e, data);
         update();
     });
 
-    function createControls($p) {
+    function groupData(data) {
+        var ret = {};
+
+        Object.keys(data).forEach(getData);
+
+        function getData(type) {
+            var name;
+
+            data[type].forEach(function(v) {
+                name = getProviderName(v.name);
+
+                if(!(name in ret)) ret[name] = {};
+                if(!(v.type in ret[name])) ret[name][v.type] = {};
+
+                ret[name][v.type][type] = v.data;
+            });
+        }
+
+        return ret;
+    }
+
+    function attachColors(data) {
+        var i = 0;
+
+        for(var name in data) {
+            data[name]._color = getColor(i);
+
+            i++;
+        }
+
+        return data;
+    }
+
+    function createControls($p, data) {
         var $e = $('<div>', {'class': 'row controls'}).appendTo($p);
 
-        createTypes($e);
-        createRanges($e);
-        createCategories($e);
+        createTypes($e, data);
+        createRanges($e, data);
+        createCategories($e, data);
     }
 
     function createTypes($p, data) {
+        // TODO: rewrite to be generated based on data
         $controls($p, 'types', 'type', {
             'ping': function() {
                 type = 'ping';
 
-                updateChart($p);
+                updateAll($p)
             },
             'http': function() {
                 type = 'http';
 
-                updateChart($p);
+                updateAll($p);
             },
             'https': function() {
                 type = 'https';
 
-                updateChart($p);
+                updateAll($p);
             }
         });
     }
 
     function createRanges($p, data) {
+        // TODO: replace with a slider?
         $controls($p, 'ranges', 'range', {
             '3 days': function() {
                 range = 3;
 
-                updateChart($p);
+                updateAll($p);
             },
             '7 days': function() {
                 range = 7;
 
-                updateChart($p);
+                updateAll($p);
             }/*,
             '30 days': function() {
                 console.log('change to 30 days view');
@@ -66,16 +100,17 @@ function main() {
     }
 
     function createCategories($p, data) {
+        // TODO: generate based on data
         $controls($p, 'categories', 'category', {
             'latency': function() {
                 category = 'latency';
 
-                updateChart($p);
+                updateAll($p);
             },
             'uptime': function() {
                 category = 'uptime';
 
-                updateChart($p);
+                updateAll($p);
             }
         });
     }
@@ -99,6 +134,11 @@ function main() {
         }).appendTo($p);
     }
 
+    function updateAll($p) {
+        updateChart($p);
+        updateLegend($p);
+    }
+
     function updateChart($p) {
         var $c = $('canvas.chart:first');
         var width = $p.width();
@@ -115,56 +155,68 @@ function main() {
         });
     }
 
-    function createLegend($p, data) {
-        var providerNames = getProviderNames(data).sort();
-        var $table = $('<table>', {'class': 'legend'}).appendTo($p);
+    function updateLegend($p) {
+        var $table = $('table.legend:first');
         var $header = $('<tr>').appendTo($table);
+        var provider, color;
+
+        if(!$table.length) $table = $('<table>', {'class': 'legend'}).appendTo($p);
+
+        $table.empty();
 
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
         $('<th>', {'class': 'category'}).text('Latency').appendTo($header);
 
-        providerNames.map(function(name, i) {
-            var $row = $('<tr>').appendTo($table);
-            var lowerName = name.toLowerCase();
+        for(var name in data) {
+            provider = data[name];
+            color = provider._color;
 
-            $('<td>', {'class': 'color ' + lowerName}).css('background-color',
-                getColor(i)).appendTo($row);
-            $('<td>', {'class': 'name ' + lowerName}).text(name).appendTo($row);
-            $('<td>', {'class': 'value ' + lowerName}).appendTo($row);
-        });
+            if(type in provider) {
+                var $row = $('<tr>').appendTo($table);
+                var lowerName = name.toLowerCase();
+
+                $('<td>', {'class': 'color ' + lowerName}).css('background-color',
+                    color).appendTo($row);
+                $('<td>', {'class': 'name ' + lowerName}).text(name).appendTo($row);
+                $('<td>', {'class': 'value ' + lowerName}).appendTo($row);
+            }
+        }
     }
 
     function getData() {
-        var d = data[category];
-
         return {
-            labels: getLabels(d, range),
-            datasets: getDatasets(d, range)
+            labels: getLabels(data, range),
+            datasets: getDatasets(data, range)
         };
     }
 
-    function getProviderNames(data) {
-        return unique(data.map(prop('name')).map(getProviderName));
-    }
+    function getLabels(data, amount) {
+        // TODO: rewrite to seek range (might not exist for all cdns!)
+        return [0, 1, 2, 3, 4, 5, 6];
 
-    function getLabels(d, amount) {
-        return d[0].data.slice(-amount).map(function(v, i) {return i;});
+        return data[0].slice(-amount).map(function(v, i) {return i;});
     }
 
     function getDatasets(data, amount) {
-        return data.filter(function(d) {
-            return d.type == type;
-        }).map(function(d, i) {
-            var color = getColor(i);
+        var ret = [];
+        var color;
 
-            return {
+        for(var cdn in data) {
+            color = data[cdn]._color;
+
+            if(!(type in data[cdn])) continue;
+            if(!(category in data[cdn][type])) continue;
+
+            ret.push({
                 strokeColor: color,
                 pointColor: color,
                 pointStrokeColor: color,
-                data: d.data.slice(-amount)
-            };
-        });
+                data: data[cdn][type][category].slice(-amount)
+            });
+        }
+
+        return ret;
     }
 
     function getProviderName(fullname) {
