@@ -124,11 +124,12 @@ function main() {
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
         $('<th>', {'class': 'category'}).text('Latency').appendTo($header);
 
-        providerNames.map(function(name) {
+        providerNames.map(function(name, i) {
             var $row = $('<tr>').appendTo($table);
             var lowerName = name.toLowerCase();
 
-            $('<td>', {'class': 'color ' + lowerName}).css('background-color', getColor(lowerName)).appendTo($row);
+            $('<td>', {'class': 'color ' + lowerName}).css('background-color',
+                getColor(i)).appendTo($row);
             $('<td>', {'class': 'name ' + lowerName}).text(name).appendTo($row);
             $('<td>', {'class': 'value ' + lowerName}).appendTo($row);
         });
@@ -152,15 +153,15 @@ function main() {
     }
 
     function getDatasets(data, amount) {
-        var pointColor = '#222';
-
         return data.filter(function(d) {
             return d.type == type;
-        }).map(function(d) {
+        }).map(function(d, i) {
+            var color = getColor(i);
+
             return {
-                strokeColor: getColor(getProviderName(d.name)),
-                pointColor: pointColor,
-                pointStrokeColor: pointColor,
+                strokeColor: color,
+                pointColor: color,
+                pointStrokeColor: color,
                 data: d.data.slice(-amount)
             };
         });
@@ -170,22 +171,16 @@ function main() {
         return fullname.split(' ')[0];
     }
 
-    function getColor(name) {
-        if(!name) return console.warn('getColor is missing name parameter');
-
-        name = name.toLowerCase();
-        var colors = {
-            jsdelivr: '#b00',
-            yandex: 'green',
-            microsoft: 'blue',
-            cdnjs: '#c64012',
-            google: '#333',
-            'jquery(mt)': 'red'
-        };
-
-        if(name in colors) return colors[name];
-
-        console.warn('Failed to get a color for ', name);
+    function getColor(index) {
+        return [
+            '#d84f44',
+            '#aee3d6',
+            '#f3d5a2',
+            '#5d96d7',
+            '#444',
+            '#e388eb',
+            '#88ebe6',
+        ][index];
     }
 
     function unique(arr) {
