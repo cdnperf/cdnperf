@@ -1,14 +1,28 @@
 article {
+    background: #fdfdfd;
+
     overflow: auto;
-    margin: 1em;
+    padding: 1em;
 }
 
-.panel .siteName {
+header.panel, footer.panel {
+    margin-bottom: 0;
+
+    background: #333;
+}
+
+header.panel .siteName {
+    color: #ddd;
+
     display: inline;
 }
-.panel .tagLine {
+header.panel .tagLine {
     margin-left: 2em;
     display: inline;
+}
+
+header.panel .tagLine, footer.panel .credits {
+    color: #bbb;
 }
 
 .latency {
@@ -48,5 +62,5 @@ article {
     z-index: 10;
     position: absolute;
     right: 0;
-    margin-right: 1em;
+    margin-right: 2em;
 }
