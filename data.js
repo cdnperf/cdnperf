@@ -52,16 +52,21 @@ function dayLatency(config, o, done) {
         done(err, data && data.map(function(d) {
             var dataLen = 0;
 
-            d.data = d.data.map(prop('y')).reduce(function(a, b) {
-                if(!is.number(a)) a = 0;
-                if(is.number(a) && is.number(b)) {
-                    dataLen++;
+            d.data = d.data.map(prop('y'));
 
-                    return a + b;
-                }
+            if(d.data.length) {
+                d.data = d.data.reduce(function(a, b) {
+                    if(!is.number(a)) a = 0;
+                    if(is.number(a) && is.number(b)) {
+                        dataLen++;
 
-                return a;
-            }) / dataLen;
+                        return a + b;
+                    }
+
+                    return a;
+                }) / dataLen;
+            }
+            else d.data = 0;
 
             return d;
         }));
