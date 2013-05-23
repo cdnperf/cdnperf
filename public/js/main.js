@@ -1,16 +1,18 @@
 $(main);
 
 function main() {
-    var type, category, range, data;
-
     $.getJSON('./data.json', function(d) {
-        var update = updateAll.bind(undefined, $('.content.row'));
-
-        data = attachColors(groupData(d));
+        var data = attachColors(groupData(d));
+        var state = {
+            type: '',
+            category: '',
+            amount: ''
+        };
+        var update = updateAll.bind(undefined, $('.content.row'), data, state);
 
         $(window).on('resize', update);
 
-        createControls($('.controls.row'), data);
+        createControls($('.controls.row'), state, update);
         $('.controlsContainer .control:last-child').trigger('click');
         update();
     });
@@ -18,9 +20,7 @@ function main() {
     function groupData(data) {
         var ret = {};
 
-        Object.keys(data).forEach(getData);
-
-        function getData(type) {
+        Object.keys(data).forEach(function(type) {
             var name;
 
             data[type].forEach(function(v) {
@@ -31,7 +31,7 @@ function main() {
 
                 ret[name][v.type][type] = v.data;
             });
-        }
+        });
 
         return ret;
     }
@@ -48,66 +48,66 @@ function main() {
         return data;
     }
 
-    function createControls($p, data) {
-        createTypes($p, data);
-        createRanges($p, data);
-        createCategories($p, data);
+    function createControls($p, state, update) {
+        createTypes($p, state, update);
+        createAmounts($p, state, update);
+        createCategories($p, state, update);
     }
 
-    function createTypes($p, data) {
+    function createTypes($p, state, update) {
         // TODO: rewrite to be generated based on data
         $controls($p, 'types', 'type', {
             'ping': function() {
-                type = 'ping';
+                state.type = 'ping';
 
-                updateAll($p)
+                update();
             },
             'http': function() {
-                type = 'http';
+                state.type = 'http';
 
-                updateAll($p);
+                update();
             },
             'https': function() {
-                type = 'https';
+                state.type = 'https';
 
-                updateAll($p);
+                update();
             }
         });
     }
 
-    function createRanges($p, data) {
+    function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, 'ranges', 'range', {
+        $controls($p, 'amounts', 'amount', {
             '3 days': function() {
-                range = 3;
+                state.amount = 3;
 
-                updateAll($p);
+                update();
             },
             '7 days': function() {
-                range = 7;
+                state.amount = 7;
 
-                updateAll($p);
+                update();
             },
             '14 days': function() {
-                range = 14;
+                state.amount = 14;
 
-                updateAll($p);
+                update();
             }
         });
     }
 
-    function createCategories($p, data) {
+    function createCategories($p, state, update) {
         // TODO: generate based on data
         $controls($p, 'categories', 'category', {
             'latency': function() {
-                category = 'latency';
+                state.category = 'latency';
 
-                updateAll($p);
+                update();
             },
             'uptime': function() {
-                category = 'uptime';
+                state.category = 'uptime';
 
-                updateAll($p);
+                update();
             }
         });
     }
@@ -129,12 +129,12 @@ function main() {
         }).appendTo($p);
     }
 
-    function updateAll($p) {
-        updateChart($p);
-        updateLegend($p);
+    function updateAll($p, data, state) {
+        updateChart($p, data, state);
+        updateLegend($p, data, state);
     }
 
-    function updateChart($p) {
+    function updateChart($p, data, state) {
         var $c = $('canvas.chart:first');
         var height = 400;
         var $e, width;
@@ -151,13 +151,13 @@ function main() {
         $c.attr({width: width, height: height});
 
         var ctx = $c[0].getContext('2d');
-        new Chart(ctx).Line(getData(), {
+        new Chart(ctx).Line(getData(data, state), {
             datasetFill: false,
             animation: false
         });
     }
 
-    function updateLegend($p) {
+    function updateLegend($p, data, state) {
         var $table = $('table.legend:first');
         var $header = $('<tr>').appendTo($table);
         var provider, color, $e;
@@ -179,7 +179,7 @@ function main() {
             provider = data[name];
             color = provider._color;
 
-            if(type in provider) {
+            if(state.type in provider) {
                 var $row = $('<tr>').appendTo($table);
                 var lowerName = name.toLowerCase();
 
@@ -191,37 +191,37 @@ function main() {
         }
     }
 
-    function getData() {
+    function getData(data, state) {
         return {
-            labels: getLabels(data, range),
-            datasets: getDatasets(data, range)
+            labels: getLabels(state.amount),
+            datasets: getDatasets(data, state)
         };
     }
 
-    function getLabels(data, amount) {
+    function getLabels(amount) {
         var ret = [];
         var i;
 
-        for(i = 0; i < range; i++) ret.push(i);
+        for(i = 0; i < amount; i++) ret.push(i);
 
         return ret;
     }
 
-    function getDatasets(data, amount) {
+    function getDatasets(data, state) {
         var ret = [];
         var color;
 
         for(var cdn in data) {
             color = data[cdn]._color;
 
-            if(!(type in data[cdn])) continue;
-            if(!(category in data[cdn][type])) continue;
+            if(!(state.type in data[cdn])) continue;
+            if(!(state.category in data[cdn][state.type])) continue;
 
             ret.push({
                 strokeColor: color,
                 pointColor: color,
                 pointStrokeColor: color,
-                data: data[cdn][type][category].slice(-amount)
+                data: data[cdn][state.type][state.category].slice(-state.amount)
             });
         }
 
