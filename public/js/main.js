@@ -192,10 +192,12 @@ function main() {
     }
 
     function getLabels(data, amount) {
-        // TODO: rewrite to seek range (might not exist for all cdns!)
-        return [0, 1, 2, 3, 4, 5, 6];
+        var ret = [];
+        var i;
 
-        return data[0].slice(-amount).map(function(v, i) {return i;});
+        for(i = 0; i < range; i++) ret.push(i);
+
+        return ret;
     }
 
     function getDatasets(data, amount) {
