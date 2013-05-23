@@ -53,7 +53,7 @@ function main() {
     });
 
     app.listen(port, ipaddr, function() {
-        console.log('Server running at ' + port);
+        console.log('%s: Node (version: %s) %s started on %s:%d ...', Date(Date.now() ), process.version, process.argv[1], ipaddr, port);
     });
 }
 
