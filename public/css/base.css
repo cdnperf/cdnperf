@@ -2,6 +2,10 @@
     max-width: 100% !important;
 }
 
+body {
+    background: #e6e6e6;
+}
+
 article {
     background: #fdfdfd;
 
