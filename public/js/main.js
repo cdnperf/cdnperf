@@ -116,8 +116,7 @@ function main() {
 
     function updateLegend($p, data, state) {
         var $table = $('table.legend:first');
-        var $header = $('<tr>').appendTo($table);
-        var provider, color, $e;
+        var provider, color, $e, $header;
 
         if(!$table.length) {
             $e = $('<div>',
@@ -127,6 +126,8 @@ function main() {
         }
 
         $table.empty();
+
+        $header = $('<tr>').appendTo($table);
 
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
