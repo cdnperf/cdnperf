@@ -1,10 +1,7 @@
 $(main);
 
 function main() {
-    var type = 'ping';
-    var category = 'latency';
-    var range = 3;
-    var data;
+    var type, category, range, data;
 
     $.getJSON('./data.json', function(d) {
         var update = updateAll.bind(undefined, $('.content.row'));
@@ -14,6 +11,7 @@ function main() {
         $(window).on('resize', update);
 
         createControls($('.controls.row'), data);
+        $('.controlsContainer .control:last-child').trigger('click');
         update();
     });
 
@@ -118,8 +116,6 @@ function main() {
         var $e = $('<div>', {'class': 'small-12 large-4 columns controlsContainer ' + containerClass}).appendTo($p);
 
         for(var control in controls) $control($e, itemClass, control, controls[control]);
-
-        $('.control', $e).first().addClass('selected label');
     }
 
     function $control($p, type, name, handler) {
