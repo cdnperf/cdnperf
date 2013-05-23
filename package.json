@@ -27,7 +27,7 @@
     },
 
     "scripts": {
-        "start": "node ./serve"
+        "start": "node serve.js"
     },
 
     "homepage": "https://github.com/bebraw/cdnperf",
