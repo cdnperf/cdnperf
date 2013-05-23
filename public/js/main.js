@@ -89,10 +89,12 @@ function main() {
                 range = 7;
 
                 updateAll($p);
-            }/*,
-            '30 days': function() {
-                console.log('change to 30 days view');
-            }*/
+            },
+            '14 days': function() {
+                range = 14;
+
+                updateAll($p);
+            }
         });
     }
 

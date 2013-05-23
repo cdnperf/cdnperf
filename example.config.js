@@ -1,6 +1,6 @@
 module.exports = {
     port: 8000,
-    amountOfDays: 7,
+    amountOfDays: 14,
     cookieSecret: 'thisisnotsafe',
     pingdom: {
         user: 'replacethis',
