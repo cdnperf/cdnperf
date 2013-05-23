@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/bin/env node
 var http = require('http');
 var path = require('path');
 
