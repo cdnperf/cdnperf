@@ -55,77 +55,34 @@ function main() {
     }
 
     function createTypes($p, state, update) {
-        // TODO: rewrite to be generated based on data
-        $controls($p, 'types', 'type', {
-            'ping': function() {
-                state.type = 'ping';
-
-                update();
-            },
-            'http': function() {
-                state.type = 'http';
-
-                update();
-            },
-            'https': function() {
-                state.type = 'https';
-
-                update();
-            }
-        });
+        $controls($p, state, update, 'types', 'type', ['ping', 'http', 'https']);
     }
 
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, 'amounts', 'amount', {
-            '3 days': function() {
-                state.amount = 3;
-
-                update();
-            },
-            '7 days': function() {
-                state.amount = 7;
-
-                update();
-            },
-            '14 days': function() {
-                state.amount = 14;
-
-                update();
-            }
-        });
+        $controls($p, state, update, 'amounts', 'amount', [3, 7, 14]);
     }
 
     function createCategories($p, state, update) {
-        // TODO: generate based on data
-        $controls($p, 'categories', 'category', {
-            'latency': function() {
-                state.category = 'latency';
-
-                update();
-            },
-            'uptime': function() {
-                state.category = 'uptime';
-
-                update();
-            }
-        });
+        $controls($p, state, update, 'categories', 'category', ['latency', 'uptime']);
     }
 
-    function $controls($p, containerClass, itemClass, controls) {
-        var $e = $('<div>', {'class': 'small-12 large-4 columns controlsContainer ' + containerClass}).appendTo($p);
-
-        for(var control in controls) $control($e, itemClass, control, controls[control]);
+    function $controls($p, state, update, containerClass, itemClass, items) {
+        var $e = $('<div>',
+            {'class': 'small-12 large-4 columns controlsContainer ' + containerClass}).appendTo($p);
+        items.forEach($control.bind(undefined, $e, state, itemClass, update));
     }
 
-    function $control($p, type, name, handler) {
+    function $control($p, state, type, update, name) {
         var $e = $('<a>', {'class': 'control ' + type, href: '#'}).text(name).on('click', function(e) {
             e.preventDefault();
 
             $e.siblings().removeClass('selected').removeClass('label');
             $e.addClass('selected label');
 
-            handler(e);
+            state[type] = name;
+
+            update();
         }).appendTo($p);
     }
 
