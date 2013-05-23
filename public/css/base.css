@@ -56,15 +56,3 @@ header.panel .tagLine, footer.panel .credits {
     margin-left: 0.5em;
     margin-right: 0.5em;
 }
-
-.chart {
-    float: left;
-}
-
-.legend {
-    opacity: 0.8;
-    z-index: 10;
-    position: absolute;
-    right: 0;
-    margin-right: 2em;
-}

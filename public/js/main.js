@@ -7,14 +7,13 @@ function main() {
     var data;
 
     $.getJSON('./data.json', function(d) {
-        var $e = $('.latencies');
-        var update = updateAll.bind(undefined, $e);
+        var update = updateAll.bind(undefined, $('.content.row'));
 
         data = attachColors(groupData(d));
 
         $(window).on('resize', update);
 
-        createControls($e, data);
+        createControls($('.controls.row'), data);
         update();
     });
 
@@ -52,11 +51,9 @@ function main() {
     }
 
     function createControls($p, data) {
-        var $e = $('<div>', {'class': 'row controls'}).appendTo($p);
-
-        createTypes($e, data);
-        createRanges($e, data);
-        createCategories($e, data);
+        createTypes($p, data);
+        createRanges($p, data);
+        createCategories($p, data);
     }
 
     function createTypes($p, data) {
@@ -141,10 +138,17 @@ function main() {
 
     function updateChart($p) {
         var $c = $('canvas.chart:first');
-        var width = $p.width();
         var height = 400;
+        var $e, width;
 
-        if(!$c.length) $c = $('<canvas>', {'class': 'chart'}).appendTo($p);
+        if(!$c.length) {
+            $e = $('<div>',
+                {'class': 'canvasContainer small-12 large-10 columns'}).appendTo($p);
+
+            $c = $('<canvas>', {'class': 'chart'}).appendTo($e);
+        }
+
+        width = $c.parent().width();
 
         $c.attr({width: width, height: height});
 
@@ -158,9 +162,14 @@ function main() {
     function updateLegend($p) {
         var $table = $('table.legend:first');
         var $header = $('<tr>').appendTo($table);
-        var provider, color;
+        var provider, color, $e;
 
-        if(!$table.length) $table = $('<table>', {'class': 'legend'}).appendTo($p);
+        if(!$table.length) {
+            $e = $('<div>',
+                {'class': 'legendContainer small-12 large-2 columns'}).appendTo($p);
+
+            $table = $('<table>', {'class': 'legend'}).appendTo($e);
+        }
 
         $table.empty();
 
