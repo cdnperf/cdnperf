@@ -1,0 +1,9 @@
+{
+  "nodejs": {
+    "version": "v0.8.20",
+    "removeOld": false,
+    "separateErrorLog": true,
+    "storeModulesInData": true,
+    "cleanModulesInData": false
+  }
+}

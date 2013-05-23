@@ -1,0 +1,28 @@
+#!/bin/bash
+# This is a simple build script and will be executed on your CI system if 
+# available.  Otherwise it will execute while your application is stopped
+# before the deploy step.  This script gets executed directly, so it
+# could be python, php, ruby, etc.
+. ${OPENSHIFT_DATA_DIR}node.sh
+# Need to clean node-gyp up as somehow it got corrupt after a few build
+rm -rf ${OPENSHIFT_TMP_DIR}/.node-gyp
+cd ${OPENSHIFT_REPO_DIR}
+STORE_MODULES_IN_DATA=`node -e 'var config_diy=require("./config_diy");console.log(config_diy.nodejs.storeModulesInData)'`
+CLEAN_MODULES_IN_DATA=`node -e 'var config_diy=require("./config_diy");console.log(config_diy.nodejs.cleanModulesInData)'`
+if [ $STORE_MODULES_IN_DATA == "true" ]; then
+  NODE_DIR=${OPENSHIFT_DATA_DIR}node-${NODE_VERSION}
+  if [ $CLEAN_MODULES_IN_DATA == "true" ]; then
+    # Clean node_modules
+    rm -rf ${NODE_DIR}/node_modules
+  fi
+  # Store modules in $OPENSHIFT_DATA_DIR
+  cp -f ${OPENSHIFT_REPO_DIR}/package.json $NODE_DIR
+  cd $NODE_DIR
+  npm install
+  cd ${OPENSHIFT_REPO_DIR}
+  ln -fs ${NODE_DIR}/node_modules node_modules
+else
+  npm install
+fi
+# To keep node running if crashed 
+npm install supervisor -g

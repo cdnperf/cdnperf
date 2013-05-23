@@ -1,0 +1,43 @@
+#!/bin/bash
+# The logic to start up your application should be put in this
+# script. The application will work only if it binds to
+# $OPENSHIFT_INTERNAL_IP:8080
+#nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_INTERNAL_IP $OPENSHIFT_REPO_DIR/diy > $OPENSHIFT_LOG_DIR/server.log 2>&1 &
+. ${OPENSHIFT_DATA_DIR}node.sh
+cd ${OPENSHIFT_REPO_DIR}
+SEPARATE_ERROR_LOG=`node -e 'var config_diy=require("./config_diy");console.log(config_diy.nodejs.separateErrorLog)'`
+# Extract node.js script from package.json
+APP_FILE=`node -e 'var package=require("./package.json");console.log(package.scripts.start.split(/ /)[1]);'`
+# Backup server.log if exist
+BACKUP_LOG=${OPENSHIFT_DIY_LOG_DIR}backup_log
+LOG_FILE=${OPENSHIFT_DIY_LOG_DIR}server.log
+if [ -s $LOG_FILE ]; then
+  mkdir -p ${BACKUP_LOG}
+  # Get the modify time of the log file
+  MODIFY=`stat -c "%Y" $LOG_FILE`
+  # Convert to time stamp
+  STAMP=`date -d @$MODIFY "+%Y%m%d-%H%M%S"`
+  mv -f $LOG_FILE ${BACKUP_LOG}/server.log.${STAMP}
+fi
+# Backup error.log if exist
+ERR_LOG_FILE=${OPENSHIFT_DIY_LOG_DIR}error.log
+if [ -s $ERR_LOG_FILE ]; then
+  mkdir -p ${BACKUP_LOG}
+  # Get the modify time of the log file
+  MODIFY=`stat -c "%Y" $ERR_LOG_FILE`
+  # Convert to time stamp
+  STAMP=`date -d @$MODIFY "+%Y%m%d-%H%M%S"`
+  mv -f $ERR_LOG_FILE ${BACKUP_LOG}/error.log.${STAMP}
+fi
+# Output node version
+node -e 'console.log(process.versions);'
+#echo "nohup node ${APP_FILE} >${OPENSHIFT_LOG_DIR}server.log 2>&1 &"
+#nohup node ${APP_FILE} >${OPENSHIFT_LOG_DIR}server.log 2>&1 &
+# Use supervisor to keep node app running after crash
+if [ $SEPARATE_ERROR_LOG == "true" ]; then
+  echo "nohup supervisor -w . -i node_modules $APP_FILE >$LOG_FILE 2>$ERR_LOG_FILE &"
+  nohup supervisor -w . -i node_modules $APP_FILE >$LOG_FILE 2>$ERR_LOG_FILE &
+else
+  echo "nohup supervisor -w . -i node_modules $APP_FILE >$LOG_FILE 2>&1 &"
+  nohup supervisor -w . -i node_modules $APP_FILE >$LOG_FILE 2>&1 &
+fi
