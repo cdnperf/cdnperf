@@ -38,11 +38,19 @@ function main() {
                     });
                 }
 
+                d = d.map(toFixed(2));
+
                 ret[name][v.type][type] = d.reverse(); /* from oldest to newest */
             });
         });
 
         return ret;
+    }
+
+    function toFixed(a) {
+        return function(v) {
+            return parseFloat(v.toFixed(a), 10);
+        };
     }
 
     function attachColors(data) {
