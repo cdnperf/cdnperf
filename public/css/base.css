@@ -18,13 +18,14 @@ header.panel, footer.panel {
     margin-bottom: 0;
 }
 
-header .siteName, .control, header .tagLine, footer .credits {
-    color: #222;
+header .siteName, header .tagLine, footer .credits {
+    text-shadow: 1px 1px 2px #969696;
+    color: #fff
 }
 
 .controls .selected {
     background-color: #222;
-    color: #eee;
+    color: #fff
 }
 
 header.panel, footer.panel {
