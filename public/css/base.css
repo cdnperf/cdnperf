@@ -2,6 +2,11 @@ body {
     background: #e6e6e6;
 }
 
+.main {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
 article {
     background: #fdfdfd;
 
