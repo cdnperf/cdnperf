@@ -163,6 +163,7 @@ function main() {
                 var value;
 
                 if(values) value = average(values.slice(-state.amount)).toFixed(3);
+                if(state.category == 'latency') value += ' ms';
                 if(state.category == 'uptime') value += ' %';
 
                 $('<td>', {'class': 'color ' + lowerName}).css('background-color',
