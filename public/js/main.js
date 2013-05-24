@@ -37,7 +37,7 @@ function main() {
                     });
                 }
 
-                ret[name][v.type][type] = d;
+                ret[name][v.type][type] = d.reverse(); /* from oldest to newest */
             });
         });
 
