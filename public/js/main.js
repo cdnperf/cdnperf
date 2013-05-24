@@ -193,9 +193,15 @@ function main() {
 
     function getLabels(amount) {
         var ret = [];
-        var i;
+        var i, d;
 
-        for(i = 0; i < amount; i++) ret.push(i);
+        for(i = 0; i < amount; i++) {
+            d = new XDate();
+
+            d.addDays(-(amount - i - 1));
+
+            ret.push(d.toString('dd MMM'));
+        }
 
         return ret;
     }
