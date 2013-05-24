@@ -24,6 +24,15 @@ function template(config, baseUrl, property, cb, o) {
         },
         qs: qs
     }, function(err, res) {
-        cb(err, JSON.parse(res.body)[property]);
+        var data;
+
+        try {
+            data = JSON.parse(res.body)[property];
+        }
+        catch(e) {
+            return cb(e);
+        }
+
+        cb(err, data[property]);
     });
 }
