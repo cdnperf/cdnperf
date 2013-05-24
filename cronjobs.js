@@ -19,9 +19,11 @@ function writeJSON(outputName) {
         range: config.amountOfDays,
         date: new Date()
     };
-    var delay = config.cronDelay || 5;
+    var delay = config.cron.delay || 5;
 
     write();
+
+    if(!config.cron.enabled) return;
 
     new cronJob('*/' + delay + ' * * * *', write, null, true);
 
