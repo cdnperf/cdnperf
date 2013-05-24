@@ -76,15 +76,21 @@ function dayLatency(config, o, done) {
 function dayUptime(config, o, done) {
     dayTemplate(config, o, function(err, data) {
         done(err, data && data.map(function(d) {
-            var downs = d.data.map(prop('y')).filter(not(is.number));
-            var downsLen = downs.length;
-            var dataLen = d.data.length;
+            var statuses = d.data.map(prop('status'));
+            var ups = statuses.filter(equals('up')).length;
+            var downs = statuses.filter(equals('down')).length;
 
-            d.data = (dataLen - downsLen) / dataLen;
+            d.data = ups / (ups + downs);
 
             return d;
         }));
     });
+}
+
+function equals(a) {
+    return function(v) {
+        return a == v;
+    };
 }
 
 function dayTemplate(config, o, done) {
@@ -134,7 +140,8 @@ function checks(config, o, done) {
                     data: results.map(function(result) {
                         return {
                             x: result.time * 1000, // s to ms
-                            y: result.responsetime
+                            y: result.responsetime,
+                            status: result.status
                         };
                     })
                 });
