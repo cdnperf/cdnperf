@@ -133,7 +133,7 @@ function main() {
 
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
-        $('<th>', {'class': 'category'}).text('Latency').appendTo($header);
+        $('<th>', {'class': 'category'}).text(title(state.category)).appendTo($header);
 
         for(var name in data) {
             provider = data[name];
@@ -149,6 +149,12 @@ function main() {
                 $('<td>', {'class': 'value ' + lowerName}).appendTo($row);
             }
         }
+    }
+
+    function title(a) {
+        if(!a) return;
+
+        return a[0].toUpperCase() + a.slice(1);
     }
 
     function getData(data, state) {
