@@ -106,7 +106,7 @@ function main() {
 
         if(!$c.length) {
             $e = $('<div>',
-                {'class': 'canvasContainer small-12 large-10 columns'}).appendTo($p);
+                {'class': 'canvasContainer small-12 large-9 columns'}).appendTo($p);
 
             $c = $('<canvas>', {'class': 'chart'}).appendTo($e);
         }
@@ -130,7 +130,7 @@ function main() {
 
         if(!$table.length) {
             $e = $('<div>',
-                {'class': 'legendContainer small-12 large-2 columns'}).appendTo($p);
+                {'class': 'legendContainer small-12 large-3 columns'}).appendTo($p);
 
             $table = $('<table>', {'class': 'legend'}).appendTo($e);
         }
