@@ -69,7 +69,7 @@ function main() {
 
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, state, update, 'amounts', 'amount', [3, 7, 14]);
+        $controls($p, state, update, 'amounts', 'amount', [7, 14]);
     }
 
     function createCategories($p, state, update) {
