@@ -84,6 +84,8 @@ function dayUptime(config, o, done) {
 
             d.data = ups / (ups + downs);
 
+            if(!ups || !downs) d.data = 1;
+
             return d;
         }));
     });
