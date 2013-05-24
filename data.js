@@ -52,7 +52,9 @@ function dayLatency(config, o, done) {
         done(err, data && data.map(function(d) {
             var dataLen = 0;
 
-            d.data = d.data.map(prop('y'));
+            d.data = d.data.filter(function(d) {
+                return d.status == 'up';
+            }).map(prop('y'));
 
             if(d.data.length) {
                 d.data = d.data.reduce(function(a, b) {
