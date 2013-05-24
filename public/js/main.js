@@ -24,12 +24,20 @@ function main() {
             var name;
 
             data[type].forEach(function(v) {
+                var d = v.data;
+
                 name = getProviderName(v.name);
 
                 if(!(name in ret)) ret[name] = {};
                 if(!(v.type in ret[name])) ret[name][v.type] = {};
 
-                ret[name][v.type][type] = v.data;
+                if(type == 'uptime') {
+                    d = d.map(function(v) {
+                        return v * 100;
+                    });
+                }
+
+                ret[name][v.type][type] = d;
             });
         });
 
@@ -146,6 +154,7 @@ function main() {
                 var value;
 
                 if(values) value = average(values.slice(-state.amount)).toFixed(3);
+                if(state.category == 'uptime') value += ' %';
 
                 $('<td>', {'class': 'color ' + lowerName}).css('background-color',
                     color).appendTo($row);
