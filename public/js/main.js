@@ -14,6 +14,7 @@ function main() {
 
         createControls($('.controls.row'), state, update);
         $('.controlsContainer .control:last-child').trigger('click');
+        $('.types .control:first').trigger('click');
         update();
     });
 
