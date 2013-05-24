@@ -142,11 +142,15 @@ function main() {
             if(state.type in provider) {
                 var $row = $('<tr>').appendTo($table);
                 var lowerName = name.toLowerCase();
+                var values = provider[state.type][state.category];
+                var value;
+
+                if(values) value = average(values.slice(-state.amount)).toFixed(3);
 
                 $('<td>', {'class': 'color ' + lowerName}).css('background-color',
                     color).appendTo($row);
                 $('<td>', {'class': 'name ' + lowerName}).text(name).appendTo($row);
-                $('<td>', {'class': 'value ' + lowerName}).appendTo($row);
+                $('<td>', {'class': 'value ' + lowerName}).text(value).appendTo($row);
             }
         }
     }
@@ -155,6 +159,20 @@ function main() {
         if(!a) return;
 
         return a[0].toUpperCase() + a.slice(1);
+    }
+
+    function average(arr) {
+        if(!arr) return;
+
+        return sum(arr) / arr.length;
+    }
+
+    function sum(arr) {
+        if(!arr) return;
+
+        return arr.reduce(function(a, b) {
+            return a + b;
+        });
     }
 
     function getData(data, state) {
