@@ -123,19 +123,23 @@ function main() {
     }
 
     function updateCharts($p, data, state) {
-        updateChart($p, data, state, 'uptime', 100);
-        updateChart($p, data, state, 'latency', 300)
+        var $container = $('.chartContainer:first');
+
+        if(!$container.length) {
+            $container = $('<div>',
+                {'class': 'chartContainer small-12 large-8 columns'}).appendTo($p);
+        }
+
+        updateChart($container, data, state, 'uptime', 100);
+        updateChart($container, data, state, 'latency', 300)
     }
 
     function updateChart($p, data, state, category, height) {
         var $canvas = $('.' + category + 'Chart:first');
-        var $container, ctx, width;
+        var ctx, width;
 
         if(!$canvas.length) {
-            $container = $('<div>',
-                {'class': category + 'Container small-12 large-8 columns'}).appendTo($p);
-
-            $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($container);
+            $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($p);
         }
 
         width = $canvas.parent().width();
