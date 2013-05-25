@@ -1,6 +1,8 @@
 $(main);
 
 function main() {
+    var updateQs; // TODO: eliminate
+
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
         var state = initializeState(data);
@@ -12,6 +14,8 @@ function main() {
         createControls($('.controls.row'), state, update);
 
         initializeControls(state);
+
+        updateQs = true;
     });
 
     function initializeState(data) {
@@ -212,6 +216,8 @@ function main() {
     function updateAll($p, data, state) {
         updateCharts($p, data, state);
         updateLegend($p, data, state);
+
+        if(updateQs) updateQueryString(state);
     }
 
     function updateCharts($p, data, state) {
@@ -295,6 +301,10 @@ function main() {
                 });
             }
         }
+    }
+
+    function updateQueryString(state) {
+        // TODO: should update querystring now (via history API)
     }
 
     function title(a) {
