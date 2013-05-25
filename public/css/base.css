@@ -23,7 +23,8 @@ header .siteName, header .tagLine, footer .credits {
     color: #fff
 }
 
-.controls .selected {
+.selected {
+    font-weight: bold;
     background-color: #222;
     color: #fff
 }
@@ -66,10 +67,6 @@ header .tagLine {
 
 .controlsContainer {
     margin-bottom: 0.5em;
-}
-
-.selected {
-    font-weight: bold;
 }
 
 .control {
