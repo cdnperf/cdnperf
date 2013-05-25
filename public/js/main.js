@@ -237,6 +237,7 @@ function main() {
         var ctx, width;
 
         if(!$canvas.length) {
+            $('<h2>').text(category).appendTo($p);
             $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($p);
         }
 
