@@ -3,21 +3,22 @@ $(main);
 function main() {
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
-        var state = initializeState();
+        var state = initializeState(data);
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
 
         $(window).on('resize', update);
 
-        createCdns($('.cdns'), data, update);
+        createCdns($('.cdns'), state, data, update);
         createControls($('.controls.row'), state, update);
 
         initializeControls(state);
     });
 
-    function initializeState() {
+    function initializeState(data) {
         return overlay({
             type: '',
-            amount: ''
+            amount: '',
+            providers: Object.keys(data)
         }, qsToObject());
     }
 
@@ -27,9 +28,17 @@ function main() {
         for(k in state) {
             v = state[k];
 
-            $e = v && $('.control.' + k + '.' + v) || '';
-            if($e.length) $e.trigger('click');
-            else $('.control.' + k + ':last').trigger('click');
+            if(Array.isArray(v)) {
+                $e = $('.cdn.' + idfy(k));
+
+                if($e.length) $e.trigger('click');
+                else $('.cdn').trigger('click');
+            }
+            else {
+                $e = v && $('.control.' + k + '.' + v) || '';
+                if($e.length) $e.trigger('click');
+                else $('.control.' + k + ':last').trigger('click');
+            }
         }
     }
 
@@ -46,6 +55,7 @@ function main() {
 
         if(!search) return {};
 
+        // TODO: support array syntax (ie. foo=[bar,baz])
         return zipToObject(search.slice(1).split('&').map(op('split', '=')));
     }
 
@@ -76,9 +86,7 @@ function main() {
 
                 name = getProviderName(v.name);
 
-                if(!(name in ret)) ret[name] = {
-                    _enabled: true
-                };
+                if(!(name in ret)) ret[name] = {};
                 if(!(v.type in ret[name])) ret[name][v.type] = {};
 
                 if(type == 'uptime') {
@@ -114,20 +122,35 @@ function main() {
         return data;
     }
 
-    function createCdns($p, data, update) {
+    function createCdns($p, state, data, update) {
         Object.keys(data).forEach(function(name) {
-            var $e = $('<a>', {'class': 'cdn', href: '#'}).text(name).appendTo($p).on('click', function(e) {
+            var $e = $('<a>', {'class': 'cdn ' + idfy(name), href: '#'}).text(name).appendTo($p).on('click', function(e) {
                 e.preventDefault();
 
                 $e.toggleClass('selected');
 
-                data[name]._enabled = $e.hasClass('selected');
+                toggleItem(state.providers, name, $e.hasClass('selected'));
 
                 update();
             });
         });
+    }
 
-        $('.cdn').addClass('selected');
+    function idfy(val) {
+        return val.toLowerCase().replace(/[ \-]+/g, '_').replace(/\.+/g, '');
+    }
+
+    function toggleItem(arr, k, v) {
+        var i;
+
+        if(v) {
+            if(!within(arr, k)) arr.push(k);
+        }
+        else {
+            i = arr.indexOf(k);
+
+            if(i >= 0) arr.splice(i, 1);
+        }
     }
 
     function createControls($p, state, update) {
@@ -230,7 +253,7 @@ function main() {
             provider = data[name];
             color = provider._color;
 
-            if(provider._enabled && state.type in provider) {
+            if(within(state.providers, name) && state.type in provider) {
                 var $row = $('<tr>').appendTo($table);
 
                 $('<td>', {'class': 'color'}).css('background-color',
@@ -301,7 +324,7 @@ function main() {
             provider = data[cdn];
             color = provider._color;
 
-            if(!provider._enabled) continue;
+            if(!within(state.providers, cdn)) continue;
             if(!(state.type in data[cdn])) continue;
             if(!(category in data[cdn][state.type])) continue;
 
@@ -314,6 +337,10 @@ function main() {
         }
 
         return ret;
+    }
+
+    function within(arr, v) {
+        return arr.indexOf(v) >= 0;
     }
 
     function getProviderName(fullname) {
