@@ -152,7 +152,7 @@ function main() {
 
                 $e.toggleClass('selected');
 
-                toggleItem(state.providers, name, $e.hasClass('selected'));
+                toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
 
                 update();
             });
@@ -276,7 +276,7 @@ function main() {
             provider = data[name];
             color = provider._color;
 
-            if(within(state.providers, name) && state.type in provider) {
+            if(within(state.providers, idfy(name)) && state.type in provider) {
                 var $row = $('<tr>').appendTo($table);
 
                 $('<td>', {'class': 'color'}).css('background-color',
@@ -347,7 +347,7 @@ function main() {
             provider = data[cdn];
             color = provider._color;
 
-            if(!within(state.providers, cdn)) continue;
+            if(!within(state.providers, idfy(cdn))) continue;
             if(!(state.type in data[cdn])) continue;
             if(!(category in data[cdn][state.type])) continue;
 
