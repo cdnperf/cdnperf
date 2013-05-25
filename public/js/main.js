@@ -196,7 +196,7 @@ function main() {
 
     function $controls($p, state, update, containerClass, itemClass, items) {
         var $e = $('<div>',
-            {'class': 'small-12 large-4 columns controlsContainer ' + containerClass}).appendTo($p);
+            {'class': 'columns controlsContainer ' + containerClass}).appendTo($p);
         items.forEach($control.bind(undefined, $e, state, itemClass, update));
     }
 
@@ -237,7 +237,7 @@ function main() {
         var ctx, width;
 
         if(!$canvas.length) {
-            $('<h2>').text(category).appendTo($p);
+            $('<h2>').text(title(category)).appendTo($p);
             $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($p);
         }
 
