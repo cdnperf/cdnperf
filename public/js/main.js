@@ -3,21 +3,67 @@ $(main);
 function main() {
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
-        var state = {
-            type: '',
-            category: '',
-            amount: ''
-        };
+        var state = initializeState();
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
 
         $(window).on('resize', update);
 
         createCdns($('.cdns'), data, update);
         createControls($('.controls.row'), state, update);
-        $('.controlsContainer .control:last-child').trigger('click');
-        $('.types .control:first').trigger('click');
-        update();
+
+        initializeControls(state);
     });
+
+    function initializeState() {
+        return overlay({
+            type: '',
+            amount: ''
+        }, qsToObject());
+    }
+
+    function initializeControls(state) {
+        var $e, k, v;
+
+        for(k in state) {
+            v = state[k];
+
+            $e = v && $('.control.' + k + '.' + v) || '';
+            if($e.length) $e.trigger('click');
+            else $('.control.' + k + ':last').trigger('click');
+        }
+    }
+
+    function overlay(a, b) {
+        var ret = {};
+
+        for(var k in a) ret[k] = k in b? b[k]: a[k];
+
+        return ret;
+    }
+
+    function qsToObject() {
+        var search = window.location.search;
+
+        if(!search) return {};
+
+        return zipToObject(search.slice(1).split('&').map(op('split', '=')));
+    }
+
+    function op(name, param) {
+        return function(a) {
+            return a[name](param);
+        };
+    }
+
+    function zipToObject(z) {
+        var ret = {};
+
+        z.forEach(function(v) {
+            ret[v[0]] = v[1];
+        });
+
+        return ret;
+    }
 
     function groupData(data) {
         var ret = {};
@@ -105,7 +151,7 @@ function main() {
     }
 
     function $control($p, state, type, update, name) {
-        var $e = $('<a>', {'class': 'control ' + type, href: '#'}).text(name).on('click', function(e) {
+        var $e = $('<a>', {'class': 'control ' + type + ' ' + name, href: '#'}).text(name).on('click', function(e) {
             e.preventDefault();
 
             $e.siblings().removeClass('selected').removeClass('label');
