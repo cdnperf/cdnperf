@@ -87,7 +87,6 @@ function main() {
     function createControls($p, state, update) {
         createTypes($p, state, update);
         createAmounts($p, state, update);
-        createCategories($p, state, update);
     }
 
     function createTypes($p, state, update) {
@@ -97,10 +96,6 @@ function main() {
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
         $controls($p, state, update, 'amounts', 'amount', [7, 14]);
-    }
-
-    function createCategories($p, state, update) {
-        $controls($p, state, update, 'categories', 'category', ['latency', 'uptime']);
     }
 
     function $controls($p, state, update, containerClass, itemClass, items) {
@@ -123,37 +118,41 @@ function main() {
     }
 
     function updateAll($p, data, state) {
-        updateChart($p, data, state);
+        updateCharts($p, data, state);
         updateLegend($p, data, state);
     }
 
-    function updateChart($p, data, state) {
-        var $c = $('canvas.chart:first');
-        var height = 400;
-        var $e, width;
+    function updateCharts($p, data, state) {
+        updateChart($p, data, state, 'uptime', 100);
+        updateChart($p, data, state, 'latency', 300)
+    }
 
-        if(!$c.length) {
-            $e = $('<div>',
-                {'class': 'canvasContainer small-12 large-9 columns'}).appendTo($p);
+    function updateChart($p, data, state, category, height) {
+        var $canvas = $('.' + category + 'Chart:first');
+        var $container, ctx, width;
 
-            $c = $('<canvas>', {'class': 'chart'}).appendTo($e);
+        if(!$canvas.length) {
+            $container = $('<div>',
+                {'class': category + 'Container small-12 large-8 columns'}).appendTo($p);
+
+            $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($container);
         }
 
-        width = $c.parent().width();
+        width = $canvas.parent().width();
 
-        $c.attr({width: width, height: height});
+        $canvas.attr({width: width, height: height});
 
-        var ctx = $c[0].getContext('2d');
-        new Chart(ctx).Line(getData(data, state), {
+        var ctx = $canvas[0].getContext('2d');
+        new Chart(ctx).Line(getData(data, state, category), {
             datasetFill: false,
             animation: true,
-            animationSteps : 45,
-	    pointDot : true,
-	    scaleShowGridLines: true,
-            scaleGridLineColor : "rgba(224,224,224,0.5)",
-	    scaleGridLineWidth : 1,	
-	    pointDotRadius : 3,
-	    bezierCurve: false
+            animationSteps: 45,
+	        pointDot: true,
+	        scaleShowGridLines: true,
+            scaleGridLineColor: 'rgba(224,224,224,0.5)',
+	        scaleGridLineWidth: 1,	
+	        pointDotRadius: 3,
+	        bezierCurve: false
         });
     }
 
@@ -163,7 +162,7 @@ function main() {
 
         if(!$table.length) {
             $e = $('<div>',
-                {'class': 'legendContainer small-12 large-3 columns'}).appendTo($p);
+                {'class': 'legendContainer small-12 large-4 columns'}).appendTo($p);
 
             $table = $('<table>', {'class': 'legend'}).appendTo($e);
         }
@@ -174,7 +173,8 @@ function main() {
 
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
-        $('<th>', {'class': 'category'}).text(title(state.category)).appendTo($header);
+        $('<th>', {'class': 'latency'}).text(title('latency')).appendTo($header);
+        $('<th>', {'class': 'uptime'}).text(title('uptime')).appendTo($header);
 
         for(var name in data) {
             provider = data[name];
@@ -182,18 +182,21 @@ function main() {
 
             if(provider._enabled && state.type in provider) {
                 var $row = $('<tr>').appendTo($table);
-                var lowerName = name.toLowerCase();
-                var values = provider[state.type][state.category];
-                var value;
 
-                if(values) value = average(values.slice(-state.amount)).toFixed(3);
-                if(state.category == 'latency') value += ' ms';
-                if(state.category == 'uptime') value += ' %';
-
-                $('<td>', {'class': 'color ' + lowerName}).css('background-color',
+                $('<td>', {'class': 'color'}).css('background-color',
                     color).appendTo($row);
-                $('<td>', {'class': 'name ' + lowerName}).text(name).appendTo($row);
-                $('<td>', {'class': 'value ' + lowerName}).text(value).appendTo($row);
+                $('<td>', {'class': 'name'}).text(name).appendTo($row);
+
+                ['latency', 'uptime'].forEach(function(category) {
+                    var values = provider[state.type][category];
+                    var value;
+
+                    if(values) value = average(values.slice(-state.amount)).toFixed(1);
+                    if(category == 'latency') value += ' ms';
+                    if(category == 'uptime') value += ' %';
+
+                    $('<td>', {'class': 'value'}).text(value).appendTo($row);
+                });
             }
         }
     }
@@ -218,10 +221,10 @@ function main() {
         });
     }
 
-    function getData(data, state) {
+    function getData(data, state, category) {
         return {
             labels: getLabels(state.amount),
-            datasets: getDatasets(data, state)
+            datasets: getDatasets(data, state, category)
         };
     }
 
@@ -240,7 +243,7 @@ function main() {
         return ret;
     }
 
-    function getDatasets(data, state) {
+    function getDatasets(data, state, category) {
         var ret = [];
         var provider, color;
 
@@ -250,13 +253,13 @@ function main() {
 
             if(!provider._enabled) continue;
             if(!(state.type in data[cdn])) continue;
-            if(!(state.category in data[cdn][state.type])) continue;
+            if(!(category in data[cdn][state.type])) continue;
 
             ret.push({
                 strokeColor: color,
                 pointColor: color,
                 pointStrokeColor: color,
-                data: data[cdn][state.type][state.category].slice(-state.amount)
+                data: data[cdn][state.type][category].slice(-state.amount)
             });
         }
 
