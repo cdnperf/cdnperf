@@ -42,6 +42,14 @@ header .tagLine {
     display: inline;
 }
 
+.cdns {
+    margin-bottom: 2em;
+}
+
+.cdn {
+    margin-right: 2em;
+}
+
 .latency {
     display: inline-block;
 }
@@ -61,7 +69,7 @@ header .tagLine {
     text-align: center;
 }
 
-.controls .selected {
+.selected {
     font-weight: bold;
 }
 

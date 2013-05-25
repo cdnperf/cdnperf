@@ -12,6 +12,7 @@ function main() {
 
         $(window).on('resize', update);
 
+        createCdns($('.cdns'), data, update);
         createControls($('.controls.row'), state, update);
         $('.controlsContainer .control:last-child').trigger('click');
         $('.types .control:first').trigger('click');
@@ -29,7 +30,9 @@ function main() {
 
                 name = getProviderName(v.name);
 
-                if(!(name in ret)) ret[name] = {};
+                if(!(name in ret)) ret[name] = {
+                    _enabled: true
+                };
                 if(!(v.type in ret[name])) ret[name][v.type] = {};
 
                 if(type == 'uptime') {
@@ -63,6 +66,22 @@ function main() {
         }
 
         return data;
+    }
+
+    function createCdns($p, data, update) {
+        Object.keys(data).forEach(function(name) {
+            var $e = $('<a>', {'class': 'cdn', href: '#'}).text(name).appendTo($p).on('click', function(e) {
+                e.preventDefault();
+
+                $e.toggleClass('selected');
+
+                data[name]._enabled = $e.hasClass('selected');
+
+                update();
+            });
+        });
+
+        $('.cdn').addClass('selected');
     }
 
     function createControls($p, state, update) {
@@ -161,7 +180,7 @@ function main() {
             provider = data[name];
             color = provider._color;
 
-            if(state.type in provider) {
+            if(provider._enabled && state.type in provider) {
                 var $row = $('<tr>').appendTo($table);
                 var lowerName = name.toLowerCase();
                 var values = provider[state.type][state.category];
@@ -223,11 +242,13 @@ function main() {
 
     function getDatasets(data, state) {
         var ret = [];
-        var color;
+        var provider, color;
 
         for(var cdn in data) {
-            color = data[cdn]._color;
+            provider = data[cdn];
+            color = provider._color;
 
+            if(!provider._enabled) continue;
             if(!(state.type in data[cdn])) continue;
             if(!(state.category in data[cdn][state.type])) continue;
 
