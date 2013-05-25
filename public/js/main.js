@@ -18,7 +18,7 @@ function main() {
         return overlay({
             type: '',
             amount: '',
-            providers: Object.keys(data)
+            providers: Object.keys(data).map(idfy)
         }, qsToObject());
     }
 
@@ -29,10 +29,11 @@ function main() {
             v = state[k];
 
             if(Array.isArray(v)) {
-                $e = $('.cdn.' + idfy(k));
+                v.forEach(function(a) {
+                    $e = $('.cdn.' + a);
 
-                if($e.length) $e.trigger('click');
-                else $('.cdn').trigger('click');
+                    if($e.length) $e.trigger('click');
+                })
             }
             else {
                 $e = v && $('.control.' + k + '.' + v) || '';
@@ -137,7 +138,7 @@ function main() {
     }
 
     function idfy(val) {
-        return val.toLowerCase().replace(/[ \-]+/g, '_').replace(/\.+/g, '');
+        return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
     }
 
     function toggleItem(arr, k, v) {
