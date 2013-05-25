@@ -47,29 +47,10 @@ header .tagLine {
     margin-bottom: 2em;
 }
 
-.cdn {
+.cdn, .control {
     margin-right: 2em;
-}
-
-.latency {
-    display: inline-block;
-}
-
-.chart {
-    width: 400px;
-    height: 300px;
-}
-
-.controls {
-    overflow: auto;
-    margin-bottom: 1em;
 }
 
 .controlsContainer {
     margin-bottom: 0.5em;
-}
-
-.control {
-    margin-left: 0.5em;
-    margin-right: 0.5em;
 }
