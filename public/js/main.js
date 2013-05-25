@@ -127,9 +127,14 @@ function main() {
         var ctx = $c[0].getContext('2d');
         new Chart(ctx).Line(getData(data, state), {
             datasetFill: false,
-            animation: false,
-			pointDot : true,
-			pointDotRadius : 3
+            animation: true,
+            animationSteps : 45,
+	    pointDot : true,
+	    scaleShowGridLines: true,
+            scaleGridLineColor : "rgba(224,224,224,0.5)",
+	    scaleGridLineWidth : 1,	
+	    pointDotRadius : 3,
+	    bezierCurve: false
         });
     }
 
