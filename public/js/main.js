@@ -79,9 +79,9 @@ function main() {
     }
 
     function parseArray(str) {
-        if(first(str) == '[' && last(str) == ']') return str.slice(1, -1).split(',');
+        var ret = str.split(',');
 
-        return str;
+        return ret.length == 1? ret[0]: ret;
     }
 
     function first(a) {
