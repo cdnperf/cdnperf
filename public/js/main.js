@@ -53,17 +53,39 @@ function main() {
 
     function qsToObject() {
         var search = window.location.search;
+        var ret;
 
         if(!search) return {};
 
-        // TODO: support array syntax (ie. foo=[bar,baz])
-        return zipToObject(search.slice(1).split('&').map(op('split', '=')));
+        return parseArrays(zipToObject(search.slice(1).split('&').map(op('split', '='))));
     }
 
     function op(name, param) {
         return function(a) {
             return a[name](param);
         };
+    }
+
+    function parseArrays(o) {
+        var ret = {};
+
+        for(var k in o) ret[k] = parseArray(o[k]);
+
+        return ret;
+    }
+
+    function parseArray(str) {
+        if(first(str) == '[' && last(str) == ']') return str.slice(1, -1).split(',');
+
+        return str;
+    }
+
+    function first(a) {
+        return a[0];
+    }
+
+    function last(a) {
+        return a[a.length - 1];
     }
 
     function zipToObject(z) {
