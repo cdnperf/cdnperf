@@ -8,7 +8,7 @@ function init(config) {
 
     return ziptoo(resources.map(function(resource) {
         return [resource, template.bind(undefined, config, baseUrl, resource)];
-    }))
+    }));
 }
 module.exports = init;
 
