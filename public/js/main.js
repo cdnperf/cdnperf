@@ -3,14 +3,14 @@ $(main);
 function main() {
     var updateQs; // TODO: eliminate
 
-    initializeRoutes();
-
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
         var state = initializeState(data);
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
 
         $(window).on('resize', update);
+
+        initializeRoutes(state, update);
 
         createCdns($('.cdns'), state, data, update);
         createControls($('.controls.row'), state, update);
@@ -20,13 +20,17 @@ function main() {
         updateQs = true;
     });
 
-    function initializeRoutes() {
+    function initializeRoutes(state, update) {
         new (Backbone.Router.extend({
             routes: {
                 ':providers/:type/:amount': 'getData'
             },
             getData: function(providers, type, amount) {
-                console.log(providers, type, amount);
+                state.providers = providers.split(',');
+                state.type = type;
+                state.amount = amount;
+
+                update();
             }
         }))();
 
@@ -34,11 +38,11 @@ function main() {
     }
 
     function initializeState(data) {
-        return overlay({
+        return {
             type: '',
             amount: '',
             providers: Object.keys(data).map(idfy)
-        }, qsToObject());
+        };
     }
 
     function initializeControls(state) {
@@ -60,61 +64,6 @@ function main() {
                 else $('.control.' + k + ':last').trigger('click');
             }
         }
-    }
-
-    function overlay(a, b) {
-        var ret = {};
-
-        for(var k in a) ret[k] = k in b? b[k]: a[k];
-
-        return ret;
-    }
-
-    function qsToObject() {
-        var search = window.location.search;
-        var ret;
-
-        if(!search) return {};
-
-        return parseArrays(zipToObject(search.slice(1).split('&').map(op('split', '='))));
-    }
-
-    function op(name, param) {
-        return function(a) {
-            return a[name](param);
-        };
-    }
-
-    function parseArrays(o) {
-        var ret = {};
-
-        for(var k in o) ret[k] = parseArray(o[k]);
-
-        return ret;
-    }
-
-    function parseArray(str) {
-        var ret = str.split(',');
-
-        return ret.length == 1? ret[0]: ret;
-    }
-
-    function first(a) {
-        return a[0];
-    }
-
-    function last(a) {
-        return a[a.length - 1];
-    }
-
-    function zipToObject(z) {
-        var ret = {};
-
-        z.forEach(function(v) {
-            ret[v[0]] = v[1];
-        });
-
-        return ret;
     }
 
     function groupData(data) {
