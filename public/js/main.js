@@ -213,12 +213,7 @@ function main() {
     }
 
     function updateCharts($p, data, state) {
-        var $container = $('.chartContainer:first');
-
-        if(!$container.length) {
-            $container = $('<div>',
-                {'class': 'chartContainer small-12 large-8 columns'}).appendTo($p);
-        }
+        var $container = $('.chartContainer');
 
         updateChart($container, data, state, 'uptime', 100);
         updateChart($container, data, state, 'latency', 300)
@@ -253,13 +248,12 @@ function main() {
 
     function updateLegend($p, data, state) {
         var $table = $('table.legend:first');
-        var provider, color, $e, $header;
+        var provider, color, $header, $container;
 
         if(!$table.length) {
-            $e = $('<div>',
-                {'class': 'legendContainer small-12 large-4 columns'}).appendTo($p);
+            $container = $('.legendContainer');
 
-            $table = $('<table>', {'class': 'legend'}).appendTo($e);
+            $table = $('<table>', {'class': 'legend'}).appendTo($container);
         }
 
         $table.empty();
