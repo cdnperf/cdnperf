@@ -233,17 +233,54 @@ function main() {
         $canvas.attr({width: width, height: height});
 
         var ctx = $canvas[0].getContext('2d');
-        new Chart(ctx).Line(getData(data, state, category), {
-            datasetFill: false,
-            animation: true,
-            animationSteps: 45,
-	        pointDot: true,
-	        scaleShowGridLines: true,
-            scaleGridLineColor: 'rgba(224,224,224,0.5)',
-	        scaleGridLineWidth: 1,	
-	        pointDotRadius: 3,
-	        bezierCurve: false
-        });
+
+        chart(ctx, getData(data, state, category))
+    }
+
+    function chart(ctx, data) {
+        // https://github.com/nnnick/Chart.js/issues/76
+        var min = minimum(data.datasets.map(op(minimum, prop('data'))));
+        var max = maximum(data.datasets.map(op(maximum, prop('data'))));
+        var opts;
+
+        if(max == min) {
+            opts = {
+                datasetFill: false,
+                scaleOverride : true,
+                scaleSteps : 3,
+                scaleStepWidth : 1,
+                scaleStartValue : max - 3
+            }
+        }
+        else {
+            opts = {
+                datasetFill: false,
+                animation: true,
+                animationSteps: 45,
+    	        pointDot: true,
+    	        scaleShowGridLines: true,
+                scaleGridLineColor: 'rgba(224,224,224,0.5)',
+    	        scaleGridLineWidth: 1,	
+    	        pointDotRadius: 3,
+    	        bezierCurve: false
+            };
+        }
+
+        new Chart(ctx).Line(data, opts);
+    }
+
+    function op(fn, accessor) {
+        return function(v) {
+            return fn(accessor(v));
+        };
+    }
+
+    function minimum(a) {
+        return a.sort()[0];
+    }
+
+    function maximum(a) {
+        return a.sort()[a.length - 1];
     }
 
     function updateLegend($p, data, state) {
