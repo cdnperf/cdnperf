@@ -53,3 +53,19 @@ header .tagLine {
 .controlsContainer {
     margin-bottom: 0.5em;
 }
+
+.legend {
+    width: 100%;
+}
+
+.legend th {
+    text-align: left;
+}
+
+.help {
+    padding: 0.75em;
+}
+
+.help p {
+    font-size: small;
+}
