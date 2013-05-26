@@ -32,14 +32,24 @@ function main() {
     function initializeRouter(state, update) {
         var Router = Backbone.Router.extend({
             routes: {
-                ':providers/:type/:amount': 'getData'
+                ':providers': 'providers',
+                ':providers/:type': 'providersWithType',
+                ':providers/:type/:amount': 'all'
             },
-            getData: function(providers, type, amount) {
+            providers: function(providers) {
                 state.providers = providers.split(',');
-                state.type = type;
-                state.amount = amount;
 
                 update();
+            },
+            providersWithType: function(providers, type) {
+                state.type = type;
+
+                this.providers(providers);
+            },
+            all: function(providers, type, amount) {
+                state.amount = amount;
+
+                this.providersWithType(providers, type);
             }
         });
         var router = new Router();
