@@ -3,6 +3,8 @@ $(main);
 function main() {
     var updateQs; // TODO: eliminate
 
+    initializeRoutes();
+
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
         var state = initializeState(data);
@@ -17,6 +19,19 @@ function main() {
 
         updateQs = true;
     });
+
+    function initializeRoutes() {
+        new (Backbone.Router.extend({
+            routes: {
+                ':providers/:type/:amount': 'getData'
+            },
+            getData: function(providers, type, amount) {
+                console.log(providers, type, amount);
+            }
+        }))();
+
+        Backbone.history.start();
+    }
 
     function initializeState(data) {
         return overlay({
