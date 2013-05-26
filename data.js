@@ -1,12 +1,11 @@
 var async = require('async');
+var pingdom = require('pingdom-api');
 var funkit = require('funkit');
 var prop = funkit.common.prop;
 var not = funkit.functional.not;
 var range = funkit.math.range;
 var is = require('annois');
 require('date-utils');
-
-var pingdom = require('./pingdom');
 
 module.exports = function(config) {
     return {
