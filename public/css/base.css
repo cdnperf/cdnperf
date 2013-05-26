@@ -2,11 +2,6 @@ body {
     background: #e6e6e6;
 }
 
-.main {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
 article {
     background: #fdfdfd;
 
@@ -48,7 +43,7 @@ header .tagLine {
 }
 
 .cdns {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 .cdn, .control {

@@ -14,7 +14,7 @@ function main() {
         updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
 
         createCdns($('.cdns'), state, data, updateWithRoute);
-        createControls($('.controls.row'), state, updateWithRoute);
+        createControls($('.allControlsContainer'), state, updateWithRoute);
 
         initializeControls(state);
     });
@@ -190,7 +190,7 @@ function main() {
 
     function $controls($p, state, update, containerClass, itemClass, items) {
         var $e = $('<div>',
-            {'class': 'columns controlsContainer ' + containerClass}).appendTo($p);
+            {'class': 'controlsContainer ' + containerClass}).appendTo($p);
         items.forEach($control.bind(undefined, $e, state, itemClass, update));
     }
 
