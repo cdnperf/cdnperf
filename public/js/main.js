@@ -1,27 +1,36 @@
 $(main);
 
 function main() {
-    var updateQs; // TODO: eliminate
-
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
         var state = initializeState(data);
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
+        var updateWithRoute, router;
 
         $(window).on('resize', update);
 
-        initializeRoutes(state, update);
+        router = initializeRouter(state, update);
 
-        createCdns($('.cdns'), state, data, update);
-        createControls($('.controls.row'), state, update);
+        updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
+
+        createCdns($('.cdns'), state, data, updateWithRoute);
+        createControls($('.controls.row'), state, updateWithRoute);
 
         initializeControls(state);
-
-        updateQs = true;
     });
 
-    function initializeRoutes(state, update) {
-        new (Backbone.Router.extend({
+    function union() {
+        var args = arguments;
+
+        return function() {
+            for(var i = 0; i < args.length; i++) {
+                args[i]();
+            }
+        }
+    }
+
+    function initializeRouter(state, update) {
+        var Router = Backbone.Router.extend({
             routes: {
                 ':providers/:type/:amount': 'getData'
             },
@@ -32,9 +41,20 @@ function main() {
 
                 update();
             }
-        }))();
+        });
+        var router = new Router();
 
         Backbone.history.start();
+
+        return router;
+    }
+
+    function updateRoute(state, router) {
+        var providers = state.providers.toString();
+        var type = state.type;
+        var amount = state.amount;
+
+        router.navigate('/' + providers + '/' + type + '/' + amount, {replace: true});
     }
 
     function initializeState(data) {
@@ -180,8 +200,6 @@ function main() {
     function updateAll($p, data, state) {
         updateCharts($p, data, state);
         updateLegend($p, data, state);
-
-        if(updateQs) updateQueryString(state);
     }
 
     function updateCharts($p, data, state) {
@@ -266,10 +284,6 @@ function main() {
                 });
             }
         }
-    }
-
-    function updateQueryString(state) {
-        // TODO: should update querystring now (via history API)
     }
 
     function average(arr) {
