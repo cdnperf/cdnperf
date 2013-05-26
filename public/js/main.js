@@ -269,7 +269,7 @@ function main() {
             provider = data[name];
             color = provider._color;
 
-            if(within(state.providers, idfy(name)) && state.type in provider) {
+            if(within(state.providers, idfy(name))) {
                 var $row = $('<tr>').appendTo($table);
 
                 $('<td>', {'class': 'color'}).css('background-color',
@@ -277,12 +277,18 @@ function main() {
                 $('<td>', {'class': 'name'}).text(name).appendTo($row);
 
                 ['latency', 'uptime'].forEach(function(category) {
-                    var values = provider[state.type][category];
-                    var value;
+                    var values, value;
 
-                    if(values) value = average(values.slice(-state.amount)).toFixed(1);
-                    if(category == 'latency') value += ' ms';
-                    if(category == 'uptime') value += ' %';
+                    if(state.type in provider) {
+                        values = provider[state.type][category];
+
+                        if(values) value = average(values.slice(-state.amount)).toFixed(1);
+                        if(category == 'latency') value += ' ms';
+                        if(category == 'uptime') value += ' %';
+                    }
+                    else {
+                        value = 'NA';
+                    }
 
                     $('<td>', {'class': 'value'}).text(value).appendTo($row);
                 });
