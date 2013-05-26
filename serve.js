@@ -40,10 +40,6 @@ function main() {
 
     cronjobs();
 
-    // openshift tweaks
-    var ipaddr = process.env.OPENSHIFT_INTERNAL_IP;
-    var port = process.env.OPENSHIFT_INTERNAL_PORT || config.port;
-
     process.on('exit', terminator);
 
     ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS',
@@ -52,8 +48,9 @@ function main() {
         process.on(element, function() { terminator(element); });
     });
 
-    app.listen(port, ipaddr, function() {
-        console.log('%s: Node (version: %s) %s started on %s:%d ...', Date(Date.now() ), process.version, process.argv[1], ipaddr, port);
+    var port = config.port;
+    app.listen(port, function() {
+        console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
     });
 }
 
