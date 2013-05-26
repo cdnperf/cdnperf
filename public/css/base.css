@@ -23,6 +23,7 @@ header .siteName, header .tagLine, footer .credits {
 }
 
 .selected {
+    padding: 0.25em;
     font-weight: bold;
     background-color: #222;
     color: #fff
