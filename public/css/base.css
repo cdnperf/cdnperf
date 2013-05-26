@@ -14,6 +14,10 @@ article {
     padding: 1em;
 }
 
+h1, h2, h3, th {
+    text-transform: capitalize;
+}
+
 header.panel, footer.panel {
     margin-bottom: 0;
 }

@@ -237,7 +237,7 @@ function main() {
         var ctx, width;
 
         if(!$canvas.length) {
-            $('<h2>').text(title(category)).appendTo($p);
+            $('<h2>').text(category).appendTo($p);
             $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($p);
         }
 
@@ -276,8 +276,8 @@ function main() {
 
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
-        $('<th>', {'class': 'latency'}).text(title('latency')).appendTo($header);
-        $('<th>', {'class': 'uptime'}).text(title('uptime')).appendTo($header);
+        $('<th>', {'class': 'latency'}).text('latency').appendTo($header);
+        $('<th>', {'class': 'uptime'}).text('uptime').appendTo($header);
 
         for(var name in data) {
             provider = data[name];
@@ -306,12 +306,6 @@ function main() {
 
     function updateQueryString(state) {
         // TODO: should update querystring now (via history API)
-    }
-
-    function title(a) {
-        if(!a) return;
-
-        return a[0].toUpperCase() + a.slice(1);
     }
 
     function average(arr) {
