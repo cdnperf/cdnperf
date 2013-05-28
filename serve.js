@@ -35,7 +35,7 @@ function main() {
 
     app.get('/', routes.index);
 
-    cronjobs();
+    if(config.cron) cronjobs();
 
     process.on('exit', terminator);
 
