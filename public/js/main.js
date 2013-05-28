@@ -98,28 +98,15 @@ function main() {
 
     function groupData(data) {
         var ret = {};
+console.log(data);
+        data.providers.forEach(function(v) {
+            var name = getProviderName(v.name);
 
-        Object.keys(data).forEach(function(type) {
-            var name;
-
-            data[type].forEach(function(v) {
-                var d = v.data;
-
-                name = getProviderName(v.name);
-
-                if(!(name in ret)) ret[name] = {};
-                if(!(v.type in ret[name])) ret[name][v.type] = {};
-
-                if(type == 'uptime') {
-                    d = d.map(function(v) {
-                        return v * 100;
-                    });
-                }
-
-                d = d.map(toFixed(2));
-
-                ret[name][v.type][type] = d.reverse(); /* from oldest to newest */
-            });
+            if(!(name in ret)) ret[name] = {};
+            if(!(v.type in ret[name])) ret[name][v.type] = {
+                latency: v.latency,
+                uptime: v.uptime
+            };
         });
 
         return ret;
@@ -185,7 +172,7 @@ function main() {
 
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, state, update, 'amounts', 'amount', [7, 14]);
+        $controls($p, state, update, 'amounts', 'amount', [7, 14, 30]);
     }
 
     function $controls($p, state, update, containerClass, itemClass, items) {
