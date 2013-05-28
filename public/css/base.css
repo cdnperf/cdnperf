@@ -10,6 +10,8 @@ article {
 }
 
 h1, h2, h3, th {
+    font-family: 'Monda', cursive;
+    font-weight: 400;
     text-transform: capitalize;
 }
 
