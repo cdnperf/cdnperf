@@ -26,9 +26,6 @@ function main() {
         app.use(express.methodOverride());
         app.use(express['static'](path.join(__dirname, 'public')));
 
-        app.use(express.cookieParser(config.cookieSecret));
-        app.use(express.session());
-
         app.use(app.router);
     });
 
