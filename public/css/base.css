@@ -78,7 +78,11 @@ header .tagLine {
 }
 
 .help {
-    padding: 0.75em;
+    padding: 0.25em 0.75em 0.75em 0.75em;
+}
+
+.help h3 {
+    margin-bottom: 0.5em;
 }
 
 .help p {
