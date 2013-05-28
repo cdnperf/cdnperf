@@ -3,7 +3,7 @@ $(main);
 function main() {
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
-        var state = initializeState(data);
+        var state = initializeState(data.providers);
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
         var updateWithRoute, router;
 
