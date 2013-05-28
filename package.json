@@ -3,7 +3,7 @@
     "private": true,
     "description": "CDN performance monitoring service",
     "author": "Juho Vepsalainen <bebraw@gmail.com>",
-    "version": "0.1.0",
+    "version": "0.2.1",
 
     "engines": {
         "node": ">= 0.6.0",
