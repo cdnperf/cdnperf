@@ -83,7 +83,7 @@ function structure(data) {
 
     function parseUptime(data) {
         return days.map(function(v) {
-            return (v.uptime / (v.uptime + v.downtime)).toFixed(4);
+            return parseFloat(((v.uptime / (v.uptime + v.downtime)) * 100).toFixed(4));
         });
     }
 }
