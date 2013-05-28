@@ -57,43 +57,33 @@ function getSummary(check, cb) {
 }
 
 function structure(data) {
+    var days = data[0].data.days;
+
     return {
-        meta: parseMeta(data),
-        latency: parseLatency(data),
-        uptime: parseUptime(data)
+        providers: data.map(function(d) {
+            var check = d.check;
+
+            return {
+                name: check.name,
+                host: check.hostname,
+                type: check.name.split(' ')[1].toLowerCase(),
+                latency: parseLatency(d.data.days),
+                uptime: parseUptime(d.data.days)
+            };
+        }),
+        firstDay: days[0].starttime,
+        lastDay: days[days.length - 1].starttime
     };
 
-    function parseMeta(data) {
-        var days = data[0].data.days;
-
-        return {
-            providers: data.map(function(d) {
-                var check = d.check;
-
-                return {
-                    name: check.name,
-                    host: check.hostname,
-                    type: check.name.split(' ')[1].toLowerCase()
-                };
-            }),
-            firstDay: days[0].starttime,
-            lastDay: days[days.length - 1].starttime
-        };
-    }
-
     function parseLatency(data) {
-        return data.map(function(d) {
-            return d.data.days.map(function(v) {
-                return v.avgresponse;
-            });
+        return data.map(function(v) {
+            return v.avgresponse;
         });
     }
 
     function parseUptime(data) {
-        return data.map(function(d) {
-            return d.data.days.map(function(v) {
-                return (v.uptime / (v.uptime + v.downtime)).toFixed(4);
-            });
+        return days.map(function(v) {
+            return (v.uptime / (v.uptime + v.downtime)).toFixed(4);
         });
     }
 }
