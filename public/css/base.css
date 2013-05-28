@@ -17,6 +17,10 @@ a:hover {
     color: #777;
 }
 
+p {
+    font-family: Tahoma;
+}
+
 h1, h2, h3, th {
     font-family: 'Monda', cursive;
     font-weight: 400;
