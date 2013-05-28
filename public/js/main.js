@@ -362,7 +362,7 @@ function main() {
 
     function getDatasets(providers, state, category) {
         var ret = [];
-        var provider, color;
+        var provider, color, data, offset;
 
         for(var name in providers) {
             provider = providers[name];
@@ -372,13 +372,28 @@ function main() {
             if(!(state.type in provider)) continue;
             if(!(category in provider[state.type])) continue;
 
+            data = provider[state.type][category];
+
+            offset = state.amount - data.length;
+            if(offset > 0) data = zeroes(offset).concat(data);
+            else data = data.slice(-state.amount);
+
             ret.push({
                 strokeColor: color,
                 pointColor: color,
                 pointStrokeColor: color,
-                data: provider[state.type][category].slice(-state.amount)
+                data: data
             });
         }
+
+        return ret;
+    }
+
+    function zeroes(amount) {
+        var ret = [];
+        var i;
+
+        for(i = 0; i < amount; i++) ret.push(0);
 
         return ret;
     }
