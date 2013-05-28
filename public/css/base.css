@@ -9,6 +9,14 @@ article {
     padding: 1em;
 }
 
+a {
+    color: #222;
+}
+
+a:hover {
+    color: #777;
+}
+
 h1, h2, h3, th {
     font-family: 'Monda', cursive;
     font-weight: 400;
