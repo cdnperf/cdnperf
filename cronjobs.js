@@ -71,8 +71,8 @@ function structure(data) {
                 uptime: parseUptime(d.data.days)
             };
         }),
-        firstDay: days[0].starttime,
-        lastDay: days[days.length - 1].starttime
+        firstDate: days[0].starttime,
+        lastDate: days[days.length - 1].starttime
     };
 
     function parseLatency(data) {
