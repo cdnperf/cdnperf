@@ -13,7 +13,7 @@ function main() {
 
         updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
 
-        createCdns($('.cdns'), state, data, updateWithRoute);
+        createCdns($('.cdns'), state, data.providers, updateWithRoute);
         createControls($('.allControlsContainer'), state, updateWithRoute);
 
         initializeControls(state);
@@ -97,19 +97,23 @@ function main() {
     }
 
     function groupData(data) {
-        var ret = {};
-console.log(data);
+        var providers = {};
+
         data.providers.forEach(function(v) {
             var name = getProviderName(v.name);
 
-            if(!(name in ret)) ret[name] = {};
-            if(!(v.type in ret[name])) ret[name][v.type] = {
+            if(!(name in providers)) providers[name] = {};
+            if(!(v.type in providers[name])) providers[name][v.type] = {
                 latency: v.latency,
                 uptime: v.uptime
             };
         });
 
-        return ret;
+        return {
+            providers: providers,
+            firstDate: new XDate(data.firstDate * 1000),
+            lastDate: new XDate(data.lastDate * 1000)
+        }
     }
 
     function toFixed(a) {
@@ -121,8 +125,8 @@ console.log(data);
     function attachColors(data) {
         var i = 0;
 
-        for(var name in data) {
-            data[name]._color = getColor(i);
+        for(var name in data.providers) {
+            data.providers[name]._color = getColor(i);
 
             i++;
         }
@@ -130,8 +134,8 @@ console.log(data);
         return data;
     }
 
-    function createCdns($p, state, data, update) {
-        Object.keys(data).forEach(function(name) {
+    function createCdns($p, state, providers, update) {
+        Object.keys(providers).forEach(function(name) {
             var $e = $('<a>', {'class': 'cdn ' + idfy(name), href: '#'}).text(name).appendTo($p).on('click', function(e) {
                 e.preventDefault();
 
@@ -196,7 +200,7 @@ console.log(data);
 
     function updateAll($p, data, state) {
         updateCharts($p, data, state);
-        updateLegend($p, data, state);
+        updateLegend($p, data.providers, state);
     }
 
     function updateCharts($p, data, state) {
@@ -270,7 +274,7 @@ console.log(data);
         return a.sort()[a.length - 1];
     }
 
-    function updateLegend($p, data, state) {
+    function updateLegend($p, providers, state) {
         var $table = $('table.legend:first');
         var provider, color, $header, $container;
 
@@ -289,8 +293,8 @@ console.log(data);
         $('<th>', {'class': 'latency'}).text('latency').appendTo($header);
         $('<th>', {'class': 'uptime'}).text('uptime').appendTo($header);
 
-        for(var name in data) {
-            provider = data[name];
+        for(var name in providers) {
+            provider = providers[name];
             color = provider._color;
 
             if(within(state.providers, idfy(name))) {
@@ -336,17 +340,17 @@ console.log(data);
 
     function getData(data, state, category) {
         return {
-            labels: getLabels(state.amount),
-            datasets: getDatasets(data, state, category)
+            labels: getLabels(data.lastDate, state.amount),
+            datasets: getDatasets(data.providers, state, category)
         };
     }
 
-    function getLabels(amount) {
+    function getLabels(lastDate, amount) {
         var ret = [];
         var i, d;
 
         for(i = 0; i < amount; i++) {
-            d = new XDate();
+            d = lastDate.clone();
 
             d.addDays(-(amount - i - 1));
 
@@ -356,23 +360,23 @@ console.log(data);
         return ret;
     }
 
-    function getDatasets(data, state, category) {
+    function getDatasets(providers, state, category) {
         var ret = [];
         var provider, color;
 
-        for(var cdn in data) {
-            provider = data[cdn];
+        for(var name in providers) {
+            provider = providers[name];
             color = provider._color;
 
-            if(!within(state.providers, idfy(cdn))) continue;
-            if(!(state.type in data[cdn])) continue;
-            if(!(category in data[cdn][state.type])) continue;
+            if(!within(state.providers, idfy(name))) continue;
+            if(!(state.type in provider)) continue;
+            if(!(category in provider[state.type])) continue;
 
             ret.push({
                 strokeColor: color,
                 pointColor: color,
                 pointStrokeColor: color,
-                data: data[cdn][state.type][category].slice(-state.amount)
+                data: provider[state.type][category].slice(-state.amount)
             });
         }
 
