@@ -236,7 +236,8 @@ function main() {
 
         if(max == min) {
             opts = {
-    	        animation: false,
+    	        animation: true,
+                animationSteps: 10,
                 datasetFill: false,
                 scaleOverride : true,
                 scaleSteps : 3,
@@ -246,7 +247,8 @@ function main() {
         }
         else {
             opts = {
-                animation: false,
+                animation: true,
+                animationSteps: 10,
                 datasetFill: false,
     	        pointDot: true,
     	        scaleShowGridLines: true,
