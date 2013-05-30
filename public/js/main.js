@@ -105,7 +105,7 @@ function main() {
             if(!(name in providers)) providers[name] = {};
             if(!(v.type in providers[name])) providers[name][v.type] = {
                 latency: v.latency,
-                uptime: v.uptime
+                downtime: v.downtime
             };
         });
 
@@ -206,7 +206,7 @@ function main() {
     function updateCharts($p, data, state) {
         var $container = $('.chartContainer');
 
-        updateChart($container, data, state, 'uptime', 100);
+        updateChart($container, data, state, 'downtime', 100);
         updateChart($container, data, state, 'latency', 300)
     }
 
@@ -294,7 +294,7 @@ function main() {
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
         $('<th>', {'class': 'latency'}).text('latency').appendTo($header);
-        $('<th>', {'class': 'uptime'}).text('uptime').appendTo($header);
+        $('<th>', {'class': 'downtime'}).text('downtime').appendTo($header);
 
         for(var name in providers) {
             provider = providers[name];
@@ -307,15 +307,22 @@ function main() {
                     color).appendTo($row);
                 $('<td>', {'class': 'name'}).text(name).appendTo($row);
 
-                ['latency', 'uptime'].forEach(function(category) {
+                ['latency', 'downtime'].forEach(function(category) {
                     var values, value;
 
                     if(state.type in provider) {
                         values = provider[state.type][category];
+                        
+                        if(category == 'latency') {
+                            if(values) value = average(values.slice(-state.amount)).toFixed(1);
 
-                        if(values) value = average(values.slice(-state.amount)).toFixed(1);
-                        if(category == 'latency') value += ' ms';
-                        if(category == 'uptime') value += ' %';
+                            value += ' ms';
+                        }
+                        if(category == 'downtime') {
+                            if(values) value = sum(values.slice(-state.amount));
+
+                            value += ' times';
+                        }
                     }
                     else {
                         value = 'NA';
