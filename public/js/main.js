@@ -270,11 +270,11 @@ function main() {
     }
 
     function minimum(a) {
-        return a.sort()[0];
+        return a.slice().sort()[0];
     }
 
     function maximum(a) {
-        return a.sort()[a.length - 1];
+        return a.slice().sort()[a.length - 1];
     }
 
     function updateLegend($p, providers, state) {
