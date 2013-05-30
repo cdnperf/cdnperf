@@ -8,6 +8,7 @@ catch(e) {
 
     config = {
         port: env.PORT,
+        bugira: env.BUGIRA,
         ga: env.GA,
         cron: env.CRON,
         pingdom: {

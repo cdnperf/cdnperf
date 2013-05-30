@@ -38,6 +38,8 @@ html
                 a(href='https://www.pingdom.com/')
                     img(src='images/pingdom.png', alt='Pingdom')
 
+        #bugira_widget(style='position: fixed; right: 10px; bottom: 0px;')
+
         script
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -46,3 +48,7 @@ html
 
             ga('create', '#{ga}', 'cdnperf.com');
             ga('send', 'pageview');
+
+        script
+            var __bugira_config = {"theme":"navy","texts":{"button":"Feedback"},"api_key":"#{bugira}"};
+            (function() {var w = document.createElement('script'); w.type = 'text/javascript'; w.async = true; w.src = 'https://bugiracdn.appspot.com/bugira-widget.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(w);})();
