@@ -31,9 +31,13 @@ header.panel, footer.panel {
     margin-bottom: 0;
 }
 
-header .siteName, header .tagLine, footer .credits {
+header .siteName, header .tagLine {
     text-shadow: 1px 1px 2px #969696;
     color: #fff
+}
+
+footer .issueTracker {
+    color: 333;
 }
 
 .selected {
