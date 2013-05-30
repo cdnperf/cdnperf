@@ -258,6 +258,9 @@ function main() {
         }
 
         new Chart(ctx).Line(data, opts);
+
+        // work around FF refresh issue (fails to refresh!)
+        ctx.stroke();
     }
 
     function op(fn, accessor) {
