@@ -217,11 +217,12 @@ function main() {
         if(!$canvas.length) {
             $('<h2>').text(category).appendTo($p);
             $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($p);
-
-            width = $canvas.parent().width();
-
-            $canvas.attr({width: width, height: height});
         }
+
+        // dynamic width (parent width might change) 
+        width = $canvas.parent().width();
+
+        $canvas.attr({width: width, height: height});
 
         var ctx = $canvas[0].getContext('2d');
 
