@@ -2,7 +2,7 @@ var fs = require('fs');
 
 require('date-utils');
 
-var config = require('./config');
+var config = require('./conf');
 
 var async = require('async');
 var cronJob = require('cron').CronJob;
