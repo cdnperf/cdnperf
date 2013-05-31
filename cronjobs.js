@@ -36,13 +36,13 @@ function constructChecks(checks) {
 
             async.series([
                 getSummaries.bind(undefined, check, from, to),
-                getDowntimes.bind(undefined, check, from, to)
+                getUptimes.bind(undefined, check, from, to)
             ], function(err, data) {
                 if(err) return console.error(err);
 
                 cb(err, {
                     summaries: data[0],
-                    downtimes: data[1].data
+                    uptimes: data[1]
                 });
             });
         };
@@ -66,12 +66,10 @@ function getSummaries(check, from, to, cb) {
     });
 }
 
-function getDowntimes(check, from, to, cb) {
+function getUptimes(check, from, to, cb) {
     pingdom['summary.outage'](function(err, outages, res) {
-        cb(err, {
-            check: check,
-            data: outages && outages.states? calculateDowntimes(outages.states, from, to): []
-        }); // skip res
+        // skip res
+        cb(err, outages && outages.states? calculateUptimes(outages.states, from, to): []);
     }, {
         target: check.id,
         qs: {
@@ -81,18 +79,33 @@ function getDowntimes(check, from, to, cb) {
     });
 }
 
-function calculateDowntimes(data, from, to) {
+function calculateUptimes(data, from, to) {
     var ret = zeroes(from.getDaysBetween(to));
-    var d, i;
+    var wholeDayInMs = 1000 * 60 * 60 * 24;
+    var downFrom, downTo, fromDelta, toDelta, next;
 
-    data.filter(equals('status', 'down')).map(prop('timefrom')).forEach(function(v) {
-        d = new Date(v * 1000);
-        i = from.getDaysBetween(d);
+    // calculate downtimes per day
+    data.filter(equals('status', 'down')).forEach(function(v) {
+        downFrom = new Date(v.timefrom * 1000);
+        downTo = new Date(v.timeto * 1000);
+        fromDelta = from.getDaysBetween(downFrom);
+        toDelta = from.getDaysBetween(downTo);
 
-        ret[i]++;
+        if(fromDelta == toDelta) {
+            ret[fromDelta] += downTo - downFrom;
+        }
+        else {
+            next = downTo.clone().clearTime();
+
+            ret[fromDelta] += next - downFrom;
+            ret[toDelta] += downTo - next;
+        }
     });
 
-    return ret;
+    // calculate relative uptime per day
+    return ret.map(function(v) {
+        return parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
+    });
 }
 
 // TODO: move to some utility lib
@@ -132,7 +145,7 @@ function structure(data) {
                 host: check.hostname,
                 type: check.name.split(' ')[1].toLowerCase(),
                 latency: parseLatency(summaries.data.days),
-                downtime: d.downtimes
+                uptime: d.uptimes
             };
         }),
         firstDate: days[0].starttime,

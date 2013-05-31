@@ -105,7 +105,7 @@ function main() {
             if(!(name in providers)) providers[name] = {};
             if(!(v.type in providers[name])) providers[name][v.type] = {
                 latency: v.latency,
-                downtime: v.downtime
+                uptime: v.uptime
             };
         });
 
@@ -206,7 +206,7 @@ function main() {
     function updateCharts($p, data, state) {
         var $container = $('.chartContainer');
 
-        updateChart($container, data, state, 'downtime', 100);
+        updateChart($container, data, state, 'uptime', 100);
         updateChart($container, data, state, 'latency', 300)
     }
 
@@ -294,7 +294,7 @@ function main() {
         $('<th>', {'class': 'colorLegend'}).appendTo($header);
         $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
         $('<th>', {'class': 'latency'}).text('latency').appendTo($header);
-        $('<th>', {'class': 'downtime'}).text('downtime').appendTo($header);
+        $('<th>', {'class': 'uptime'}).text('uptime').appendTo($header);
 
         for(var name in providers) {
             provider = providers[name];
@@ -307,7 +307,7 @@ function main() {
                     color).appendTo($row);
                 $('<td>', {'class': 'name'}).text(name).appendTo($row);
 
-                ['latency', 'downtime'].forEach(function(category) {
+                ['latency', 'uptime'].forEach(function(category) {
                     var values, value;
 
                     if(state.type in provider) {
@@ -318,10 +318,10 @@ function main() {
 
                             value += ' ms';
                         }
-                        if(category == 'downtime') {
-                            if(values) value = sum(values.slice(-state.amount));
+                        if(category == 'uptime') {
+                            if(values) value = average(values.slice(-state.amount)).toFixed(3);
 
-                            value += ' times';
+                            value += ' %';
                         }
                     }
                     else {
