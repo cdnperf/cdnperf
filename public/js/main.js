@@ -208,19 +208,18 @@ function main() {
     }
 
     function updateCharts($p, data, state) {
-        var $container = $('.chartContainer');
-
-        updateChart($container, data, state, 'uptime', 100);
-        updateChart($container, data, state, 'latency', 300)
+        updateChart($('.uptimeContainer'), data, state, 'uptime', 100);
+        updateChart($('.latencyContainer'), data, state, 'latency', 300)
     }
 
     function updateChart($p, data, state, category, height) {
-        var $canvas = $('.' + category + 'Chart:first');
-        var ctx, width;
+        var $canvas = $('.chart:first', $p);
+        var ctx, width, $help;
 
         if(!$canvas.length) {
-            $('<h2>').text(category).appendTo($p);
-            $canvas = $('<canvas>', {'class': category + 'Chart'}).appendTo($p);
+            $help = $('.help', $p);
+            $help.qtip({content: $help.text()}).text('?');
+            $canvas = $('<canvas>', {'class': 'chart'}).appendTo($p);
         }
 
         // dynamic width (parent width might change) 

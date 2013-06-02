@@ -81,14 +81,17 @@ header .tagLine {
     text-align: left;
 }
 
-.help {
-    padding: 0.25em 0.75em 0.75em 0.75em;
+.latencies .info {
+    overflow: auto;
 }
 
-.help h3 {
-    margin-bottom: 0.5em;
+.latencies .info h2 {
+    float: left;
 }
 
-.help p {
-    font-size: small;
+.latencies .info .help {
+    float: right;
+    font-size: x-large;
+    margin-top: 1em;
+    margin-right: 1em;
 }

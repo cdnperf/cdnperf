@@ -1,6 +1,9 @@
 extends layout
 
 block head
+    link(rel='stylesheet', href='css/vendor/jquery.qtip.css')
+
+    script(src='js/vendor/jquery.qtip.js')
     script(src='js/vendor/xdate.js')
     script(src='js/vendor/underscore.js')
     script(src='js/vendor/backbone.js')
@@ -11,15 +14,14 @@ block content
     .cdns
     .latencies.row
         .main.small-12.large-8.columns
-            .chartContainer
+            .uptimeContainer
+                .info
+                    h2 uptime
+                    .help Uptime in percentage. The higher, the better.
+            .latencyContainer
+                .info
+                    h2 latency
+                    .help Latency is given as average for the defined range of time. The lower, the better.
         .sidebar.small-12.large-4.columns
             .allControlsContainer.panel
             .legendContainer
-            .help.panel.uptime
-                h3
-                    small Uptime (%)
-                p The higher uptime, the better.
-            .help.panel.latency
-                h3
-                    small Latency (average)
-                p The lower the latency the better. Your visitors will be able to reach your content faster. CDNs reduce latency globally.
