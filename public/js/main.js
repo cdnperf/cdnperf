@@ -17,6 +17,8 @@ function main() {
         createControls($('.allControlsContainer'), state, updateWithRoute);
 
         initializeControls(state);
+
+        update();
     });
 
     function union() {
@@ -85,13 +87,13 @@ function main() {
                 v.forEach(function(a) {
                     $e = $('.cdn.' + a);
 
-                    if($e.length) $e.trigger('click');
+                    if($e.length) $e.trigger('click', [true]);
                 })
             }
             else {
                 $e = v && $('.control.' + k + '.' + v) || '';
-                if($e.length) $e.trigger('click');
-                else $('.control.' + k + ':last').trigger('click');
+                if($e.length) $e.trigger('click', [true]);
+                else $('.control.' + k + ':last').trigger('click', [true]);
             }
         }
     }
@@ -136,14 +138,15 @@ function main() {
 
     function createCdns($p, state, providers, update) {
         Object.keys(providers).forEach(function(name) {
-            var $e = $('<a>', {'class': 'cdn ' + idfy(name), href: '#'}).text(name).appendTo($p).on('click', function(e) {
+            var $e = $('<a>', {'class': 'cdn ' + idfy(name), href: '#'}).
+                    text(name).appendTo($p).on('click', function(e, init) {
                 e.preventDefault();
 
                 $e.toggleClass('selected');
 
                 toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
 
-                update();
+                if(!init) update();
             });
         });
     }
@@ -186,7 +189,8 @@ function main() {
     }
 
     function $control($p, state, type, update, name) {
-        var $e = $('<a>', {'class': 'control ' + type + ' ' + name, href: '#'}).text(name).on('click', function(e) {
+        var $e = $('<a>', {'class': 'control ' + type + ' ' + name, href: '#'}).
+                text(name).on('click', function(e, init) {
             e.preventDefault();
 
             $e.siblings().removeClass('selected').removeClass('label');
@@ -194,7 +198,7 @@ function main() {
 
             state[type] = name;
 
-            update();
+            if(!init) update();
         }).appendTo($p);
     }
 
