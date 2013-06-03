@@ -179,7 +179,7 @@ function main() {
 
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, state, update, 'amounts', 'amount', [7, 14, 30]);
+        $controls($p, state, update, 'amounts', 'amount', [7, 14, 30, 90]);
     }
 
     function $controls($p, state, update, containerClass, itemClass, items) {
@@ -360,12 +360,18 @@ function main() {
 
     function getLabels(lastDate, amount) {
         var ret = [];
+        var len = amount;
         var i, d;
 
-        for(i = 0; i < amount; i++) {
+        // TODO: move these rules elsewhere
+        if(amount == 90) len = 30;
+
+        for(i = 0; i < len; i++) {
             d = lastDate.clone();
 
-            d.addDays(-(amount - i - 1));
+            // TODO: move these rules elsewhere
+            if(amount == 90) d.addDays(-(90 - i * 3 - 1));
+            else d.addDays(-(amount - i - 1));
 
             ret.push(d.toString('dd MMM'));
         }
@@ -395,11 +401,23 @@ function main() {
                 strokeColor: color,
                 pointColor: color,
                 pointStrokeColor: color,
-                data: data
+                data: pickPoints(state.amount, data)
             });
         }
 
         return ret;
+    }
+
+    function pickPoints(amount, data) {
+        if(amount == 90) return everyNth(3, data);
+
+        return data;
+    }
+
+    function everyNth(n, data) {
+        return data.filter(function(v, i) {
+            return !(i % n);
+        });
     }
 
     function zeroes(amount) {
