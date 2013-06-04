@@ -21,7 +21,7 @@ p {
     font-family: Tahoma;
 }
 
-h1, h2, h3, th {
+h1, h2, h3, th, td.latency, td.uptime {
     font-family: 'Monda', cursive;
     font-weight: 400;
     text-transform: capitalize;
