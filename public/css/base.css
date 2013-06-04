@@ -79,6 +79,7 @@ header .tagLine {
 
 .legend {
     width: 100%;
+    margin-bottom: 0;
 }
 
 .legend th {
