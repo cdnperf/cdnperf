@@ -391,7 +391,7 @@ function main() {
 
         for(var name in providers) {
             provider = providers[name];
-            color = provider._color;
+            color = colorToHex(provider._color);
 
             if(!within(state.providers, idfy(name))) continue;
             if(!(state.type in provider)) continue;
