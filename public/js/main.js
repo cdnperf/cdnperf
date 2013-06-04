@@ -13,7 +13,6 @@ function main() {
 
         updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
 
-        createCdns($('.cdns'), state, data.providers, updateWithRoute);
         createControls($('.allControlsContainer'), state, updateWithRoute);
 
         initializeControls(state);
@@ -136,25 +135,6 @@ function main() {
         return data;
     }
 
-    function createCdns($p, state, providers, update) {
-        Object.keys(providers).forEach(function(name) {
-            var $e = $('<a>', {'class': 'cdn ' + idfy(name), href: '#'}).
-                    text(name).appendTo($p).on('click', function(e, init) {
-                e.preventDefault();
-
-                $e.toggleClass('selected');
-
-                toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
-
-                if(!init) update();
-            });
-        });
-    }
-
-    function idfy(val) {
-        return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
-    }
-
     function toggleItem(arr, k, v) {
         var i;
 
@@ -204,7 +184,7 @@ function main() {
 
     function updateAll($p, data, state) {
         updateCharts($p, data, state);
-        updateLegend($p, data.providers, state);
+        updateLegend($p, data, state);
     }
 
     function updateCharts($p, data, state) {
@@ -280,9 +260,10 @@ function main() {
         return a.slice().sort()[a.length - 1];
     }
 
-    function updateLegend($p, providers, state) {
+    function updateLegend($p, data, state) {
         var $table = $('table.legend:first');
-        var provider, color, $header, $container, $row, name, values, value;
+        var providers = data.providers;
+        var provider, color, $header, $container, name;
 
         if(!$table.length) {
             $container = $('.legendContainer');
@@ -301,19 +282,39 @@ function main() {
             provider = providers[name];
             color = provider._color;
 
-            $('<th>', {'class': idfy(name)}).css({
-                'background-color': colorToHex(color),
-                'color': colorToHex(flipColor(color))
-            }).text(name).appendTo($header);
+            calculateTh($p, data, state, name, color).appendTo($header);
         }
 
-        $table.append(calculateRow(state, providers, 'latency', 'ms', function(state, values) {
+        calculateRow(state, providers, 'latency', 'ms', function(state, values) {
             return average(values.slice(-state.amount)).toFixed(1);
-        }));
+        }).appendTo($table);
 
-        $table.append(calculateRow(state, providers, 'uptime', '%', function(state, values) {
+        calculateRow(state, providers, 'uptime', '%', function(state, values) {
             return average(values.slice(-state.amount)).toFixed(3);
-        }));
+        }).appendTo($table);
+    }
+
+    function calculateTh($p, data, state, name, color) {
+        var $e = $('<th>', {'class': 'cdn ' + idfy(name)}).css({
+            'background-color': colorToHex(color),
+            'color': colorToHex(flipColor(color))
+        }).text(name).on('click', function(e, init) {
+            /* TODO: move this handler to an eye icon */
+            $e.toggleClass('selected');
+
+            toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
+
+            if(!init) {
+                 updateCharts($p, data, state);
+                /* TODO: update urls */
+            }
+        })
+
+        return $e;
+    }
+
+    function idfy(val) {
+        return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
     }
 
     function calculateRow(state, providers, type, unit, calculateValue) {
