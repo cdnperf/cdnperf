@@ -282,7 +282,7 @@ function main() {
 
     function updateLegend($p, providers, state) {
         var $table = $('table.legend:first');
-        var provider, color, $header, $container;
+        var provider, color, $header, $container, $row, name, values, value;
 
         if(!$table.length) {
             $container = $('.legendContainer');
@@ -292,49 +292,54 @@ function main() {
 
         $table.empty();
 
+        /* header */
         $header = $('<tr>').appendTo($table);
 
-        $('<th>', {'class': 'colorLegend'}).appendTo($header);
-        $('<th>', {'class': 'cdn'}).text('CDN').appendTo($header);
-        $('<th>', {'class': 'latency'}).text('latency').appendTo($header);
-        $('<th>', {'class': 'uptime'}).text('uptime').appendTo($header);
+        $('<th>', {'class': 'names'}).html('&nbsp;').appendTo($header);
 
-        for(var name in providers) {
+        for(name in providers) {
             provider = providers[name];
             color = provider._color;
 
-            if(within(state.providers, idfy(name))) {
-                var $row = $('<tr>').appendTo($table);
-
-                $('<td>', {'class': 'color'}).css('background-color',
-                    color).appendTo($row);
-                $('<td>', {'class': 'name'}).text(name).appendTo($row);
-
-                ['latency', 'uptime'].forEach(function(category) {
-                    var values, value;
-
-                    if(state.type in provider) {
-                        values = provider[state.type][category];
-                        
-                        if(category == 'latency') {
-                            if(values) value = average(values.slice(-state.amount)).toFixed(1);
-
-                            value += ' ms';
-                        }
-                        if(category == 'uptime') {
-                            if(values) value = average(values.slice(-state.amount)).toFixed(3);
-
-                            value += ' %';
-                        }
-                    }
-                    else {
-                        value = 'NA';
-                    }
-
-                    $('<td>', {'class': 'value'}).text(value).appendTo($row);
-                });
-            }
+            $('<th>', {'class': idfy(name)}).css({
+                'background-color': colorToHex(color),
+                'color': colorToHex(flipColor(color))
+            }).text(name).appendTo($header);
         }
+
+        $table.append(calculateRow(state, providers, 'latency', 'ms', function(state, values) {
+            return average(values.slice(-state.amount)).toFixed(1);
+        }));
+
+        $table.append(calculateRow(state, providers, 'uptime', '%', function(state, values) {
+            return average(values.slice(-state.amount)).toFixed(3);
+        }));
+    }
+
+    function calculateRow(state, providers, type, unit, calculateValue) {
+        var $row = $('<tr>');
+        var name, provider, values, value;
+
+        $('<td>', {'class': type}).text(type).appendTo($row);
+
+        for(name in providers) {
+            provider = providers[name];
+
+            if(state.type in provider) {
+                values = provider[state.type][type];
+
+                if(values) value = calculateValue(state, values);
+
+                value += ' ' + unit;
+            }
+            else {
+                value = 'NA';
+            }
+
+            $('<td>', {class: 'value'}).text(value).appendTo($row);
+        }
+
+        return $row;
     }
 
     function average(arr) {
@@ -437,15 +442,31 @@ function main() {
         return fullname.split(' ')[0];
     }
 
+    function flipColor(color) {
+        /* flips color to black or white based on brightness */
+        /* http://javascriptrules.com/2009/08/05/css-color-brightness-contrast-using-javascript/ */
+        var brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
+
+        if(brightness > 125) return [0, 0, 0];
+
+        return [255, 255, 255];
+    }
+
+    function colorToHex(color) {
+        return '#' + color.map(function(v) {
+            return v.toString(16);
+        }).join('');
+    }
+
     function getColor(index) {
         return [
-            '#d84f44',
-            '#aee3d6',
-            '#f3d5a2',
-            '#5d96d7',
-            '#444',
-            '#e388eb',
-            '#aadd5e'
+            [216, 79, 68],
+            [174, 227, 214],
+            [243, 213, 162],
+            [93, 150, 215],
+            [68, 68, 68],
+            [227, 136, 235],
+            [170, 221, 94]
         ][index];
     }
 
