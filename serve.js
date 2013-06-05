@@ -27,6 +27,7 @@ function main() {
         app.use(express.bodyParser());
         app.use(express.methodOverride());
         app.use(express.compress());
+        app.use(express.staticCache());
         app.use(express['static'](path.join(__dirname, 'public'), {
             maxAge: oneDay
         }));
