@@ -77,6 +77,8 @@ footer .issueTracker {
     float: right;
     font-size: large;
     opacity: 0.4;
+    cursor: hand;
+    cursor: pointer;
 }
 
 .visibility.selected {
