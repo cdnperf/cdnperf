@@ -113,19 +113,6 @@ function main() {
         return data;
     }
 
-    function toggleItem(arr, k, v) {
-        var i;
-
-        if(v) {
-            if(!within(arr, k)) arr.push(k);
-        }
-        else {
-            i = arr.indexOf(k);
-
-            if(i >= 0) arr.splice(i, 1);
-        }
-    }
-
     function createControls($p, state, update) {
         createTypes($p, state, update);
         createAmounts($p, state, update);
@@ -310,7 +297,7 @@ function main() {
         var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
             $icon.toggleClass('selected');
 
-            toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
+            toggleItem(state.providers, idfy(name), $icon.hasClass('selected'));
 
             update();
         }).appendTo($e);
@@ -318,6 +305,19 @@ function main() {
         if(within(state.providers, thClass)) $icon.addClass('selected');
 
         return $e;
+    }
+
+    function toggleItem(arr, k, v) {
+        var i;
+
+        if(v) {
+            if(!within(arr, k)) arr.push(k);
+        }
+        else {
+            i = arr.indexOf(k);
+
+            if(i >= 0) arr.splice(i, 1);
+        }
     }
 
     function idfy(val) {
