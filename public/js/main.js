@@ -131,23 +131,35 @@ function main() {
     }
 
     function createTypes($p, state, update) {
-        $controls($p, state, update, 'types', 'type', ['ping', 'http', 'https']);
+        $controls($p, state, update, 'type', ['ping', 'http', 'https']);
     }
 
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, state, update, 'amounts', 'amount', [7, 14, 30, 90]);
+        $controls($p, state, update, 'amount', [7, 14, 30, 90]);
     }
 
-    function $controls($p, state, update, containerClass, itemClass, items) {
+    function $controls($p, state, update, type, items) {
         var $e = $('<div>',
-            {'class': 'controlsContainer ' + containerClass}).appendTo($p);
-        items.forEach($control.bind(undefined, $e, state, itemClass, update));
+            {'class': 'controlsContainer ' + (type + 's')}).appendTo($p);
+        items.forEach($control.bind(undefined, $e, state, type, update));
+
+        // select last control in case one is not selected yet
+        if(!state[type]) {
+            var lastItem = last(items);
+
+            $('.' + lastItem, $e).addClass('selected');
+            state[type] = lastItem;
+        }
+    }
+
+    function last(arr) {
+        return arr[arr.length - 1];
     }
 
     function $control($p, state, type, update, name) {
         var $e = $('<a>', {'class': 'control ' + type + ' ' + name, href: '#'}).
-                text(name).on('click', function(e, init) {
+                text(name).on('click', function(e) {
             e.preventDefault();
 
             $e.siblings().removeClass('selected').removeClass('label');
@@ -155,7 +167,7 @@ function main() {
 
             state[type] = name;
 
-            if(!init) update();
+            update();
         }).appendTo($p);
 
         if(state[type] == name) $e.addClass('selected');
@@ -279,8 +291,6 @@ function main() {
             'background-color': colorToHex(color),
             'color': colorToHex(flipColor(color))
         }).text(name);
-
-        console.log(state);
 
         var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
             console.log('should set visible now or now');
