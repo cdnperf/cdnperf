@@ -293,8 +293,6 @@ function main() {
         }).text(name);
 
         var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
-            console.log('should set visible now or now');
-
             $icon.toggleClass('selected');
 
             toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
