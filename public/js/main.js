@@ -76,24 +76,16 @@ function main() {
         };
     }
 
+    // TODO: eliminate this
     function initializeControls(state) {
         var $e, k, v;
 
         for(k in state) {
             v = state[k];
 
-            if(Array.isArray(v)) {
-                v.forEach(function(a) {
-                    $e = $('.cdn.' + a);
-
-                    if($e.length) $e.trigger('click', [true]);
-                })
-            }
-            else {
-                $e = v && $('.control.' + k + '.' + v) || '';
-                if($e.length) $e.trigger('click', [true]);
-                else $('.control.' + k + ':last').trigger('click', [true]);
-            }
+            $e = v && $('.control.' + k + '.' + v) || '';
+            if($e.length) $e.trigger('click', [true]);
+            else $('.control.' + k + ':last').trigger('click', [true]);
         }
     }
 
@@ -295,10 +287,13 @@ function main() {
     }
 
     function calculateTh($p, data, state, name, color) {
-        var $e = $('<th>', {'class': 'cdn ' + idfy(name)}).css({
+        var thClass = idfy(name);
+        var $e = $('<th>', {'class': 'cdn ' + thClass}).css({
             'background-color': colorToHex(color),
             'color': colorToHex(flipColor(color))
         }).text(name);
+
+        console.log(state);
 
         var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
             console.log('should set visible now or now');
@@ -309,6 +304,8 @@ function main() {
 
             updateCharts($p, data, state);
         }).appendTo($e);
+
+        if(within(state.providers, thClass)) $icon.addClass('selected');
 
         return $e;
     }

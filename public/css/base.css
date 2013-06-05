@@ -76,10 +76,11 @@ footer .issueTracker {
 .visibility {
     float: right;
     font-size: large;
+    opacity: 0.4;
 }
 
 .visibility.selected {
-    opacity: 0.4;
+    opacity: 1.0;
 }
 
 header.panel, footer.panel {
