@@ -14,7 +14,7 @@ main();
 function main() {
     var app = express();
 
-    var oneDay = 86400000;
+    var oneWeek = 604800000;
 
     app.configure(function() {
         app.set('port', config.port);
@@ -29,7 +29,7 @@ function main() {
         app.use(express.compress());
         app.use(express.staticCache());
         app.use(express['static'](path.join(__dirname, 'public'), {
-            maxAge: oneDay
+            maxAge: oneWeek
         }));
 
         app.use(app.router);
