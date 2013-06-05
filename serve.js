@@ -14,6 +14,8 @@ main();
 function main() {
     var app = express();
 
+    var oneDay = 86400000;
+
     app.configure(function() {
         app.set('port', config.port);
 
@@ -24,7 +26,9 @@ function main() {
         app.use(express.logger('dev'));
         app.use(express.bodyParser());
         app.use(express.methodOverride());
-        app.use(express['static'](path.join(__dirname, 'public')));
+        app.use(express['static'](path.join(__dirname, 'public'), {
+            maxAge: oneDay
+        }));
 
         app.use(app.router);
     });
