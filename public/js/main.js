@@ -298,17 +298,17 @@ function main() {
         var $e = $('<th>', {'class': 'cdn ' + idfy(name)}).css({
             'background-color': colorToHex(color),
             'color': colorToHex(flipColor(color))
-        }).text(name).on('click', function(e, init) {
-            /* TODO: move this handler to an eye icon */
-            $e.toggleClass('selected');
+        }).text(name);
+
+        var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
+            console.log('should set visible now or now');
+
+            $icon.toggleClass('selected');
 
             toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
 
-            if(!init) {
-                 updateCharts($p, data, state);
-                /* TODO: update urls */
-            }
-        })
+            updateCharts($p, data, state);
+        }).appendTo($e);
 
         return $e;
     }
