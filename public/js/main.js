@@ -119,30 +119,23 @@ function main() {
     }
 
     function createTypes($p, state, update) {
-        $controls($p, state, update, 'type', ['ping', 'http', 'https']);
+        $controls($p, state, update, 'type', ['ping', 'http', 'https'], 'ping');
     }
 
     function createAmounts($p, state, update) {
         // TODO: replace with a slider?
-        $controls($p, state, update, 'amount', [7, 14, 30, 90]);
+        $controls($p, state, update, 'amount', [7, 14, 30, 90], 30);
     }
 
-    function $controls($p, state, update, type, items) {
+    function $controls($p, state, update, type, items, selected) {
         var $e = $('<div>',
             {'class': 'controlsContainer ' + (type + 's')}).appendTo($p);
         items.forEach($control.bind(undefined, $e, state, type, update));
 
-        // select last control in case one is not selected yet
         if(!state[type]) {
-            var lastItem = last(items);
-
-            $('.' + lastItem, $e).addClass('selected');
-            state[type] = lastItem;
+            $('.' + selected, $e).addClass('selected');
+            state[type] = selected;
         }
-    }
-
-    function last(arr) {
-        return arr[arr.length - 1];
     }
 
     function $control($p, state, type, update, name) {
