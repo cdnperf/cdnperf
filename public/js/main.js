@@ -14,6 +14,7 @@ function main() {
         updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
 
         createControls($('.allControlsContainer'), state, updateWithRoute);
+        createLegend($('.legendContainer'), data, state, updateWithRoute);
 
         update();
     });
@@ -203,6 +204,35 @@ function main() {
         chart(ctx, getData(data, state, category))
     }
 
+    function updateLegend($p, data, state) {
+        updateType(data, state, 'latency', function(state, values) {
+            return average(values.slice(-state.amount)).toFixed(1) + ' ms';
+        });
+
+        updateType(data, state, 'uptime', function(state, values) {
+            return average(values.slice(-state.amount)).toFixed(3) + ' %';
+        });
+    }
+
+    function updateType(data, state, type, calculateValue) {
+        var providers = data.providers;
+        var tdClass, value, name;
+
+        for(name in providers) {
+            value = 'NA';
+            provider = providers[name];
+            tdClass = idfy(name);
+
+            if(state.type in provider) {
+                values = provider[state.type][type];
+
+                value = values && calculateValue(state, values);
+            }
+
+            $('.' + type + '.' + tdClass).text(value);
+        }
+    }
+
     function chart(ctx, data) {
         // https://github.com/nnnick/Chart.js/issues/76
         var min = minimum(data.datasets.map(op(minimum, prop('data'))));
@@ -251,21 +281,11 @@ function main() {
         return a.slice().sort()[a.length - 1];
     }
 
-    function updateLegend($p, data, state) {
-        var $table = $('table.legend:first');
+    function createLegend($container, data, state, update) {
+        var $table = $('<table>', {'class': 'legend'}).appendTo($container);
+        var $header = $('<tr>').appendTo($table);
         var providers = data.providers;
-        var provider, color, $header, $container, name;
-
-        if(!$table.length) {
-            $container = $('.legendContainer');
-
-            $table = $('<table>', {'class': 'legend'}).appendTo($container);
-        }
-
-        $table.empty();
-
-        /* header */
-        $header = $('<tr>').appendTo($table);
+        var provider, color, name;
 
         $('<th>', {'class': 'names'}).html('&nbsp;').appendTo($header);
 
@@ -273,19 +293,14 @@ function main() {
             provider = providers[name];
             color = provider._color;
 
-            calculateTh($p, data, state, name, color).appendTo($header);
+            createTh(state, name, color, update).appendTo($header);
         }
 
-        calculateRow(state, providers, 'latency', 'ms', function(state, values) {
-            return average(values.slice(-state.amount)).toFixed(1);
-        }).appendTo($table);
-
-        calculateRow(state, providers, 'uptime', '%', function(state, values) {
-            return average(values.slice(-state.amount)).toFixed(3);
-        }).appendTo($table);
+        createRow(state, providers, 'latency', 'ms').appendTo($table);
+        createRow(state, providers, 'uptime', '%').appendTo($table);
     }
 
-    function calculateTh($p, data, state, name, color) {
+    function createTh(state, name, color, update) {
         var thClass = idfy(name);
         var $e = $('<th>', {'class': 'cdn ' + thClass}).css({
             'background-color': colorToHex(color),
@@ -297,7 +312,7 @@ function main() {
 
             toggleItem(state.providers, idfy(name), $e.hasClass('selected'));
 
-            updateCharts($p, data, state);
+            update();
         }).appendTo($e);
 
         if(within(state.providers, thClass)) $icon.addClass('selected');
@@ -309,27 +324,17 @@ function main() {
         return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
     }
 
-    function calculateRow(state, providers, type, unit, calculateValue) {
+    function createRow(state, providers, type, unit) {
         var $row = $('<tr>');
-        var name, provider, values, value;
+        var name, provider, values, value, tdClass;
 
         $('<td>', {'class': type}).text(type).appendTo($row);
 
         for(name in providers) {
             provider = providers[name];
+            tdClass = idfy(name);
 
-            if(state.type in provider) {
-                values = provider[state.type][type];
-
-                if(values) value = calculateValue(state, values);
-
-                value += ' ' + unit;
-            }
-            else {
-                value = 'NA';
-            }
-
-            $('<td>', {class: 'value'}).text(value).appendTo($row);
+            $('<td>', {class: type + ' ' + tdClass}).appendTo($row);
         }
 
         return $row;
