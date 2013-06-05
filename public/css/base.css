@@ -83,6 +83,13 @@ footer .issueTracker {
     opacity: 1.0;
 }
 
+.control.selected {
+    padding: 0.25em;
+    font-weight: bold;
+    background-color: #222;
+    color: #fff;
+}
+
 header.panel, footer.panel {
     background: rgb(231, 177, 79);
 }

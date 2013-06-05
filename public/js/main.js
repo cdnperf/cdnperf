@@ -15,8 +15,6 @@ function main() {
 
         createControls($('.allControlsContainer'), state, updateWithRoute);
 
-        initializeControls(state);
-
         update();
     });
 
@@ -74,19 +72,6 @@ function main() {
             amount: '',
             providers: Object.keys(data).map(idfy)
         };
-    }
-
-    // TODO: eliminate this
-    function initializeControls(state) {
-        var $e, k, v;
-
-        for(k in state) {
-            v = state[k];
-
-            $e = v && $('.control.' + k + '.' + v) || '';
-            if($e.length) $e.trigger('click', [true]);
-            else $('.control.' + k + ':last').trigger('click', [true]);
-        }
     }
 
     function groupData(data) {
@@ -172,6 +157,8 @@ function main() {
 
             if(!init) update();
         }).appendTo($p);
+
+        if(state[type] == name) $e.addClass('selected');
     }
 
     function updateAll($p, data, state) {
