@@ -145,3 +145,7 @@ header .tagLine {
     margin-top: 1em;
     margin-right: 1em;
 }
+
+footer .info {
+    list-style: none;
+}
