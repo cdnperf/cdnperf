@@ -18,7 +18,10 @@
         "cron": "1.0.1",
         "date-utils": "1.2.12",
         "parse-env": "0.1.2",
-        "annois": "0.2.0"
+        "annois": "0.2.0",
+        "james": "0.1.14",
+        "james-cssmin": "0.1.0",
+        "james-uglify": "0.1.0"
     },
 
     "repository": {
