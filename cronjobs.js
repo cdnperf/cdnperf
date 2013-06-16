@@ -13,7 +13,7 @@ var pingdom = require('pingdom-api')(config.pingdom);
 function init() {
     writeJSON();
 
-    new cronJob('*/ 0 0 0 * * *', writeJSON, null, true);
+    new cronJob(config.cron, writeJSON, null, true);
 }
 module.exports = init;
 
