@@ -4,6 +4,7 @@ require('date-utils');
 
 var config = require('./config');
 
+var is = require('annois');
 var async = require('async');
 var cronJob = require('cron').CronJob;
 var pingdom = require('pingdom-api')(config.pingdom);
@@ -104,7 +105,9 @@ function calculateUptimes(data, from, to) {
 
     // calculate relative uptime per day
     return ret.map(function(v) {
-        return parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
+        var res = parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
+
+        return is.defined(res)? res: 1;
     });
 }
 
