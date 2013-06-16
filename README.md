@@ -5,7 +5,8 @@ CDNperf monitors popular CDN sites and graphs this data.
 ## Development
 
 1. `npm install`
-2. `cp example.config.js config.js` and adjust as needed
+2. `cd config`
+3. `cp config.template.js config.js` and adjust as needed
 
 ## Hosting
 

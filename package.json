@@ -16,7 +16,8 @@
         "pingdom-api": "0.2.0",
         "async": "0.2.6",
         "cron": "1.0.1",
-        "date-utils": "1.2.12"
+        "date-utils": "1.2.12",
+        "parse-env": "0.1.2"
     },
 
     "repository": {

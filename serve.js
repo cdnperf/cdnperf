@@ -6,7 +6,7 @@ var express = require('express');
 
 var cronjobs = require('./cronjobs');
 var routes = require('./routes');
-var config = require('./conf');
+var config = require('./config');
 
 
 main();
