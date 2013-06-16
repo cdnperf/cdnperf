@@ -12,7 +12,7 @@
 
     "dependencies": {
         "express": "3.1.0",
-        "jade": "*",
+        "jade": "0.31.2",
         "pingdom-api": "0.2.0",
         "async": "0.2.6",
         "cron": "1.0.1",
