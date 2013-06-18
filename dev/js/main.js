@@ -84,7 +84,9 @@ function main() {
             if(!(name in providers)) providers[name] = {};
             if(!(v.type in providers[name])) providers[name][v.type] = {
                 latency: v.latency,
-                uptime: v.uptime
+                downtime: v.downtime.map(function(v) {
+                    return v / 60000;
+                })
             };
         });
 
@@ -92,7 +94,7 @@ function main() {
             providers: providers,
             firstDate: new XDate(data.firstDate * 1000),
             lastDate: new XDate(data.lastDate * 1000)
-        }
+        };
     }
 
     function toFixed(a) {
@@ -160,8 +162,8 @@ function main() {
     }
 
     function updateCharts($p, data, state) {
-        updateChart($('.uptimeContainer'), data, state, 'uptime', 100);
-        updateChart($('.latencyContainer'), data, state, 'latency', 300)
+        updateChart($('.downtimeContainer'), data, state, 'downtime', 100);
+        updateChart($('.latencyContainer'), data, state, 'latency', 300);
     }
 
     function updateChart($p, data, state, category, height) {
@@ -174,14 +176,14 @@ function main() {
             $canvas = $('<canvas>', {'class': 'chart'}).appendTo($p);
         }
 
-        // dynamic width (parent width might change) 
+        // dynamic width (parent width might change)
         width = $canvas.parent().width();
 
         $canvas.attr({width: width, height: height});
 
-        var ctx = $canvas[0].getContext('2d');
+        ctx = $canvas[0].getContext('2d');
 
-        chart(ctx, getData(data, state, category))
+        chart(ctx, getData(data, state, category));
     }
 
     function updateLegend($p, data, state) {
@@ -189,8 +191,8 @@ function main() {
             return average(values.slice(-state.amount)).toFixed(1) + ' ms';
         });
 
-        updateType(data, state, 'uptime', function(state, values) {
-            return average(values.slice(-state.amount)).toFixed(3) + ' %';
+        updateType(data, state, 'downtime', function(state, values) {
+            return average(values.slice(-state.amount)).toFixed(1) + ' mins';
         });
     }
 
@@ -205,7 +207,6 @@ function main() {
 
             if(state.type in provider) {
                 values = provider[state.type][type];
-
                 value = values && calculateValue(state, values);
             }
 
@@ -221,26 +222,26 @@ function main() {
 
         if(max == min) {
             opts = {
-    	        animation: true,
+                animation: true,
                 animationSteps: 10,
                 datasetFill: false,
                 scaleOverride : true,
                 scaleSteps : 3,
                 scaleStepWidth : 1,
                 scaleStartValue : max - 3
-            }
+            };
         }
         else {
             opts = {
                 animation: true,
                 animationSteps: 10,
                 datasetFill: false,
-    	        pointDot: true,
-    	        scaleShowGridLines: true,
+                pointDot: true,
+                scaleShowGridLines: true,
                 scaleGridLineColor: 'rgba(224,224,224,0.5)',
-    	        scaleGridLineWidth: 1,	
-    	        pointDotRadius: 3,
-    	        bezierCurve: false
+                scaleGridLineWidth: 1,
+                pointDotRadius: 3,
+                bezierCurve: false
             };
         }
 
@@ -277,7 +278,7 @@ function main() {
         }
 
         createRow(state, providers, 'latency', 'ms').appendTo($table);
-        createRow(state, providers, 'uptime', '%').appendTo($table);
+        createRow(state, providers, 'downtime', 'mins').appendTo($table);
     }
 
     function createTh(state, name, color, update) {
@@ -327,7 +328,7 @@ function main() {
             provider = providers[name];
             tdClass = idfy(name);
 
-            $('<td>', {class: type + ' ' + tdClass}).appendTo($row);
+            $('<td>', {'class': type + ' ' + tdClass}).appendTo($row);
         }
 
         return $row;
@@ -405,6 +406,8 @@ function main() {
     }
 
     function pickPoints(amount, data) {
+        // TODO: maybe there's a better way? now it skips the contribution of
+        // the neighboring days
         if(amount == 90) return everyNth(3, data);
 
         return data;

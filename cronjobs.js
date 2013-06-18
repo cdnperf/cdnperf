@@ -4,7 +4,6 @@ require('date-utils');
 
 var config = require('./config');
 
-var is = require('annois');
 var async = require('async');
 var cronJob = require('cron').CronJob;
 var pingdom = require('pingdom-api')(config.pingdom);
@@ -37,13 +36,13 @@ function constructChecks(checks) {
 
             async.series([
                 getSummaries.bind(undefined, check, from, to),
-                getUptimes.bind(undefined, check, from, to)
+                getDowntimes.bind(undefined, check, from, to)
             ], function(err, data) {
                 if(err) return console.error(err);
 
                 cb(err, {
                     summaries: data[0],
-                    uptimes: data[1]
+                    downtimes: data[1]
                 });
             });
         };
@@ -67,10 +66,10 @@ function getSummaries(check, from, to, cb) {
     });
 }
 
-function getUptimes(check, from, to, cb) {
+function getDowntimes(check, from, to, cb) {
     pingdom['summary.outage'](function(err, outages, res) {
         // skip res
-        cb(err, outages && outages.states? calculateUptimes(outages.states, from, to): []);
+        cb(err, outages && outages.states? calculateDowntimes(outages.states, from, to): []);
     }, {
         target: check.id,
         qs: {
@@ -80,12 +79,11 @@ function getUptimes(check, from, to, cb) {
     });
 }
 
-function calculateUptimes(data, from, to) {
+function calculateDowntimes(data, from, to) {
     var ret = zeroes(from.getDaysBetween(to));
-    var wholeDayInMs = 1000 * 60 * 60 * 24;
     var downFrom, downTo, fromDelta, toDelta, next;
 
-    // calculate downtimes per day
+    // calculate downtimes per day and sum them up as ms
     data.filter(equals('status', 'down')).forEach(function(v) {
         downFrom = new Date(v.timefrom * 1000);
         downTo = new Date(v.timeto * 1000);
@@ -103,12 +101,7 @@ function calculateUptimes(data, from, to) {
         }
     });
 
-    // calculate relative uptime per day
-    return ret.map(function(v) {
-        var res = parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
-
-        return is.defined(res)? res: 1;
-    });
+    return ret;
 }
 
 // TODO: move to some utility lib
@@ -148,7 +141,7 @@ function structure(data) {
                 host: check.hostname,
                 type: check.name.split(' ')[1].toLowerCase(),
                 latency: parseLatency(summaries.data.days),
-                uptime: d.uptimes
+                downtime: d.downtimes
             };
         }),
         firstDate: days[0].starttime,
