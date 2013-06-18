@@ -26,7 +26,7 @@ function main() {
             for(var i = 0; i < args.length; i++) {
                 args[i]();
             }
-        }
+        };
     }
 
     function initializeRouter(state, update) {
@@ -77,6 +77,7 @@ function main() {
 
     function groupData(data) {
         var providers = {};
+        var wholeDayInMs = 1000 * 60 * 60 * 24;
 
         data.providers.forEach(function(v) {
             var name = getProviderName(v.name);
@@ -84,8 +85,10 @@ function main() {
             if(!(name in providers)) providers[name] = {};
             if(!(v.type in providers[name])) providers[name][v.type] = {
                 latency: v.latency,
-                downtime: v.downtime.map(function(v) {
-                    return v / 60000;
+                uptime: v.downtime.map(function(v) {
+                    if(v) return parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
+
+                    return 100;
                 })
             };
         });
@@ -162,7 +165,7 @@ function main() {
     }
 
     function updateCharts($p, data, state) {
-        updateChart($('.downtimeContainer'), data, state, 'downtime', 100);
+        updateChart($('.uptimeContainer'), data, state, 'uptime', 100);
         updateChart($('.latencyContainer'), data, state, 'latency', 300);
     }
 
@@ -191,8 +194,8 @@ function main() {
             return average(values.slice(-state.amount)).toFixed(1) + ' ms';
         });
 
-        updateType(data, state, 'downtime', function(state, values) {
-            return average(values.slice(-state.amount)).toFixed(1) + ' mins';
+        updateType(data, state, 'uptime', function(state, values) {
+            return average(values.slice(-state.amount)).toFixed(3) + ' %';
         });
     }
 
@@ -278,7 +281,7 @@ function main() {
         }
 
         createRow(state, providers, 'latency', 'ms').appendTo($table);
-        createRow(state, providers, 'downtime', 'mins').appendTo($table);
+        createRow(state, providers, 'uptime', '%').appendTo($table);
     }
 
     function createTh(state, name, color, update) {
