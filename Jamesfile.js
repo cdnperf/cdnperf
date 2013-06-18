@@ -25,9 +25,10 @@ function watch() {
 function minifyCSS() {
     var cssTarget = james.dest(outputRoot + 'css/all.css');
 
-    james.read(inputRoot + 'css/vendor/normalize.css').write(cssTarget);
-    james.read(inputRoot + 'css/vendor/foundation.css').write(cssTarget);
-    james.read(inputRoot + 'css/vendor/jquery.qtip.css').write(cssTarget);
+    ['normalize', 'foundation', 'jquery.qtip'].forEach(function(v) {
+        james.read(inputRoot + 'css/vendor/' + v  + '.css').write(cssTarget);
+    });
+
     james.list(inputRoot + 'css/*.css').forEach(process);
 
     // TODO: figure out why the output doesn't work
