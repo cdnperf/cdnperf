@@ -16,11 +16,18 @@ html
         block js
     body
         header.panel.row
-            h1.siteName CDNperf
+            a(href='/')
+                h1.siteName CDNperf
 
             p.tagLine CDN performance in numbers
 
             a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
+
+            ul.articles
+                li.article
+                    a(href='/how-cdns-work') How CDNs work?
+                li.article
+                    a(href='/how-to-use-cdns') How to use CDNs?
 
         .main.row
             article

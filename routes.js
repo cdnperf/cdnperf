@@ -1,9 +1,8 @@
-var config = require('./config');
-
-
-exports.index = function(req, res) {
-    res.render('index', {
-        bugira: config.bugira || 'TODO',
-        ga: config.ga || 'UA-XXXXX-X'
-    });
+module.exports = function(config, name) {
+    return function(req, res) {
+        res.render(name, {
+            bugira: config.bugira,
+            ga: config.ga
+        });
+    };
 };

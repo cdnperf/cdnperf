@@ -64,6 +64,10 @@ h1, h2, h3, td:first-child {
     text-transform: capitalize;
 }
 
+pre {
+    margin-bottom: 1em;
+}
+
 header.panel, footer.panel {
     padding: 0.5em;
 }
@@ -161,6 +165,16 @@ td {
     font-size: x-large;
     margin-top: 1em;
     margin-right: 1em;
+}
+
+.articles {
+    float: right;
+    list-style-type: none;
+}
+
+.articles .article {
+    margin-right: 1em;
+    display: inline;
 }
 
 footer .info {

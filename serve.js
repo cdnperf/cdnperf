@@ -39,7 +39,9 @@ function main() {
         app.use(express.errorHandler());
     });
 
-    app.get('/', routes.index);
+    app.get('/', routes(config, 'index'));
+    app.get('/how-cdns-work', routes(config, 'howCdnsWork'));
+    app.get('/how-to-use-cdns', routes(config, 'howToUseCdns'));
 
     if(config.cron) cronjobs();
 
