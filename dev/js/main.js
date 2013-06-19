@@ -178,11 +178,21 @@ function main() {
     }
 
     function updateCharts($p, data, state) {
-        updateChart($('.uptimeContainer'), data, state, 'uptime', 100);
-        updateChart($('.latencyContainer'), data, state, 'latency', 300);
+        updateChart($('.uptimeContainer'), data, state, 'uptime', 100, function(v) {
+            var val = ((100 - v.value) / 100 * 60 * 24).toFixed(2);
+
+            v.value += ' %, ' + val + ' min downtime';
+
+            return v;
+        });
+        updateChart($('.latencyContainer'), data, state, 'latency', 300, function(v) {
+            v.value += ' ms';
+
+            return v;
+        });
     }
 
-    function updateChart($p, data, state, category, height) {
+    function updateChart($p, data, state, category, height, tooltipCb) {
         var $canvas = $('.chart:first', $p);
         var ctx, width, $help;
 
@@ -199,7 +209,7 @@ function main() {
 
         ctx = $canvas[0].getContext('2d');
 
-        chart(ctx, getData(data, state, category));
+        chart(ctx, getData(data, state, category), tooltipCb);
     }
 
     function updateLegend($p, data, state) {
@@ -231,7 +241,7 @@ function main() {
         }
     }
 
-    function chart(ctx, data) {
+    function chart(ctx, data, tooltipCb) {
         // https://github.com/nnnick/Chart.js/issues/76
         var min = minimum(data.datasets.map(op(minimum, prop('data'))));
         var max = maximum(data.datasets.map(op(maximum, prop('data'))));
@@ -262,7 +272,7 @@ function main() {
             };
         }
 
-        new Chart(ctx).Line(data, opts);
+        new Chart(ctx, {}, tooltipCb).Line(data, opts);
     }
 
     function op(fn, accessor) {

@@ -8,7 +8,7 @@
  */
 
 //Define the global Chart Variable as a class.
-window.Chart = function(context, options){
+window.Chart = function(context, options, tooltipCb) {
     var chart = this;
 
     //Easing functions adapted from Robert Penner's easing equations
@@ -195,14 +195,17 @@ window.Chart = function(context, options){
             ctx,
             areaObj,
             data,
-            type
+            type,
+            tooltipCb
         ));
     }
 
-    var Tooltip = function(ctx, areaObj, data, type) {
+    var Tooltip = function(ctx, areaObj, data, type, tooltipCb) {
+        tooltipCb = tooltipCb || function(a) {return a;};
+
         this.ctx = ctx;
         this.areaObj = areaObj;
-        this.data = data;
+        this.data = tooltipCb(data);
         this.savedState = null;
         this.highlightState = null;
         this.x = null;
@@ -1122,8 +1125,8 @@ window.Chart = function(context, options){
                     ctx.stroke();
                 }
                 cumulativeAngle += segmentAngle;
-            }			
-        }		
+            }
+        }
     }
 
     var Doughnut = function(data,config,ctx){
@@ -1183,11 +1186,8 @@ window.Chart = function(context, options){
                     ctx.stroke();
                 }
                 cumulativeAngle += segmentAngle;
-            }			
-        }			
-
-
-
+            }
+        }
     }
 
     var Line = function(data,config,ctx){
