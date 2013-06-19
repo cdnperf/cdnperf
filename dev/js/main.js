@@ -82,8 +82,10 @@ function main() {
         data.providers.forEach(function(v) {
             var name = getProviderName(v.name);
 
-            if(!(name in providers)) providers[name] = {};
-            if(!(v.type in providers[name])) providers[name][v.type] = {
+            if(!(name in providers)) providers[name] = {
+                types: {}
+            };
+            if(!(v.type in providers[name].types)) providers[name].types[v.type] = {
                 latency: v.latency,
                 uptime: v.downtime.map(function(v) {
                     if(v) return parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
@@ -110,7 +112,7 @@ function main() {
         var i = 0;
 
         for(var name in data.providers) {
-            data.providers[name]._color = getColor(i);
+            data.providers[name].color = getColor(i);
 
             i++;
         }
@@ -207,8 +209,9 @@ function main() {
             provider = providers[name];
             tdClass = idfy(name);
 
-            if(state.type in provider) {
-                values = provider[state.type][type];
+            if(state.type in provider.types) {
+                values = provider.types[state.type][type];
+
                 value = values && calculateValue(state, values);
             }
 
@@ -274,7 +277,7 @@ function main() {
 
         for(name in providers) {
             provider = providers[name];
-            color = provider._color;
+            color = provider.color;
 
             createTh(state, name, color, update).appendTo($header);
         }
@@ -384,13 +387,13 @@ function main() {
 
         for(var name in providers) {
             provider = providers[name];
-            color = colorToHex(provider._color);
+            color = colorToHex(provider.color);
 
             if(!within(state.providers, idfy(name))) continue;
-            if(!(state.type in provider)) continue;
-            if(!(category in provider[state.type])) continue;
+            if(!(state.type in provider.types)) continue;
+            if(!(category in provider.types[state.type])) continue;
 
-            data = provider[state.type][category];
+            data = provider.types[state.type][category];
 
             offset = state.amount - data.length;
             if(offset > 0) data = zeroes(offset).concat(data);
