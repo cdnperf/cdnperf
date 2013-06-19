@@ -83,7 +83,8 @@ function main() {
             var name = getProviderName(v.name);
 
             if(!(name in providers)) providers[name] = {
-                types: {}
+                types: {},
+                host: getHost(v.host)
             };
             if(!(v.type in providers[name].types)) providers[name].types[v.type] = {
                 latency: v.latency,
@@ -100,6 +101,17 @@ function main() {
             firstDate: new XDate(data.firstDate * 1000),
             lastDate: new XDate(data.lastDate * 1000)
         };
+    }
+
+    function getHost(name) {
+        var hosts = {
+            'ajax.aspnetcdn.com': 'www.asp.net/ajaxlibrary/cdn.ashx',
+            'ajax.googleapis.com': 'developers.google.com/speed/libraries/'
+        };
+
+        if(name in hosts) return hosts[name];
+
+        return name;
     }
 
     function toFixed(a) {
