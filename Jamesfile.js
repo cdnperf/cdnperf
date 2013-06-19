@@ -7,10 +7,16 @@ var inputRoot = 'dev/';
 var outputRoot = 'public/';
 
 james.task('default', ['watch']);
+james.task('devbuild', devbuild);
 james.task('build', build);
 james.task('watch', watch);
 james.task('minify_css', minifyCSS);
 james.task('minify_js', minifyJS);
+
+function devbuild() {
+    james.watch(inputRoot + '**/*.css', minifyCSS);
+    james.watch(inputRoot + '**/*.js', concatJS);
+}
 
 function build() {
     minifyCSS();
@@ -37,6 +43,15 @@ function minifyCSS() {
     function process(file) {
         james.read(file).write(cssTarget);
     }
+}
+
+// TODO: merge with minify somehow
+function concatJS() {
+    var jsTarget = james.dest(outputRoot + 'js/main.js');
+
+    james.list(inputRoot + 'js/**/*.js').forEach(function(file) {
+        james.read(file).write(jsTarget);
+    });
 }
 
 function minifyJS() {
