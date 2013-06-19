@@ -63,8 +63,11 @@ function main() {
         var providers = state.providers.toString();
         var type = state.type;
         var amount = state.amount;
+        var url = '/' + providers + '/' + type + '/' + amount;
 
-        router.navigate('/' + providers + '/' + type + '/' + amount, {replace: true});
+        router.navigate(url, {replace: true});
+
+        localStorage.setItem('index', '/#' + url);
     }
 
     function initializeState(data) {

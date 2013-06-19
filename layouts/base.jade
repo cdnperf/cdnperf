@@ -13,10 +13,16 @@ html
         script(src='js/vendor/jquery.js')
         script(src='http://platform.twitter.com/widgets.js')
 
+        script
+            $(function() {
+                var val = localStorage.getItem('index');
+                if(val) $('.indexUrl').attr('href', val);
+            });
+
         block js
     body
         header.panel.row
-            a(href='/')
+            a.indexUrl(href='/')
                 h1.siteName CDNperf
 
             p.tagLine CDN performance in numbers
