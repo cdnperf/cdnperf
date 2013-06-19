@@ -283,27 +283,30 @@ function main() {
         var $table = $('<table>', {'class': 'legend'}).appendTo($container);
         var $header = $('<tr>').appendTo($table);
         var providers = data.providers;
-        var provider, color, name;
+        var provider, color, name, host;
 
         $('<th>', {'class': 'names'}).html('&nbsp;').appendTo($header);
 
         for(name in providers) {
             provider = providers[name];
+            host = provider.host;
             color = provider.color;
 
-            createTh(state, name, color, update).appendTo($header);
+            createTh(state, name, host, color, update).appendTo($header);
         }
 
         createRow(state, providers, 'latency', 'ms').appendTo($table);
         createRow(state, providers, 'uptime', '%').appendTo($table);
     }
 
-    function createTh(state, name, color, update) {
+    function createTh(state, name, host, color, update) {
         var thClass = idfy(name);
         var $e = $('<th>', {'class': 'cdn ' + thClass}).css({
-            'background-color': colorToHex(color),
+            'background-color': colorToHex(color)
+        });
+        $('<a>', {href: 'http://' + host}).css({
             'color': colorToHex(flipColor(color))
-        }).text(name);
+        }).text(name).appendTo($e);
 
         var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
             $icon.toggleClass('selected');
