@@ -128,7 +128,6 @@ function main() {
     }
 
     function createAmounts($p, state, update) {
-        // TODO: replace with a slider?
         $controls($p, state, update, 'amount', [7, 14, 30, 90], 30);
     }
 
