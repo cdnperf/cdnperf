@@ -317,11 +317,14 @@ function main() {
         var $e = $('<th>', {'class': 'cdn ' + thClass}).css({
             'background-color': colorToHex(color)
         });
+        var inverseColor = colorToHex(flipColor(color));
         $('<a>', {href: 'http://' + host}).css({
-            'color': colorToHex(flipColor(color))
+            'color': inverseColor
         }).text(name).appendTo($e);
 
-        var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).on('click', function() {
+        var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).css({
+            'color': inverseColor
+        }).on('click', function() {
             $icon.toggleClass('selected');
 
             toggleItem(state.providers, idfy(name), $icon.hasClass('selected'));
