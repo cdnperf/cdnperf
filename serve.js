@@ -40,6 +40,7 @@ function main() {
     });
 
     app.get('/', routes(config, 'index'));
+    app.get('/about', routes(config, 'about'));
     app.get('/how-cdns-work', routes(config, 'howCdnsWork'));
     app.get('/how-to-use-cdns', routes(config, 'howToUseCdns'));
 
