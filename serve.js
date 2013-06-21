@@ -50,7 +50,7 @@ function main() {
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
     if(config.cron) cronjobs(api.cdns.updateData);
-    else api.cdns.updateData(require('./public/data'));
+    else api.cdns.updateData(null, require('./public/data'));
 
     process.on('exit', terminator);
 

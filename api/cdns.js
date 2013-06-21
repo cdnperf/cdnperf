@@ -6,7 +6,9 @@ module.exports = {
 
 var data = {};
 
-function updateData(d) {
+function updateData(err, d) {
+    if(err) return console.error(err);
+
     d.providers.map(function(provider) {
         var name = provider.name.split(' ')[0].toLowerCase();
 
