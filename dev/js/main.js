@@ -197,13 +197,9 @@ function main() {
 
     function updateChart($p, data, state, category, height, tooltipCb) {
         var $canvas = $('.chart:first', $p);
-        var ctx, width, $help;
+        var ctx, width;
 
-        if(!$canvas.length) {
-            $help = $('.help', $p);
-            $help.qtip({content: $help.text()}).text('?');
-            $canvas = $('<canvas>', {'class': 'chart'}).appendTo($p);
-        }
+        if(!$canvas.length) $canvas = $('<canvas>', {'class': 'chart'}).appendTo($p);
 
         // dynamic width (parent width might change)
         width = $canvas.parent().width();

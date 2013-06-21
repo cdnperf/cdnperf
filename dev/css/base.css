@@ -85,6 +85,10 @@ footer .issueTracker {
     color: 333;
 }
 
+abbr {
+  border-bottom: 1px dashed #999;
+}
+
 .visibility {
     float: right;
     font-size: large;
@@ -154,21 +158,6 @@ tr:nth-of-type(even) {
 
 td {
     padding: 0.5em;
-}
-
-.latencies .info {
-    overflow: auto;
-}
-
-.latencies .info h2 {
-    float: left;
-}
-
-.latencies .info .help {
-    float: right;
-    font-size: x-large;
-    margin-top: 1em;
-    margin-right: 1em;
 }
 
 .articles {

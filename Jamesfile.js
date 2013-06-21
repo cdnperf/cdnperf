@@ -31,7 +31,7 @@ function watch() {
 function minifyCSS() {
     var cssTarget = james.dest(outputRoot + 'css/all.css');
 
-    ['normalize', 'foundation', 'jquery.qtip'].forEach(function(v) {
+    ['normalize', 'foundation'].forEach(function(v) {
         james.read(inputRoot + 'css/vendor/' + v  + '.css').write(cssTarget);
     });
 
