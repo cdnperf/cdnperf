@@ -7,6 +7,7 @@ var express = require('express');
 var cronjobs = require('./cronjobs');
 var routes = require('./routes');
 var config = require('./config');
+var api = require('./api');
 
 
 main();
@@ -14,6 +15,7 @@ main();
 function main() {
     var app = express();
 
+    var apiPrefix = 'v1';
     var halfDay = 43200000;
 
     app.configure(function() {
@@ -43,8 +45,13 @@ function main() {
     app.get('/about', routes(config, 'about'));
     app.get('/how-cdns-work', routes(config, 'howCdnsWork'));
     app.get('/how-to-use-cdns', routes(config, 'howToUseCdns'));
+    app.get('/api', routes(config, 'api'));
 
-    if(config.cron) cronjobs();
+    app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
+    app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
+
+    if(config.cron) cronjobs(api.cdns.updateData);
+    else api.cdns.updateData(require('./public/data'));
 
     process.on('exit', terminator);
 

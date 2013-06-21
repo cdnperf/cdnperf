@@ -68,6 +68,10 @@ pre {
     margin-bottom: 1em;
 }
 
+article ul {
+    margin-left: 2em;
+}
+
 header.panel, footer.panel {
     padding: 0.5em;
 }

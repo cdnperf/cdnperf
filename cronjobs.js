@@ -9,21 +9,25 @@ var cronJob = require('cron').CronJob;
 var pingdom = require('pingdom-api')(config.pingdom);
 
 
-function init() {
-    writeJSON();
+function init(cb) {
+    writeJSON(cb);
 
-    new cronJob(config.cron, writeJSON, null, true);
+    new cronJob(config.cron, writeJSON.bind(undefined, cb), null, true);
 }
 module.exports = init;
 
-function writeJSON() {
+function writeJSON(cb) {
+    cb = cb || function() {};
+
     pingdom.checks(function(err, checks) {
-        if(err) return console.error(err);
+        if(err) return cb(err);
 
         async.parallel(constructChecks(checks), function(err, data) {
-            if(err) return console.error(err);
+            if(err) return cb(err);
 
             write(JSON.stringify(structure(data)), './public/data.json');
+
+            cb(null, data);
         });
     });
 }
