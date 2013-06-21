@@ -23,11 +23,14 @@ function writeJSON(cb) {
         if(err) return cb(err);
 
         async.parallel(constructChecks(checks), function(err, data) {
+            var d;
             if(err) return cb(err);
 
-            write(JSON.stringify(structure(data)), './public/data.json');
+            d = structure(data);
 
-            cb(null, data);
+            write(JSON.stringify(d), './public/data.json');
+
+            cb(null, d);
         });
     });
 }
