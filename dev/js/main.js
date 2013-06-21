@@ -182,9 +182,7 @@ function main() {
 
     function updateCharts($p, data, state) {
         updateChart($('.uptimeContainer'), data, state, 'uptime', 100, function(v) {
-            var val = ((100 - v.value) / 100 * 60 * 24).toFixed(2);
-
-            v.value += ' %, ' + val + ' min downtime';
+            v.value += ' %, ' + calculateDowntime(v.value) + ' min downtime';
 
             return v;
         });
@@ -217,8 +215,14 @@ function main() {
         });
 
         updateType(data, state, 'uptime', function(state, values) {
-            return average(values.slice(-state.amount)).toFixed(3) + ' %';
+            var val = average(values.slice(-state.amount));
+
+            return $('<abbr>').attr('title', calculateDowntime(val) + ' min downtime').text(val.toFixed(3) + ' %');
         });
+    }
+
+    function calculateDowntime(val) {
+        return ((100 - val) / 100 * 60 * 24).toFixed(2);
     }
 
     function updateType(data, state, type, calculateValue) {
@@ -236,7 +240,7 @@ function main() {
                 value = values && calculateValue(state, values);
             }
 
-            $('.' + type + '.' + tdClass).text(value);
+            $('.' + type + '.' + tdClass).html(value);
         }
     }
 
