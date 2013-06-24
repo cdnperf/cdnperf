@@ -182,7 +182,7 @@ function main() {
 
     function updateCharts($p, data, state) {
         updateChart($('.uptimeContainer'), data, state, 'uptime', 100, function(v) {
-            v.value += ' %, ' + calculateDowntime(v.value) + ' min downtime';
+            v.value += ' %, ' + calculateDowntime(v.value, 1) + ' downtime';
 
             return v;
         });
@@ -217,13 +217,13 @@ function main() {
         updateType(data, state, 'uptime', function(state, values) {
             var val = average(values.slice(-state.amount));
 
-            return $('<abbr>').attr('title', calculateDowntime(val) + ' downtime').text(val.toFixed(3) + ' %');
+            return $('<abbr>').attr('title', calculateDowntime(val, state.amount) + ' downtime').text(val.toFixed(3) + ' %');
         });
     }
 
-    function calculateDowntime(val) {
+    function calculateDowntime(val, amount) {
         var epochStart = new Date(0);
-        var downTime = new Date((100 - val) / 100 * 60 * 60 * 24 * 1000);
+        var downTime = new Date((100 - val) / 100 * 60 * 60 * 24 * 1000 * amount);
         var hours = downTime.getHours() - epochStart.getHours();
         var minutes = downTime.getMinutes();
         var seconds = downTime.getSeconds();
