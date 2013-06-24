@@ -217,12 +217,26 @@ function main() {
         updateType(data, state, 'uptime', function(state, values) {
             var val = average(values.slice(-state.amount));
 
-            return $('<abbr>').attr('title', calculateDowntime(val) + ' min downtime').text(val.toFixed(3) + ' %');
+            return $('<abbr>').attr('title', calculateDowntime(val) + ' downtime').text(val.toFixed(3) + ' %');
         });
     }
 
     function calculateDowntime(val) {
-        return ((100 - val) / 100 * 60 * 24).toFixed(2);
+        var epochStart = new Date(0);
+        var downTime = new Date((100 - val) / 100 * 60 * 60 * 24 * 1000);
+        var hours = downTime.getHours() - epochStart.getHours();
+        var minutes = downTime.getMinutes();
+        var seconds = downTime.getSeconds();
+        var milliseconds = downTime.getMilliseconds();
+        var ret = '';
+
+        if(hours) ret += hours + 'h ';
+        if(minutes) ret += minutes + 'min ';
+
+        if(!hours && !minutes) ret += seconds + '.' + milliseconds + 's';
+        else ret += seconds + 's';
+
+        return ret;
     }
 
     function updateType(data, state, type, calculateValue) {
