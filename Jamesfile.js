@@ -7,16 +7,10 @@ var inputRoot = 'dev/';
 var outputRoot = 'public/';
 
 james.task('default', ['watch']);
-james.task('devbuild', devbuild);
 james.task('build', build);
 james.task('watch', watch);
 james.task('minify_css', minifyCSS);
 james.task('minify_js', minifyJS);
-
-function devbuild() {
-    james.watch(inputRoot + '**/*.css', minifyCSS);
-    james.watch(inputRoot + '**/*.js', concatJS);
-}
 
 function build() {
     minifyCSS();
@@ -25,7 +19,7 @@ function build() {
 
 function watch() {
     james.watch(inputRoot + '**/*.css', minifyCSS);
-    james.watch(inputRoot + '**/*.js', minifyJS);
+    james.watch(inputRoot + '**/*.js', concatJS);
 }
 
 function minifyCSS() {
