@@ -58,7 +58,7 @@ p {
     font-family: Tahoma;
 }
 
-h1, h2, h3, td:first-child {
+h1, h2, h3, td:first-child, td abbr:first-child {
     font-family: 'Monda', cursive;
     font-weight: 400;
     text-transform: capitalize;

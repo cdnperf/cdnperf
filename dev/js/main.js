@@ -217,7 +217,7 @@ function main() {
         updateType(data, state, 'uptime', function(state, values) {
             var val = average(values.slice(-state.amount));
 
-            return $('<abbr>').attr('title', calculateDowntime(val, state.amount) + ' downtime').text(val.toFixed(3) + ' %');
+            return $('<abbr>').attr('title', calculateDowntime(val, 30) + ' downtime').text(val.toFixed(3) + ' %');
         });
     }
 
@@ -323,8 +323,8 @@ function main() {
             createTh(state, name, host, color, update).appendTo($header);
         }
 
-        createRow(state, providers, 'latency', 'ms').appendTo($table);
-        createRow(state, providers, 'uptime', '%').appendTo($table);
+        createRow(state, providers, 'latency', 'Latency in ms, the lower the better', 'ms').appendTo($table);
+        createRow(state, providers, 'uptime', 'Uptime in percentage. The higher the better. Note that downtimes are given on hover as an estimate per 30 days.', '%').appendTo($table);
     }
 
     function createTh(state, name, host, color, update) {
@@ -369,11 +369,12 @@ function main() {
         return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
     }
 
-    function createRow(state, providers, type, unit) {
+    function createRow(state, providers, type, tooltip, unit) {
         var $row = $('<tr>');
         var name, provider, values, value, tdClass;
 
-        $('<td>', {'class': type}).text(type).appendTo($row);
+        var $td = $('<td>', {'class': type}).appendTo($row);
+        $('<abbr>', {title: tooltip}).text(type).appendTo($td);
 
         for(name in providers) {
             provider = providers[name];
