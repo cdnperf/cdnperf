@@ -233,8 +233,9 @@ function main() {
         if(hours) ret += hours + 'h ';
         if(minutes) ret += minutes + 'min ';
 
-        if(!hours && !minutes) ret += seconds + '.' + milliseconds + 's';
-        else ret += seconds + 's';
+        ret += seconds + 's';
+
+        if(!hours && !minutes) ret += ' ' + milliseconds + 'ms';
 
         return ret;
     }
