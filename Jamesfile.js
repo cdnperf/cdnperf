@@ -19,7 +19,7 @@ function build() {
 
 function watch() {
     james.watch(inputRoot + '**/*.css', minifyCSS);
-    james.watch(inputRoot + '**/*.js', concatJS);
+    james.watch(inputRoot + '**/*.js', copyJS);
 }
 
 function minifyCSS() {
@@ -39,19 +39,14 @@ function minifyCSS() {
     }
 }
 
-// TODO: merge with minify somehow
-function concatJS() {
-    var jsTarget = james.dest(outputRoot + 'js/main.js');
-
+function copyJS() {
     james.list(inputRoot + 'js/**/*.js').forEach(function(file) {
-        james.read(file).write(jsTarget);
+        james.read(file).write(file.replace(inputRoot, outputRoot));
     });
 }
 
 function minifyJS() {
-    var jsTarget = james.dest(outputRoot + 'js/main.js');
-
     james.list(inputRoot + 'js/**/*.js').forEach(function(file) {
-        james.read(file).transform(uglify).write(jsTarget);
+        james.read(file).transform(uglify).write(file.replace(inputRoot, outputRoot));
     });
 }
