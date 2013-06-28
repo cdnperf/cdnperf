@@ -1,8 +1,5 @@
-module.exports = function(config, name) {
+module.exports = function(name) {
     return function(req, res) {
-        res.render(name, {
-            bugira: config.bugira,
-            ga: config.ga
-        });
+        res.sendfile(__dirname + '/public/' + name + '.html');
     };
 };

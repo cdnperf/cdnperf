@@ -1,6 +1,10 @@
 var james = require('james');
 var cssmin = require('james-cssmin');
 var uglify = require('james-uglify');
+var compile = require('james-compile');
+var jade = require('jade');
+
+var config = require('./config');
 
 
 var inputRoot = 'dev/';
@@ -11,15 +15,18 @@ james.task('build', build);
 james.task('watch', watch);
 james.task('minify_css', minifyCSS);
 james.task('minify_js', minifyJS);
+james.task('jadeify', compileJade);
 
 function build() {
     minifyCSS();
     minifyJS();
+    compileJade();
 }
 
 function watch() {
     james.watch(inputRoot + '**/*.css', minifyCSS);
     james.watch(inputRoot + '**/*.js', copyJS);
+    compileJade();
 }
 
 function minifyCSS() {
@@ -48,5 +55,19 @@ function copyJS() {
 function minifyJS() {
     james.list(inputRoot + 'js/**/*.js').forEach(function(file) {
         james.read(file).transform(uglify).write(file.replace(inputRoot, outputRoot));
+    });
+}
+
+function compileJade() {
+    james.list('views/**/*.jade').forEach(function(file) {
+        james.read(file).transform(compile({
+            compiler: jade,
+            filename: file,
+            context: {
+                bugira: config.bugira,
+                ga: config.ga
+            }
+        })).
+        write(file.replace('views', 'public').replace('jade', 'html'));
     });
 }

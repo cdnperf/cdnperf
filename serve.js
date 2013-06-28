@@ -21,9 +21,6 @@ function main() {
     app.configure(function() {
         app.set('port', config.port);
 
-        app.set('views', __dirname + '/views');
-        app.set('view engine', 'jade');
-
         app.use(express.favicon('public/images/favicon.ico'));
         app.use(express.logger('dev'));
         app.use(express.bodyParser());
@@ -40,11 +37,11 @@ function main() {
         app.use(express.errorHandler());
     });
 
-    app.get('/', routes(config, 'index'));
-    app.get('/about', routes(config, 'about'));
-    app.get('/how-cdns-work', routes(config, 'howCdnsWork'));
-    app.get('/how-to-use-cdns', routes(config, 'howToUseCdns'));
-    app.get('/api', routes(config, 'api'));
+    app.get('/', routes('index'));
+    app.get('/about', routes('about'));
+    app.get('/how-cdns-work', routes('howCdnsWork'));
+    app.get('/how-to-use-cdns', routes('howToUseCdns'));
+    app.get('/api', routes('api'));
 
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
