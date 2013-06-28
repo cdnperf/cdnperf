@@ -3,9 +3,18 @@ var cssmin = require('james-cssmin');
 var uglify = require('james-uglify');
 var compile = require('james-compile');
 var jade = require('jade');
+var marked = require('marked');
+var hl = require('highlight.js').highlightAuto;
 
 var config = require('./config');
 
+
+marked.setOptions({
+    highlight: function(code, lang) {
+        return hl(code).value;
+    }
+});
+jade.filters.markdown = marked;
 
 var inputRoot = 'dev/';
 var outputRoot = 'public/';

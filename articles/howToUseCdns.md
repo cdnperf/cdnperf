@@ -19,7 +19,7 @@ Generally it is not a good idea to point at a resource know as *latest*. This wi
 
 Using CDNs with RequireJS is quite simple. You simply use the path configuration as below. RequireJS deals with the details for you.
 
-```
+```json
 requirejs.config({
   paths: {
     jquery: ['https://ajax.googleapis.com/ajax/libs/jquery/1.9.2/jquery.min.js',

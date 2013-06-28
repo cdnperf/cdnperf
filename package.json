@@ -22,7 +22,8 @@
     "james-cssmin": "0.1.0",
     "james-uglify": "0.1.0",
     "james-compile": "0.2.2",
-    "require-dir": "0.1.0"
+    "require-dir": "0.1.0",
+    "highlight.js": "7.3.0"
   },
   "repository": {
     "type": "git",
