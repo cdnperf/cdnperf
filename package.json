@@ -1,45 +1,41 @@
 {
-    "name": "cdnperf",
-    "private": true,
-    "description": "CDN performance monitoring service",
-    "author": "Juho Vepsalainen <bebraw@gmail.com>",
-    "version": "0.2.3",
-
-    "engines": {
-        "node": ">= 0.6.0",
-        "npm": ">= 1.0.0"
-    },
-
-    "dependencies": {
-        "express": "3.1.0",
-        "jade": "0.31.2",
-        "pingdom-api": "0.2.0",
-        "async": "0.2.6",
-        "cron": "1.0.1",
-        "date-utils": "1.2.12",
-        "parse-env": "0.1.2",
-        "annois": "0.2.0",
-        "marked": "0.2.9",
-        "james": "0.1.14",
-        "james-cssmin": "0.1.0",
-        "james-uglify": "0.1.0",
-        "require-dir": "0.1.0"
-    },
-
-    "repository": {
-        "type": "git",
-        "url": "https://bebraw@github.com/bebraw/cdnperf.git"
-    },
-
-    "scripts": {
-        "start": "node serve.js"
-    },
-
-    "homepage": "https://github.com/bebraw/cdnperf",
-
-    "bugs": {
-        "url": "https://github.com/bebraw/cdnperf/issues"
-    },
-
-    "keywords": ["cdn", "monitoring"]
+  "name": "cdnperf",
+  "private": true,
+  "description": "CDN performance monitoring service",
+  "author": "Juho Vepsalainen <bebraw@gmail.com>",
+  "version": "0.2.3",
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "dependencies": {
+    "express": "3.3.1",
+    "jade": "0.32.0",
+    "pingdom-api": "0.2.0",
+    "async": "0.2.9",
+    "cron": "1.0.1",
+    "date-utils": "1.2.13",
+    "parse-env": "0.1.3",
+    "annois": "0.2.0",
+    "marked": "0.2.9",
+    "james": "0.1.15",
+    "james-cssmin": "0.1.0",
+    "james-uglify": "0.1.0",
+    "require-dir": "0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bebraw@github.com/bebraw/cdnperf.git"
+  },
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "homepage": "https://github.com/bebraw/cdnperf",
+  "bugs": {
+    "url": "https://github.com/bebraw/cdnperf/issues"
+  },
+  "keywords": [
+    "cdn",
+    "monitoring"
+  ]
 }
