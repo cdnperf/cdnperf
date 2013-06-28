@@ -3,4 +3,7 @@
 *.swp
 node_modules/
 config.js
-public/
+public/**/*.css
+public/**/*.js
+public/**/*.json
+public/**/*.html
