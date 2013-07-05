@@ -26,15 +26,16 @@ james.task('minify_css', minifyCSS);
 james.task('minify_js', minifyJS);
 james.task('jadeify', compileJade);
 
-function build() {
-    minifyCSS();
-    minifyJS();
+function watch() {
+    build();
+    james.watch(inputRoot + '**/*.css', minifyCSS);
+    james.watch(inputRoot + '**/*.js', copyJS);
     compileJade();
 }
 
-function watch() {
-    james.watch(inputRoot + '**/*.css', minifyCSS);
-    james.watch(inputRoot + '**/*.js', copyJS);
+function build() {
+    minifyCSS();
+    minifyJS();
     compileJade();
 }
 
