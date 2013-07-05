@@ -1,5 +1,4 @@
 var james = require('james');
-var cssmin = require('james-cssmin');
 var uglify = require('james-uglify');
 var compile = require('james-compile');
 var jade = require('jade');
@@ -42,14 +41,9 @@ function build() {
 function minifyCSS() {
     var cssTarget = james.dest(outputRoot + 'css/all.css');
 
-    ['normalize', 'foundation'].forEach(function(v) {
-        james.read(inputRoot + 'css/vendor/' + v  + '.css').write(cssTarget);
-    });
-
-    james.list(inputRoot + 'css/*.css').forEach(process);
-
-    // TODO: figure out why the output doesn't work
-    //james.read(cssTarget).transform(cssmin).write(cssTarget);
+    james.list(inputRoot + 'css/vendor/normalize.css',
+        inputRoot + 'css/vendor/foundation.css',
+        inputRoot + 'css/*.css').forEach(process);
 
     function process(file) {
         james.read(file).write(cssTarget);

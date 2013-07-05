@@ -19,7 +19,6 @@
     "annois": "0.2.0",
     "marked": "0.2.9",
     "james": "0.1.15",
-    "james-cssmin": "0.1.0",
     "james-uglify": "0.1.0",
     "james-compile": "0.2.2",
     "require-dir": "0.1.0",
