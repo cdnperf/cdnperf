@@ -29,6 +29,7 @@ function watch() {
     build();
     james.watch(inputRoot + '**/*.css', minifyCSS);
     james.watch(inputRoot + '**/*.js', copyJS);
+    james.watch('resources/**/*.md', compileJade);
     james.watch('views/**/*.jade', compileJade);
 }
 
