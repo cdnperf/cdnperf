@@ -8,6 +8,7 @@ var data = {};
 
 function updateData(err, d) {
     if(err) return console.error(err);
+    if(!d || !d.providers) return console.warn('updateData: missing data. Could not update API data.');
 
     d.providers.map(function(provider) {
         var name = provider.name.split(' ')[0].toLowerCase();
