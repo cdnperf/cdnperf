@@ -39,8 +39,9 @@ function main() {
 
     app.get('/', routes('index'));
     app.get('/about', routes('about'));
-    app.get('/how-cdns-work', routes('howCdnsWork'));
-    app.get('/how-to-use-cdns', routes('howToUseCdns'));
+    app.get('/resources', routes('resources'));
+    app.get('/resources/how-cdns-work', routes('howCdnsWork'));
+    app.get('/resources/how-to-use-cdns', routes('howToUseCdns'));
     app.get('/api', routes('api'));
 
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);

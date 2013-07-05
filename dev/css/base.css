@@ -160,13 +160,13 @@ td {
     padding: 0.5em;
 }
 
-.articles {
+.resources {
     float: right;
     list-style-type: none;
 }
 
-.articles .article {
-    margin-right: 1em;
+.resources .resource {
+    margin-right: 2em;
     display: inline;
 }
 
