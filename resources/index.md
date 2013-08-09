@@ -6,8 +6,11 @@ This section lists CDN related resources and articles of our own. In case you th
 
 * [How CDNs Work?](resources/how-cdns-work)
 * [How to Use CDNs?](resources/how-to-use-cdns)
+* [CDNperf - Understand How CDNs Perform](http://www.speedawarenessmonth.com/cdnperf-understand-how-cdns-perform/)
 
 ## Links
+
+* [Speed Awareness Month](http://www.speedawarenessmonth.com/)
 
 ### Website Performance Analyzers
 
