@@ -31,7 +31,7 @@
     content: "\f005";
 }
 
-.twitter-share-button {
+.twitter-share-button, .twitter-follow-button {
     float: right;
 }
 

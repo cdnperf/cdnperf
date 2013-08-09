@@ -18,6 +18,8 @@ html
 
             a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
 
+            a.twitter-follow-button(href='http://twitter.com/cdnperf', data-show-count='true') Follow @cdnperf
+
             ul.resources
                 li.resource
                     a(href='/api') API
@@ -62,6 +64,8 @@ html
 
             ga('create', '#{ga}', 'cdnperf.com');
             ga('send', 'pageview');
+
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
             var __bugira_config = {"theme":"navy","texts":{"button":"Feedback"},"api_key":"#{bugira}"};
             (function() {var w = document.createElement('script'); w.type = 'text/javascript'; w.async = true; w.src = 'https://bugiracdn.appspot.com/bugira-widget.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(w);})();
