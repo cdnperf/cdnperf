@@ -95,7 +95,8 @@ function main() {
                     if(v) return parseFloat(((1 - (v / wholeDayInMs)) * 100).toFixed(3));
 
                     return 100;
-                })
+                }),
+                downtime: v.downtime
             };
         });
 
@@ -182,7 +183,10 @@ function main() {
 
     function updateCharts($p, data, state) {
         updateChart($('.uptimeContainer'), data, state, 'uptime', 100, function(v) {
-            v.value += ' %, ' + calculateDowntime(v.value, 1) + ' downtime';
+            var day = 100 * 60 * 60 * 24 * 1000;
+            var val = (100 - v.value) / day;
+
+            v.value += ' %, ' + calculateDowntime(val) + ' downtime';
 
             return v;
         });
@@ -216,14 +220,19 @@ function main() {
 
         updateType(data, state, 'uptime', function(state, values) {
             var val = average(values.slice(-state.amount));
+            var month = 100 * 60 * 60 * 24 * 1000 * 30;
 
-            return $('<abbr>').attr('title', calculateDowntime(val, 30) + ' downtime').text(val.toFixed(3) + ' %');
+            return $('<abbr>').attr('title', calculateDowntime((100 - val) / month) + ' downtime').text(val.toFixed(3) + ' %');
+        });
+
+        updateType(data, state, 'downtime', function(state, values) {
+            return calculateDowntime(sum(values.slice(-state.amount)), true);
         });
     }
 
-    function calculateDowntime(val, amount) {
+    function calculateDowntime(val) {
         var epochStart = new Date(0);
-        var downTime = new Date((100 - val) / 100 * 60 * 60 * 24 * 1000 * amount);
+        var downTime = new Date(val);
         var hours = downTime.getHours() - epochStart.getHours();
         var minutes = downTime.getMinutes();
         var seconds = downTime.getSeconds();
@@ -323,8 +332,9 @@ function main() {
             createTh(state, name, host, color, update).appendTo($header);
         }
 
-        createRow(state, providers, 'latency', 'Latency in ms, the lower the better', 'ms').appendTo($table);
-        createRow(state, providers, 'uptime', 'Uptime in percentage. The higher the better. Note that downtimes are given on hover as an estimate per 30 days.', '%').appendTo($table);
+        createRow(state, providers, 'latency', 'Latency in ms as average per day, the lower the better').appendTo($table);
+        createRow(state, providers, 'uptime', 'Uptime in percentage as average per day. The higher the better. Note that downtimes are given on hover as an estimate per 30 days.').appendTo($table);
+        createRow(state, providers, 'downtime', 'Total downtime').appendTo($table);
     }
 
     function createTh(state, name, host, color, update) {
@@ -369,7 +379,7 @@ function main() {
         return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
     }
 
-    function createRow(state, providers, type, tooltip, unit) {
+    function createRow(state, providers, type, tooltip) {
         var $row = $('<tr>');
         var name, provider, values, value, tdClass;
 
