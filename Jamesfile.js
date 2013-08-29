@@ -68,10 +68,7 @@ function compileJade() {
         james.read(file).transform(compile({
             compiler: jade,
             filename: file,
-            context: {
-                bugira: config.bugira,
-                ga: config.ga
-            }
+            context: config
         })).
         write(file.replace('views', 'public').replace('jade', 'html'));
     });

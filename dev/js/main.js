@@ -165,6 +165,8 @@ function main() {
                 text(name).on('click', function(e) {
             e.preventDefault();
 
+            mixpanel.track('clicked ' + type + ':' + name);
+
             $e.siblings().removeClass('selected').removeClass('label');
             $e.addClass('selected label');
 
