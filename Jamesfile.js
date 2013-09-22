@@ -43,7 +43,6 @@ function minifyCSS() {
     var cssTarget = james.dest(outputRoot + 'css/all.css');
 
     james.list(inputRoot + 'css/vendor/normalize.css',
-        inputRoot + 'css/vendor/foundation.css',
         inputRoot + 'css/*.css').forEach(process);
 
     function process(file) {
