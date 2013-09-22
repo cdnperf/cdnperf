@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CDN Performance Visualization</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=1200">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+
+    </head>
+    <body ontouchstart="">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <section class="intro left">
+                <h1><b>CDNperf</b> finds you fast and reliable Javascript CDN's that make your websites snappy-happy!</h1>
+                <h3>Select a request type</h3>
+                <div class="switch three small ">
+                    <input id="ping" name="request" type="radio" checked><label for="ping" onclick="">Ping</label>
+                    <input id="http" name="request" type="radio"><label for="http" onclick="">http</label>
+                    <input id="https" name="request" type="radio"><label for="https" onclick="">https</label>
+                    <span class="slide-button"></span>
+                </div>
+                <div class="clearfix"></div>
+                <h3>CDNs (avg. latency)</h3>
+                <div class="listed">
+                    <a data-device="JsDeliver" class="red" href=""><input type="checkbox" checked>JsDeliver <span>6.2ms</span></a>
+                    <a data-device="CDNjs" class="orange" href=""><input type="checkbox" checked>CDNjs <span>7.2ms</span></a>
+                    <a data-device="Google" class="green" href=""><input type="checkbox" checked>Google <span>14.8ms</span></a>
+                    <a data-device="Yandex" class="aqua" href=""><input type="checkbox" checked>Yandex <span>6.2ms</span></a>
+                    <a data-device="Microsoft" class="blue" href=""><input type="checkbox" checked>Microsoft <span>13.2ms</span></a>
+                    <a data-device="JQuery" class="purple" href=""><input type="checkbox" checked>JQuery(MT) <span>6.2ms</span></a>
+                    <a data-device="BootstrapCDN" class="pink" href=""><input type="checkbox" checked>BootstrapCDN <span>9.2ms</span></a>
+                </div>
+                <h3>Select a duration</h3>
+                <div class="switch three small ">
+                    <input id="week" name="duration" type="radio" checked><label for="week" onclick="">Week</label>
+                    <input id="month" name="duration" type="radio"><label for="month" onclick="">Month</label>
+                    <input id="quarter" name="duration" type="radio"><label for="quarter" onclick="">Quarter</label>
+                    <span class="slide-button"></span>
+                </div>
+                <div class="clearfix"></div>   
+                <footer>
+                    <a href="">Github</a><a href="">About</a><a href="">Twitter</a>
+                </footer>
+        </section>
+        <section Class="main right">
+            <div class="switch big">
+                    <input id="graph" name="view" type="radio"><label class="graphicon" for="graph" onclick=""></label>
+                    <input id="map" name="view" type="radio" checked><label class="mapicon" for="map" onclick=""></label>
+                    <span class="slide-button"></span>
+            </div>
+            <img src="img/worldmap.svg"/>
+        </section>     
+        <script type="text/javascript">
+
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-39495281-1']);
+          _gaq.push(['_setDomainName', 'studiomarch.com']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+
+    </body>
+</html>
