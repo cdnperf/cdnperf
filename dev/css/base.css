@@ -23,6 +23,16 @@ html {
     line-height: 1.4;
 }
 
+a {
+    color: #333;
+}
+a:hover{
+   color: #888;
+}
+a:visited {
+    color: #aaa;
+}
+
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
  * These selection rule sets have to be separate.
@@ -147,12 +157,7 @@ footer{
     font-size: 0.9em;
 }
 footer a{
-    text-decoration: none;
-    color: #ccc;
-    margin: 0 10px 0 0;
-}
-footer a:hover{
-   color: #888;
+    margin: 0 1em 0 0;
 }
 .sitelogo{
     line-height: 1.3em;
