@@ -9,14 +9,19 @@ block js
     script(src='js/main.js')
 
 block content
-    .latencies.row
-        .chartContainer.columns
-            .uptimeContainer
-                .info
-                    h2
-                        abbr(title='Uptime in percentage. The higher, the better.') Uptime
-            .latencyContainer
-                .info
-                    h2
-                        abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
-        .legendContainer.columns
+    .slides
+        .charts
+            .latencies.row
+                .chartContainer.columns
+                .uptimeContainer
+                    .info
+                        h2
+                            abbr(title='Uptime in percentage. The higher, the better.') Uptime
+                .latencyContainer
+                    .info
+                        h2
+                            abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
+            .legendContainer.columns
+        .map
+            img(src='images/worldmap.svg')
+            p TODO
