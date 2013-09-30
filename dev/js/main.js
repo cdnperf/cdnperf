@@ -15,7 +15,7 @@ function main() {
 
         updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
 
-        createControls($('.allControlsContainer'), state, updateWithRoute);
+        createControls(state, updateWithRoute);
         createLegend($('.legendContainer'), data, state, updateWithRoute);
 
         update();
@@ -148,40 +148,38 @@ function main() {
     }
 
     function createTypes($p, state, update) {
-        $controls($p, state, update, 'type', ['ping', 'http', 'https'], 'ping');
+        $controls($('.typeControls'), state, update, 'type', ['ping', 'http', 'https'], 'ping');
     }
 
     function createAmounts($p, state, update) {
-        $controls($p, state, update, 'amount', [7, 14, 30, 90], 30);
+        //$controls($p, state, update, 'amount', [7, 14, 30, 90], 30);
     }
 
     function $controls($p, state, update, type, items, selected) {
-        var $e = $('<div>',
-            {'class': 'controlsContainer ' + (type + 's')}).appendTo($p);
-        items.forEach($control.bind(undefined, $e, state, type, update));
+        items.forEach($control.bind(undefined, $p, state, type, update));
 
         if(!state[type]) {
-            $('.' + selected, $e).addClass('selected');
+            $('.' + selected, $p).attr('checked', 'checked');
             state[type] = selected;
         }
     }
 
     function $control($p, state, type, update, name) {
-        var $e = $('<a>', {'class': 'control ' + type + ' ' + name, href: '#'}).
-                text(name).on('click', function(e) {
-            e.preventDefault();
-
+        var id = 'control_' + name;
+        var $e = $('<input>', {
+            'class': 'control ' + type + ' ' + name,
+            'name': 'control', // XXX
+            'type': 'radio',
+            'id': id
+        }).on('click', function(e) {
             mixpanel.track('clicked ' + type + ':' + name);
-
-            $e.siblings().removeClass('selected').removeClass('label');
-            $e.addClass('selected label');
 
             state[type] = name;
 
             update();
         }).appendTo($p);
 
-        if(state[type] == name) $e.addClass('selected');
+        $('<label>', {'for': id, 'onclick': ''}).text(name).appendTo($p);
     }
 
     function updateAll($p, data, state) {
