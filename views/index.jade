@@ -22,6 +22,15 @@ block sidebar
     .clearfix
 
 block content
+    .switch.big
+        input#graph(name='view', type='radio', checked='checked', data-caro='prev')
+        label.graphicon(for='graph', onclick='')
+
+        input#map(name='view', type='radio', data-caro='next')
+        label.mapicon(for='map', onclick='')
+
+        span.slide-button
+
     .slides
         .charts
             .latencies.row
