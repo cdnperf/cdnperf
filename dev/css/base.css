@@ -528,8 +528,13 @@ p {
     }
 }
 
+.content {
+    margin-right: 2em;
+}
+
 .legendContainer {
-    margin-top: 2em;
+    margin-top: 3em;
+    margin-right: 1em;
 }
 
 .legend {
@@ -566,11 +571,11 @@ td {
 }
 
 .sponsors {
-    margin-top: 2em;
+    margin-top: 3em;
 }
 
 .sponsor img {
-    margin-bottom: 1.5em;
+    margin-bottom: 2.5em;
     max-width: 100%;
 }
 
@@ -589,6 +594,10 @@ td {
 
 abbr:first-child {
     text-transform: capitalize;
+}
+
+#disqus_thread {
+    margin-top: 2em;
 }
 
 /* foundicon */
