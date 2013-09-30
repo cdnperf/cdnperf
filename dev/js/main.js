@@ -142,26 +142,26 @@ function main() {
         return data;
     }
 
-    function createControls($p, state, update) {
-        createTypes($p, state, update);
-        createAmounts($p, state, update);
+    function createControls(state, update) {
+        createTypes(state, update);
+        createAmounts(state, update);
     }
 
-    function createTypes($p, state, update) {
+    function createTypes(state, update) {
         $controls($('.typeControls'), state, update, 'type', ['ping', 'http', 'https'], 'ping');
     }
 
-    function createAmounts($p, state, update) {
-        //$controls($p, state, update, 'amount', [7, 14, 30, 90], 30);
+    function createAmounts(state, update) {
+        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90], 30);
     }
 
     function $controls($p, state, update, type, items, selected) {
         items.forEach($control.bind(undefined, $p, state, type, update));
 
-        if(!state[type]) {
-            $('.' + selected, $p).attr('checked', 'checked');
-            state[type] = selected;
-        }
+        $('.' + selected, $p).attr('checked', 'checked');
+        if(!state[type]) state[type] = selected;
+
+        $('<span>', {'class': 'slide-button'}).appendTo($p);
     }
 
     function $control($p, state, type, update, name) {
