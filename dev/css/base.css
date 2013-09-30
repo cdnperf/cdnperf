@@ -103,7 +103,6 @@ body, html{
     line-height: 1.4em;
     color: #555;
     text-align: left;
-    width:1200px;
 }
 section{
     min-height: 100%;
@@ -116,21 +115,24 @@ section{
 .right{
     float:right;
 }
+.intro, .main{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 .intro{
     width: 20%;
     padding-left: 1em;
     padding-right: 1em;
     background: #fff;
-    overflow: auto;
-    z-index: 9999;
     position: relative;
 }
 .main{
     width: 80%;
     padding-left: 2em;
+}
+body, .main, .legendContainer {
     background: #f5f5f5;
-    position: fixed;
-    right:0;
 }
 ul, li, h1, p{
     padding: 0;
@@ -150,9 +152,9 @@ footer a{
     margin: 0 10px 0 0;
 }
 footer a:hover{
-   color: #888; 
+   color: #888;
 }
-.sitelogo{ 
+.sitelogo{
     line-height: 1.3em;
     font-size: 1.1em;
     font-weight: normal;
@@ -519,7 +521,9 @@ p {
 }
 
 .legendContainer {
-    margin-top: 2em;
+    position: fixed;
+    bottom: 0;
+    width: 50%;
 }
 
 .legend {
@@ -566,6 +570,14 @@ td {
 .twitter {
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+.links {
+    list-style-type: none;
+}
+
+abbr:first-child {
+    text-transform: capitalize;
 }
 
 /* foundicon */

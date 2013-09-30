@@ -33,11 +33,17 @@ html
             block sidebar
 
             footer
-                a(href='/api') API
-                a(href='/resources') Resources
-                a.issueTracker(href='https://github.com/bebraw/cdnperf/issues') Issues
-                a(href='#') GitHub
-                a(href='#') About
+                ul.links
+                    li
+                        a(href='/api') API
+                    li
+                        a(href='/resources') Resources
+                    li
+                        a.issueTracker(href='https://github.com/bebraw/cdnperf/issues') Issues
+                    li
+                        a(href='#') GitHub
+                    li
+                        a(href='#') About
 
                 .twitter
                     a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
