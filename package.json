@@ -11,7 +11,7 @@
   "dependencies": {
     "express": "3.3.4",
     "jade": "0.34.1",
-    "pingdom-api": "0.3.0",
+    "pingdom-api": "0.4.0",
     "async": "0.2.9",
     "cron": "1.0.1",
     "date-utils": "1.2.14",
