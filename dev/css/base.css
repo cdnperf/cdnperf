@@ -577,6 +577,10 @@ td {
     list-style-type: none;
 }
 
+.links li {
+    display: inline-block;
+}
+
 abbr:first-child {
     text-transform: capitalize;
 }
