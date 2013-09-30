@@ -8,5 +8,10 @@ module.exports = {
         user: 'replacethis',
         pass: 'replacethis',
         appkey: 'replacethis'
+    },
+    cloudflare: {
+        apikey: 'replacethis',
+        email: 'replacethis',
+        domain: 'cdnperf.com'
     }
 };

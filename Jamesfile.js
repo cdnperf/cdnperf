@@ -4,6 +4,8 @@ var compile = require('james-compile');
 var jade = require('jade');
 var marked = require('marked');
 var hl = require('highlight.js').highlightAuto;
+var execute = require('grunt-adapter');
+var cloudflare = require('grunt-cloudflare');
 
 var config = require('./config');
 
@@ -24,6 +26,7 @@ james.task('watch', watch);
 james.task('minify_css', minifyCSS);
 james.task('minify_js', minifyJS);
 james.task('jadeify', compileJade);
+james.task('purge_cf', purgeCloudflare);
 
 function watch() {
     build();
@@ -70,5 +73,15 @@ function compileJade() {
             context: config
         })).
         write(file.replace('views', 'public').replace('jade', 'html'));
+    });
+}
+
+function purgeCloudflare() {
+    if(!config.cloudflare) return console.error('Missing Cloudflare configuration');
+
+    execute(cloudflare, {
+        tkn: config.cloudflare.apikey,
+        email: config.cloudflare.email,
+        z: config.cloudflare.domain
     });
 }
