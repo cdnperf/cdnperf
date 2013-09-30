@@ -565,6 +565,7 @@ td {
 
 .sponsor img {
     margin-bottom: 1.5em;
+    max-width: 100%;
 }
 
 .twitter {
