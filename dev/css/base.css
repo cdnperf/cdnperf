@@ -529,9 +529,7 @@ p {
 }
 
 .legendContainer {
-    position: fixed;
-    bottom: 0;
-    width: 50%;
+    margin-top: 2em;
 }
 
 .legend {
