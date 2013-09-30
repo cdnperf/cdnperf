@@ -39,7 +39,7 @@ function constructChecks(checks) {
     return checks.map(function(check) {
         return function(cb) {
             var to = Date.today();
-            var from = to.clone().addMonths(-6);
+            var from = to.clone().addMonths(-5); // XXX: work around pingdom bug for now
 
             async.series([
                 getSummaries.bind(undefined, check, from, to),
