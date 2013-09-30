@@ -560,6 +560,10 @@ h3{
     }
 }
 
+.legendContainer {
+    margin-top: 2em;
+}
+
 .legend {
     width: 100%;
     margin-bottom: 0;
