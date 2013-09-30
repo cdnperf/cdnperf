@@ -539,8 +539,8 @@ th, tr {
     padding: 0.5625em 0.625em;
 }
 
-tr:nth-of-type(even) {
-    background: #f9f9f9;
+tr:nth-of-type(odd) {
+    background: #e4e4e4;
 }
 
 td {
