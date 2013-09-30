@@ -126,7 +126,8 @@ section{
     position: relative;
 }
 .main{
-    width: 82%;
+    width: 80%;
+    padding-left: 2em;
     background: #eeeeee;
     position: fixed;
     right:0;
