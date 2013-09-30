@@ -102,19 +102,25 @@ html
 
         section.main.right
             .switch.big
-                input#graph(name='view', type='radio', checked='checked')
+                input#graph(name='view', type='radio', checked='checked', data-caro='prev')
                 label.graphicon(for='graph', onclick='')
 
-                input#map(name='view', type='radio')
+                input#map(name='view', type='radio', data-caro='next')
                 label.mapicon(for='map', onclick='')
 
                 span.slide-button
 
-            img(src='images/worldmap.svg')
+            .content
+                .slides
+                    .charts
+                        p 'this should contain the charts'
+                    .map
+                        img(src='images/worldmap.svg')
 
         #bugira_widget(style='position: fixed; right: 10px; bottom: 0px;')
 
         script(src='/js/vendor/jquery.js')
+        script(src='/js/vendor/jquery.caro.js')
         script(src='/js/vendor/modernizr.js')
 
         script.
