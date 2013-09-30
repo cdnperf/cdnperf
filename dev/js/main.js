@@ -172,6 +172,8 @@ function main() {
             'type': 'radio',
             'id': id
         }).on('click', function(e) {
+            if(state[type] == name) return;
+
             mixpanel.track('clicked ' + type + ':' + name);
 
             state[type] = name;
