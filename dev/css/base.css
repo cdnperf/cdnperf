@@ -559,3 +559,38 @@ h3{
         page-break-after: avoid;
     }
 }
+
+/* foundicon */
+
+@font-face {
+    font-family: 'AccessibilityFoundicons';
+    src: url('../fonts/accessibility_foundicons.eot');
+    src: url('../fonts/accessibility_foundicons.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/accessibility_foundicons.woff') format('woff'),
+    url('../fonts/accessibility_foundicons.ttf') format('truetype'),
+    url('../fonts/accessibility_foundicons.svg#[set]Foundicons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class*="foundicon-"] {
+    display: inline;
+    width: auto;
+    height: auto;
+    line-height: inherit;
+    vertical-align: baseline;
+    background-image: none;
+    background-position: 0 0;
+    background-repeat: repeat;
+}
+
+[class*="foundicon-"]:before {
+    font-family: "AccessibilityFoundicons";
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: inherit;
+}
+
+.foundicon-eyeball:before {
+    content: "\f005";
+}
