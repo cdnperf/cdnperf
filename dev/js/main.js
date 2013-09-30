@@ -148,11 +148,11 @@ function main() {
     }
 
     function createTypes(state, update) {
-        $controls($('.typeControls'), state, update, 'type', ['ping', 'http', 'https'], 'ping');
+        $controls($('.typeControls'), state, update, 'type', ['ping', 'http', 'https'], 'http');
     }
 
     function createAmounts(state, update) {
-        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90], 30);
+        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90], 90);
     }
 
     function $controls($p, state, update, type, items, selected) {
