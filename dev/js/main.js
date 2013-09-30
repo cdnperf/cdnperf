@@ -4,9 +4,6 @@ function main() {
     initUI();
 
     $.getJSON('./data.json', function(d) {
-        return;
-        // TODO
-
         var data = attachColors(groupData(d));
         var state = initializeState(data.providers);
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
