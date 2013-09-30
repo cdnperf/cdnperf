@@ -137,55 +137,6 @@ ul, li, h1, p{
     margin:0;
     display: block;
 }
-.listed{
-    margin-bottom: 20px;
-}
-.listed a{
-    line-height: 2.5em;
-}
-.listed a{
-    display: block;
-    margin-bottom: 1px;
-    border-bottom: none;
-    background: #ddd;
-    border-radius: 4px;
-    text-decoration: none;
-}
-.listed a span{
-    opacity: 0.7;
-    font-size: 0.9em;
-}
-input[type="checkbox"]{
-    margin: 0 8px 0 10px;
-}
-.listed a.red{
-    background: #f36459;
-    color: #fff;
-}
-.listed a.aqua{
-    background: #43cebd;
-    color: #fff;
-}
-.listed a.orange{
-    background: #ffaf52;
-    color: #fff;
-}
-.listed a.blue{
-    background: #5b9ae1;
-    color: #fff;
-}
-.listed a.purple{
-    background: #916fd4;
-    color: #fff;
-}
-.listed a.pink{
-    background: #e171c5;
-    color: #fff;
-}
-.listed a.green{
-    background: #a3c734;
-    color: #fff;
-}
 footer{
     border-top: 1px solid #ddd;
     padding: 5px 0 50px 0;
