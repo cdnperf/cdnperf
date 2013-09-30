@@ -168,7 +168,7 @@ function main() {
         var id = 'control_' + name;
         var $e = $('<input>', {
             'class': 'control ' + type + ' ' + name,
-            'name': 'control', // XXX
+            'name': type,
             'type': 'radio',
             'id': id
         }).on('click', function(e) {
@@ -179,7 +179,7 @@ function main() {
             update();
         }).appendTo($p);
 
-        $('<label>', {'for': id, 'onclick': ''}).text(name).appendTo($p);
+        $('<label>', {'for': id}).text(name).appendTo($p);
     }
 
     function updateAll($p, data, state) {
