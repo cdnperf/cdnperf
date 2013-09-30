@@ -44,12 +44,26 @@ html
             footer
                 a(href='/api') API
                 a(href='/resources') Resources
-                a.issueTracker(href='https://github.com/bebraw/cdnperf/issues') Issue Tracker
+                a.issueTracker(href='https://github.com/bebraw/cdnperf/issues') Issues
                 a(href='#') GitHub
                 a(href='#') About
-                a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
-                a.twitter-follow-button(href='http://twitter.com/cdnperf', data-show-count='true') Follow @cdnperf
-                a(href='https://bluevm.com/') Hosted by BlueVM
+
+                .twitter
+                    a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
+                    a.twitter-follow-button(href='http://twitter.com/cdnperf', data-show-count='true') Follow @cdnperf
+
+                .host
+                    a(href='https://bluevm.com/') Hosted by BlueVM
+
+                .sponsors
+                    a.sponsor(href='http://www.jsdelivr.com/')
+                        img(src='images/jsdelivr.png', alt='jsDelivr')
+
+                    a.sponsor(href='http://jster.net/')
+                        img(src='images/jster.png', alt='JSter')
+
+                    a.sponsor(href='https://www.pingdom.com/')
+                        img(src='images/pingdom.png', alt='Pingdom')
 
         section.main.right
             .switch.big
