@@ -23,8 +23,6 @@ function main() {
 
         app.use(express.favicon('public/images/favicon.ico'));
         app.use(express.logger('dev'));
-        app.use(express.bodyParser());
-        app.use(express.methodOverride());
         app.use(express.compress());
         app.use(express['static'](path.join(__dirname, 'public'), {
             maxAge: halfDay
