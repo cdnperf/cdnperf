@@ -114,6 +114,9 @@ body, html{
     color: #555;
     text-align: left;
 }
+body{
+    min-width: 960px;
+}
 section{
     min-height: 100%;
     height: auto !important;
@@ -125,24 +128,20 @@ section{
 .right{
     float:right;
 }
-.intro, .main{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
 .intro{
-    width: 16%;
-    padding-left: 1em;
-    padding-right: 1em;
+    width: 15%;
+    padding: 0 2.5% 0 2.5%;
     background: #fff;
     position: relative;
+    max-width:320px;
+    min-width: 160px;
 }
 .main{
-    width: 84%;
-    padding: 2em;
+    width: 70%;
+    padding: 0 4% 0 4%;
 }
-.controls {
-    margin-top: 4em;
+.latencyContainer, .legendContainer{
+    margin-top:3em;
 }
 body, .main, .legendContainer {
     background: #f5f5f5;
@@ -153,24 +152,22 @@ ul, li, h1, p{
     display: block;
 }
 footer{
-    border-top: 1px solid #ddd;
     padding: 0.5em 0 1em 0;
-    margin-top: 4em;
     color: #aaa;
     font-size: 0.9em;
 }
 footer a{
-    margin: 0 1em 0 0;
+    margin: 0 0.8em 0 0;
+    text-decoration: none;
 }
 .sitelogo{
     line-height: 1.3em;
     font-size: 1.1em;
     font-weight: normal;
-}
-.sitelogo:before{
-    content:url('../images/bolt.png');
     display: block;
-    position:relative;
+    height: 50px;
+    width:50px;
+    background:url('../images/bolt.png');
     margin-top: 3em;
     margin-bottom: 1em;
 }
@@ -180,7 +177,7 @@ h1{
 }
 h3{
     font-weight: bold;
-    margin-bottom: 1em;
+    margin: 2.5em 0 0.6em 0;
     font-size: 1em;
 }
 p {
@@ -248,7 +245,7 @@ p {
   }
 .small{
     height: 32px;
-    background: #a8a8a8;
+    background: #bbb;
     font-size: 1em;
     border-radius: 4px;
   }
@@ -483,7 +480,13 @@ p {
 
     abbr[title]:after {
         content: " (" attr(title) ")";
+        border: none !important;
+        
     }
+    abbr[title]{
+        border: none !important;
+    }
+
 
     /*
      * Don't show links for images, or javascript/internal links
@@ -532,7 +535,7 @@ p {
 }
 
 .content {
-    margin-right: 2em;
+    margin-top: 3em;
 }
 
 .legendContainer {
@@ -572,13 +575,16 @@ td {
 .visibility.selected {
     opacity: 1.0;
 }
-
-.sponsors {
+.host{
+    font-weight: bold;
     margin-top: 3em;
+}
+.sponsors {
+    margin-top: 0.2em;
 }
 
 .sponsor img {
-    margin-bottom: 2em;
+    margin-bottom: 0.5em;
     max-width: 100%;
 }
 
@@ -586,10 +592,14 @@ td {
     margin-top: 1em;
     margin-bottom: 1em;
 }
+.twitter iframe {
+    margin-right: 1em;
+}
 
 .links {
-    margin-bottom: 2em;
-
+    border-top: 1px solid #ddd;
+    margin: 3em 0 0 0;
+    padding-top: 1em;
     list-style-type: none;
 }
 
