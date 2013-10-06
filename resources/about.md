@@ -2,8 +2,6 @@
 
 CDNperf started as a collaboration between [jsDelivr](http://www.jsdelivr.com/), a CDN, and [JSter](http://jster.net/), a JavaScript catalog. We noticed it was difficult to find information on JavaScript CDNs. As a result an idea of a service was born. I have covered the history in more detail at [SAM blog](http://www.speedawarenessmonth.com/cdnperf-understand-how-cdns-perform/).
 
-I want to thank [Sukh Dugal](https://twitter.com/sukhdugal) and [Ashish Acharya](https://twitter.com/scribblebulb) of [Studio March](http://www.studiomarch.com/) in particular for helping to improve the outlook of the service considerably. Thanks!
-
 ## Sponsors
 
 It would not have been possible to develop CDNperf without sponsors. We are grateful to [Pingdom](https://www.pingdom.com/) for providing access to their data. We also want to compliment [BlueVM](https://bluevm.com/) hosting the service.
