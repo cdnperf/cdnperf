@@ -33,19 +33,9 @@ html
             block sidebar
 
             footer
-                ul.links
-                    li
-                        a(href='/api') API
-                    li
-                        a(href='/resources') Resources
-                    li
-                        a.issueTracker(href='https://github.com/bebraw/cdnperf/issues', target='_blank') Issues
-                    li
-                        a(href='/about') About
 
-                .twitter
-                    a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
-                    a.twitter-follow-button(href='http://twitter.com/cdnperf', data-show-count='false') Follow @cdnperf
+                .host
+                    a(href='https://bluevm.com/') Hosted by BlueVM
 
                 .sponsors
                     a.sponsor(href='http://www.jsdelivr.com/')
@@ -57,8 +47,21 @@ html
                     a.sponsor(href='https://www.pingdom.com/')
                         img(src='images/pingdom.png', alt='Pingdom')
 
-                .host
-                    a(href='https://bluevm.com/') Hosted by BlueVM
+                ul.links
+                    li
+                        a(href='/api') API
+                    li
+                        a(href='/resources') Resources
+                    li
+                        a.issueTracker(href='https://github.com/bebraw/cdnperf/issues', target='_blank') Issues
+                    li
+                        a(href='/about') About      
+
+                .twitter
+                    a.twitter-follow-button(href='http://twitter.com/cdnperf', data-show-count='false') Follow @cdnperf
+                    a.twitter-share-button(href='http://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
+                    
+                        
 
         section.main.right
             .content

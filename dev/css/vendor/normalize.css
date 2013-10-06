@@ -115,7 +115,7 @@ h1 {
  */
 
 abbr[title] {
-    border-bottom: 1px dotted;
+    border: none;
 }
 
 /**
