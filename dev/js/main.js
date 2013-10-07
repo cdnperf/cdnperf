@@ -116,7 +116,8 @@ function main() {
     function getHost(name) {
         var hosts = {
             'ajax.aspnetcdn.com': 'www.asp.net/ajaxlibrary/cdn.ashx',
-            'ajax.googleapis.com': 'developers.google.com/speed/libraries/'
+            'ajax.googleapis.com': 'developers.google.com/speed/libraries/',
+            'netdna.bootstrapcdn.com': 'www.bootstrapcdn.com/'
         };
 
         if(name in hosts) return hosts[name];
