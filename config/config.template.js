@@ -13,5 +13,11 @@ module.exports = {
         apikey: 'replacethis',
         email: 'replacethis',
         domain: 'cdnperf.com'
+    },
+    twitter: {
+        key: 'replacethis',
+        secret: 'replacethis',
+        accessToken: 'replacethis',
+        accessTokenSecret: 'replacethis'
     }
 };

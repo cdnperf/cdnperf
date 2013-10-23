@@ -22,7 +22,8 @@
     "james-uglify": "0.1.0",
     "james-compile": "0.3.0",
     "require-dir": "0.1.0",
-    "highlight.js": "7.3.0"
+    "highlight.js": "7.3.0",
+    "simple-twitter": "~1.0.3"
   },
   "repository": {
     "type": "git",
