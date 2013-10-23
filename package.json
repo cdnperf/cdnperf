@@ -9,13 +9,13 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "express": "3.3.4",
-    "jade": "0.34.1",
+    "express": "3.4.2",
+    "jade": "0.35.0",
     "pingdom-api": "0.4.0",
     "async": "0.2.9",
     "cron": "1.0.1",
     "date-utils": "1.2.14",
-    "parse-env": "0.1.3",
+    "parse-env": "0.1.4",
     "annois": "0.3.0",
     "marked": "0.2.9",
     "james": "0.1.15",
@@ -40,8 +40,8 @@
     "monitoring"
   ],
   "devDependencies": {
-    "grunt-adapter": "~0.1.2",
-    "grunt": "~0.4.1",
+    "grunt-adapter": "0.1.2",
+    "grunt": "0.4.1",
     "grunt-cloudflare": "0.0.1"
   }
 }
