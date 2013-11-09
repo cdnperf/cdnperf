@@ -17,8 +17,10 @@ function main() {
     var apiPrefix = 'v1';
     var halfDay = 43200000;
 
+    var port = config.port;
+
     app.configure(function() {
-        app.set('port', config.port);
+        app.set('port', port);
 
         app.use(express.favicon('public/images/favicon.ico'));
         app.use(express.logger('dev'));
@@ -55,7 +57,6 @@ function main() {
         process.on(element, function() { terminator(element); });
     });
 
-    var port = config.port;
     app.listen(port, function() {
         console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
     });
