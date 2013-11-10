@@ -3,9 +3,9 @@ var path = require('path');
 
 var express = require('express');
 
-var cronjobs = require('./cronjobs');
 var routes = require('./routes');
 var config = require('./config');
+var cron= require('./lib/cron')(config);
 var api = require('./api');
 
 
@@ -46,7 +46,7 @@ function main() {
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
-    if(config.cron) cronjobs(api.cdns.updateData);
+    if(config.cron) cron(api.cdns.updateData);
     else api.cdns.updateData(null, require('./public/data'));
 
     process.on('exit', terminator);
