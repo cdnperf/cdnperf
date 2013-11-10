@@ -3,7 +3,9 @@ module.exports = {
     ga: 'UA-XXXXX-X',
     bugira: 'replacethis',
     mixpanel: 'replacethis',
-    cron: '',
+    cron: { // cron patterns
+        writeJson: ''
+    },
     pingdom: {
         user: 'replacethis',
         pass: 'replacethis',

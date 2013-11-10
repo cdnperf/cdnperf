@@ -5,7 +5,8 @@ var express = require('express');
 
 var routes = require('./routes');
 var config = require('./config');
-var cron= require('./lib/cron')(config);
+var job = require('./lib/job');
+var cron = require('./lib/cron')(config, job);
 var api = require('./api');
 
 
