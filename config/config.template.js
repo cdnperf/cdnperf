@@ -4,7 +4,8 @@ module.exports = {
     bugira: 'replacethis',
     mixpanel: 'replacethis',
     cron: { // cron patterns
-        writeJson: ''
+        writeJson: '',
+        tweet: ''
     },
     pingdom: {
         user: 'replacethis',
