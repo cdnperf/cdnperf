@@ -1,18 +1,9 @@
-var send = require('../lib/send');
+var cron = require('../lib/cron');
 
-
-send(function(msg, cb) {
-    console.log(msg);
+cron.sendMessage(function(message, cb) {
+    console.log(message);
 
     cb();
-}, [{
-    type: 'http',
-    name: 'demo HTTP',
-    latency: [100, 50, 100]
-}, {
-    type: 'http',
-    name: 'another',
-    latency: [150, 150, 150]
-}], function(err) {
-    console.log('done');
+}, function(err) {
+    if(err) return console.error(err);
 });
