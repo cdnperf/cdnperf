@@ -9,21 +9,21 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "express": "3.4.2",
-    "jade": "0.35.0",
+    "express": "3.4.7",
+    "jade": "1.0.2",
     "pingdom-api": "0.4.0",
     "async": "0.2.9",
     "cron": "1.0.1",
-    "date-utils": "1.2.14",
-    "parse-env": "0.1.4",
+    "date-utils": "1.2.15",
+    "parse-env": "0.2.2",
     "annois": "0.3.0",
-    "marked": "0.2.9",
+    "marked": "0.3.0",
     "james": "0.1.15",
     "james-uglify": "0.1.0",
     "james-compile": "0.3.0",
     "require-dir": "0.1.0",
-    "highlight.js": "7.3.0",
-    "simple-twitter": "~1.0.3"
+    "highlight.js": "7.5.0",
+    "simple-twitter": "1.0.3"
   },
   "repository": {
     "type": "git",
@@ -42,7 +42,7 @@
   ],
   "devDependencies": {
     "grunt-adapter": "0.1.2",
-    "grunt": "0.4.1",
+    "grunt": "0.4.2",
     "grunt-cloudflare": "0.0.1"
   }
 }
