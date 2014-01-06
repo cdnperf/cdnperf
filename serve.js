@@ -2,11 +2,11 @@
 var path = require('path');
 
 var express = require('express');
+var taskist = require('taskist');
 
 var routes = require('./routes');
+var tasks = require('./tasks');
 var config = require('./config');
-var job = require('./lib/job');
-var cron = require('./lib/cron')(config, job);
 var api = require('./api');
 
 
@@ -47,14 +47,23 @@ function main() {
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
-    if(config.cron) cron(api.cdns.updateData);
-    else api.cdns.updateData(null, require('./public/data'));
+    taskist(config.tasks, tasks, {
+        instant: function(err) {
+            if(err) {
+                return console.error(err);
+            }
+
+            console.log('Tasks initialized!');
+
+            api.cdns.updateData(require('./public/data'));
+        }
+    });
 
     process.on('exit', terminator);
 
     ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS',
     'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGTERM'
-    ].forEach(function(element, index, array) {
+    ].forEach(function(element) {
         process.on(element, function() { terminator(element); });
     });
 
@@ -64,7 +73,7 @@ function main() {
 }
 
 function terminator(sig) {
-    if(typeof sig === "string") {
+    if(typeof sig === 'string') {
         console.log('%s: Received %s - terminating Node server ...',
             Date(Date.now()), sig);
 

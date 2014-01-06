@@ -1,56 +1,30 @@
 var fs = require('fs');
 
-require('date-utils');
-
 var async = require('async');
 
-var send = require('./send');
-var tweet, pingdom;
+var config = require('../config');
+var pingdom = require('pingdom-api')(config.pingdom);
 
 
-module.exports = init;
-
-function init(config, job) {
-    pingdom = require('pingdom-api')(config.pingdom);
-    tweet = require('./tweet')(config.twitter);
-
-    return function(cb) {
-        writeJSON(cb);
-
-        job(config.cron.writeJSON, writeJSON.bind(null, cb));
-        job(config.cron.tweet, sendMessage.bind(null, tweet, cb));
-    };
-}
-
-init.sendMessage = sendMessage;
-function sendMessage(sender, cb) {
-    fs.readFile('./public/data.json', {
-        encoding: 'utf-8'
-    }, function(err, data) {
-        if(err) return cb(err);
-
-        send(sender, JSON.parse(data).providers, cb);
-    });
-}
-
-function writeJSON(cb) {
-    cb = cb || function() {};
-
+module.exports = function(cb) {
     pingdom.checks(function(err, checks) {
-        if(err) return cb(err);
+        if(err) {
+            return cb(err);
+        }
 
         async.parallel(constructChecks(checks), function(err, data) {
-            var d;
-            if(err) return cb(err);
+            if(err) {
+                return cb(err);
+            }
 
-            d = structure(data);
+            var d = structure(data);
 
             write(JSON.stringify(d), './public/data.json');
 
             cb(null, d);
         });
     });
-}
+};
 
 function constructChecks(checks) {
     return checks.map(function(check) {
@@ -62,7 +36,9 @@ function constructChecks(checks) {
                 getSummaries.bind(undefined, check, from, to),
                 getDowntimes.bind(undefined, check, from, to)
             ], function(err, data) {
-                if(err) return console.error(err);
+                if(err) {
+                    return console.error(err);
+                }
 
                 cb(err, {
                     summaries: data[0],
@@ -91,7 +67,7 @@ function getSummaries(check, from, to, cb) {
 }
 
 function getDowntimes(check, from, to, cb) {
-    pingdom['summary.outage'](function(err, outages, res) {
+    pingdom['summary.outage'](function(err, outages) {
         // skip res
         cb(err, outages && outages.states? calculateDowntimes(outages.states, from, to): []);
     }, {
@@ -114,7 +90,7 @@ function calculateDowntimes(data, from, to) {
         fromDelta = from.getDaysBetween(downFrom);
         toDelta = from.getDaysBetween(downTo);
 
-        if(fromDelta == toDelta) {
+        if(fromDelta === toDelta) {
             ret[fromDelta] += downTo - downFrom;
         }
         else {
@@ -126,30 +102,6 @@ function calculateDowntimes(data, from, to) {
     });
 
     return ret;
-}
-
-// TODO: move to some utility lib
-function zeroes(a) {
-    var ret = [];
-    var i;
-
-    for(i = 0; i < a; i++) ret.push(0);
-
-    return ret;
-}
-
-// TODO: move to some utility lib
-function equals(a, b) {
-    return function(v) {
-        return v[a] == b;
-    };
-}
-
-// TODO: move to some utility lib
-function prop(a) {
-    return function(v) {
-        return v[a];
-    };
 }
 
 function structure(data) {
@@ -181,13 +133,34 @@ function structure(data) {
     }
 }
 
-function id(a) {return a;}
-function noop() {}
+// TODO: move to some utility lib
+function zeroes(a) {
+    var ret = [];
+    var i;
 
+    for(i = 0; i < a; i++) {
+        ret.push(0);
+    }
+
+    return ret;
+}
+
+// TODO: move to some utility lib
+function equals(a, b) {
+    return function(v) {
+        return v[a] === b;
+    };
+}
+
+// TODO: move to some utility lib
 function write(data, target) {
     fs.writeFile(target, data, function(err) {
-        if(err) return console.error(err);
+        if(err) {
+            return console.error(err);
+        }
 
         console.log('Wrote ' + target);
     });
 }
+
+function id(a) {return a;}
