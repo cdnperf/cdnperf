@@ -1,36 +1,106 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
-  </ul>
-  <h3 class="text-muted">cdnperf</h3>
+<div class="latencies row">
+    <div class="chartContainer columns"></div>
+    <div class="uptimeContainer">
+        <div class="info">
+            <h2><abbr title="Uptime in percentage. The higher, the better.">Uptime</abbr></h2>
+        </div>
+
+        <canvas class="chart" width="1008" height="100" style="width: 1008px; height: 100px;"></canvas>
+    </div>
+
+    <div class="latencyContainer">
+        <div class="info">
+            <h2><abbr title="Latency is given as average for the defined range of time. The lower, the better.">Latency</abbr></h2>
+        </div>
+
+        <canvas class="chart" width="1008" height="300" style="width: 1008px; height: 300px;"></canvas>
+    </div>
 </div>
 
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
-
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
-
-<div class="footer">
-  <p>♥ from the Yeoman team</p>
+<div class="legendContainer columns">
+    <table class="legend">
+        <tbody>
+            <tr>
+                <th class="names">&nbsp;</th>
+                <th class="cdn jsdelivr" style="background-color: rgb(216, 79, 68);">
+                    <a href="http://cdn.jsdelivr.net" style="color: rgb(255, 255, 255);">jsDelivr</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(255, 255, 255);"></i>
+                </th>
+                <th class="cdn cdnjs" style="background-color: rgb(174, 227, 214);">
+                    <a href="http://cdnjs.cloudflare.com" style="color: rgb(0, 0, 0);">cdnjs</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(0, 0, 0);"></i>
+                </th>
+                <th class="cdn google" style="background-color: rgb(243, 213, 162);">
+                    <a href="http://developers.google.com/speed/libraries/" style="color: rgb(0, 0, 0);">Google</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(0, 0, 0);"></i>
+                </th>
+                <th class="cdn yandex" style="background-color: rgb(93, 150, 215);">
+                    <a href="http://yandex.st" style="color: rgb(0, 0, 0);">Yandex</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(0, 0, 0);"></i>
+                </th>
+                <th class="cdn microsoft" style="background-color: rgb(68, 68, 68);">
+                    <a href="http://www.asp.net/ajaxlibrary/cdn.ashx" style="color: rgb(255, 255, 255);">Microsoft</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(255, 255, 255);"></i>
+                </th>
+                <th class="cdn jquery_mt_" style="background-color: rgb(227, 136, 235);">
+                    <a href="http://code.jquery.com" style="color: rgb(0, 0, 0);">jQuery(MT)</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(0, 0, 0);"></i>
+                </th>
+                <th class="cdn bootstrapcdn" style="background-color: rgb(170, 221, 94);">
+                    <a href="http://www.bootstrapcdn.com/" style="color: rgb(0, 0, 0);">Bootstrapcdn</a>
+                    <i class="visibility foundicon-eyeball selected" style="color: rgb(0, 0, 0);"></i>
+                </th>
+            </tr>
+            <tr>
+                <td class="latency">
+                    <abbr title="Latency in ms as average per day, the lower the better">latency</abbr>
+                </td>
+                <td class="latency jsdelivr">136.7 ms</td>
+                <td class="latency cdnjs">200.9 ms</td>
+                <td class="latency google">123.5 ms</td>
+                <td class="latency yandex">340.9 ms</td>
+                <td class="latency microsoft">146.4 ms</td>
+                <td class="latency jquery_mt_">124.7 ms</td>
+                <td class="latency bootstrapcdn">63.0 ms</td>
+            </tr>
+            <tr>
+                <td class="uptime">
+                    <abbr title="Uptime in percentage as average per day. The higher the better. Note that downtimes are given on hover as an estimate per 30 days.">uptime</abbr>
+                </td>
+                <td class="uptime jsdelivr">
+                    <abbr title="0s 0ms downtime">99.999 %</abbr>
+                </td>
+                <td class="uptime cdnjs">
+                    <abbr title="0s 0ms downtime">99.983 %</abbr>
+                </td>
+                <td class="uptime google">
+                    <abbr title="0s 0ms downtime">99.998 %</abbr>
+                </td>
+                <td class="uptime yandex">
+                    <abbr title="0s 0ms downtime">99.987 %</abbr>
+                </td>
+                <td class="uptime microsoft">
+                    <abbr title="0s 0ms downtime">100.000 %</abbr>
+                </td>
+                <td class="uptime jquery_mt_">
+                    <abbr title="0s 0ms downtime">99.994 %</abbr>
+                </td>
+                <td class="uptime bootstrapcdn">
+                    <abbr title="0s 0ms downtime">99.967 %</abbr>
+                </td>
+            </tr>
+            <tr>
+                <td class="downtime">
+                    <abbr title="Total downtime">downtime</abbr>
+                </td>
+                <td class="downtime jsdelivr">1min 0s</td>
+                <td class="downtime cdnjs">21min 59s</td>
+                <td class="downtime google">2min 0s</td>
+                <td class="downtime yandex">17min 0s</td>
+                <td class="downtime microsoft">0s 0ms</td>
+                <td class="downtime jquery_mt_">8min 0s</td>
+                <td class="downtime bootstrapcdn">43min 0s</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
