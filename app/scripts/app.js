@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cdnperfApp', ['ui.router']).config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+angular.module('cdnperfApp', ['ui.router', 'angularCharts']).config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 
     $locationProvider.html5Mode(true).hashPrefix('!');
