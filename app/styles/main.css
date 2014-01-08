@@ -649,3 +649,11 @@ abbr:first-child {
 .foundicon-eyeball:before {
     content: "\f005";
 }
+
+.uptimes.chart {
+    height: 100px;
+}
+
+.latencies.chart {
+    height: 300px;
+}
