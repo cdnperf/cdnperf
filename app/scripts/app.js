@@ -8,6 +8,14 @@ angular.module('cdnperfApp', ['ui.router', 'angularCharts']).config(function($st
     $stateProvider.state('main', {
         url: '/',
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        views: {
+            'content': {
+                templateUrl: 'views/main.html'
+            },
+            'controls': {
+                templateUrl: 'views/controls.html'
+            }
+        }
     });
 });
