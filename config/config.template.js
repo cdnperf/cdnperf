@@ -1,7 +1,6 @@
 module.exports = {
     port: 8000,
     ga: 'UA-XXXXX-X',
-    bugira: 'replacethis',
     mixpanel: 'replacethis',
     tasks: {
         tweet: {hour: 12, instant: false},
