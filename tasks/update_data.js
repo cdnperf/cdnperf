@@ -5,6 +5,8 @@ var async = require('async');
 var config = require('../config');
 var pingdom = require('pingdom-api')(config.pingdom);
 
+require('date-utils');
+
 
 module.exports = function(cb) {
     pingdom.checks(function(err, checks) {
