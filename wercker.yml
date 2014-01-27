@@ -1,0 +1,43 @@
+box: wercker/nodejs
+build:
+    steps:
+        - script:
+            name: install james
+            code: sudo npm install -g james
+        - script:
+            name: install npm dependencies
+            code: |
+                mkdir -p $WERCKER_CACHE_DIR/wercker/npm
+                npm config set cache $WERCKER_CACHE_DIR/wercker/npm
+                sudo npm install --save-dev
+        - script:
+            name: build project using james
+            code: james build
+        - script:
+            name: echo nodejs information
+            code: |
+                echo "node version $(node -v) running"
+                echo "npm version $(npm -v) running"
+deploy:
+    steps:
+        - add-to-known_hosts:
+            hostname: $HOSTNAME
+            fingerprint: $FINGERPRINT
+        - mktemp:
+            envvar: PRIVATEKEY_PATH
+        - create-file:
+            name: write key
+            filename: $PRIVATEKEY_PATH
+            content: $WERCKER_PRIVATE
+            overwrite: true
+        - script:
+            name: transfer application
+            code: |
+              pwd
+              ls -la
+              tar czf - * | ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME "cd /var/local/www/cdnperf; tar xvzf -"
+        - script:
+            name: start application
+            code: |
+              ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME "if [[ \"\$(status cdnperf)\" = *start/running* ]]; then stop cdnperf -n ; fi"
+              ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME start cdnperf
