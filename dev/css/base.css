@@ -575,10 +575,6 @@ td {
 .visibility.selected {
     opacity: 1.0;
 }
-.host{
-    font-weight: bold;
-    margin-top: 3em;
-}
 .sponsors {
     margin-top: 0.2em;
 }
