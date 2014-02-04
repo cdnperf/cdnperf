@@ -243,19 +243,6 @@ p {
 .switch.three input:checked:last-of-type ~ .slide-button {
     left: 66.66667%;
   }
-.switch.four label,
-.switch.four .slide-button {
-  width: 25%;
-}
-.switch.four input:checked:nth-of-type(2) ~ .slide-button {
-  left: 25%;
-}
-.switch.four input:checked:nth-of-type(3) ~ .slide-button {
-  left: 50%;
-}
-.switch.four input:checked:last-of-type ~ .slide-button {
-  left: 75%;
-}
 .small{
     height: 32px;
     background: #bbb;
