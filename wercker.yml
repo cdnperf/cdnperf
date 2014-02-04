@@ -41,3 +41,7 @@ deploy:
             code: |
               ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME "if [[ \"\$(status cdnperf)\" = *start/running* ]]; then stop cdnperf -n ; fi"
               ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME start cdnperf
+        - script:
+            name: purge cloudflare
+            code: james purge_cf
+
