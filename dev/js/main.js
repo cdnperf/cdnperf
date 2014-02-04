@@ -153,7 +153,7 @@ function main() {
     }
 
     function createAmounts(state, update) {
-        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90], 90);
+        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90, 180], 90);
     }
 
     function $controls($p, state, update, type, items, selected) {
@@ -432,13 +432,14 @@ function main() {
         var i, d;
 
         // TODO: move these rules elsewhere
-        if(amount == 90) len = 30;
+        if(amount >= 90) len = 30;
 
         for(i = 0; i < len; i++) {
             d = lastDate.clone();
 
             // TODO: move these rules elsewhere
-            if(amount == 90) d.addDays(-(90 - i * 3 - 1));
+            if(amount == 90) d.addDays(-(amount - i * 3 - 1));
+            else if(amount == 180) d.addDays(-(amount - i * 6 - 1));
             else d.addDays(-(amount - i - 1));
 
             ret.push(d.toString('dd MMM'));
@@ -480,6 +481,7 @@ function main() {
         // TODO: maybe there's a better way? now it skips the contribution of
         // the neighboring days
         if(amount == 90) return everyNth(3, data);
+        if(amount == 180) return everyNth(6, data); // even worse
 
         return data;
     }

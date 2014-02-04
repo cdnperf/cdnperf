@@ -32,7 +32,7 @@ function constructChecks(checks) {
     return checks.map(function(check) {
         return function(cb) {
             var to = Date.today();
-            var from = to.clone().addMonths(-3);
+            var from = to.clone().addMonths(-6);
 
             async.series([
                 getSummaries.bind(undefined, check, from, to),
