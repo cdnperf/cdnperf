@@ -44,6 +44,6 @@
   "devDependencies": {
     "grunt-adapter": "0.1.2",
     "grunt": "0.4.2",
-    "grunt-cloudflare": "0.0.1"
+    "grunt-cloudflare": "0.0.2"
   }
 }

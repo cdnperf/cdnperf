@@ -5,7 +5,7 @@ var jade = require('jade');
 var marked = require('marked');
 var hl = require('highlight.js').highlightAuto;
 var execute = require('grunt-adapter');
-var cloudflare = require('grunt-cloudflare');
+var cloudflare = require('grunt-cloudflare/tasks/cloudflare');
 
 var config = require('./config');
 
