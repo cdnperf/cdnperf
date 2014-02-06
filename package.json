@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "node serve.js",
-    "predeploy": "npm install && node_modules/james/bin/james build"
+    "prestart": "npm install && node_modules/james/bin/james build"
   },
   "homepage": "https://github.com/bebraw/cdnperf",
   "bugs": {
