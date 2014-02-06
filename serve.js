@@ -9,14 +9,13 @@ var config = require('./config');
 main();
 
 function main() {
-    var app = express();
-
-    var apiPrefix = 'v1';
-    var halfDay = 43200000;
-
     var port = config.port;
 
+    var app = express();
+
     app.configure(function() {
+        var halfDay = 43200000;
+
         app.set('port', port);
 
         app.use(express.favicon('public/images/favicon.ico'));
@@ -35,7 +34,13 @@ function main() {
 
     app.listen(port, function() {
         console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
+
+        init(app);
     });
+}
+
+function init(app) {
+    var apiPrefix = 'v1';
 
     var api = require('./api');
     var routes = require('./routes');
