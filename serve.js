@@ -47,6 +47,10 @@ function main() {
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
+    app.listen(port, function() {
+        console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
+    });
+
     taskist(config.tasks, tasks, {
         instant: function(err) {
             if(err) {
@@ -65,10 +69,6 @@ function main() {
     'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGTERM'
     ].forEach(function(element) {
         process.on(element, function() { terminator(element); });
-    });
-
-    app.listen(port, function() {
-        console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
     });
 }
 
