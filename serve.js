@@ -55,7 +55,7 @@ function init(app) {
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
-    if(config.features.tasksEnabled) {
+    if(parseInt(config.features.tasksEnabled, 10)) {
         require('taskist')(config.tasks, require('./tasks'), {
             instant: function(err) {
                 if(err) {
