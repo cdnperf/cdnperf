@@ -20,28 +20,8 @@ build:
                 echo "npm version $(npm -v) running"
 deploy:
     steps:
-        - add-to-known_hosts:
-            hostname: $HOSTNAME
-            fingerprint: $FINGERPRINT
-        - mktemp:
-            envvar: PRIVATEKEY_PATH
-        - create-file:
-            name: write key
-            filename: $PRIVATEKEY_PATH
-            content: $WERCKER_PRIVATE
-            overwrite: true
-        - script:
-            name: transfer application
-            code: |
-              pwd
-              ls -la
-              tar czf - * | ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME "cd /var/local/www/cdnperf; tar xvzf -"
-        - script:
-            name: start application
-            code: |
-              ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME "if [[ \"\$(status cdnperf)\" = *start/running* ]]; then stop cdnperf -n ; fi"
-              ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME start cdnperf
-        - script:
-            name: purge cloudflare
-            code: ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME james purge_cf
+        - desmondmorris/jitsu-deploy@1.0.0:
+            name: deploy to jitsu
+            username: $JITSU_USERNAME
+            password: $JITSU_PASSWORD
 
