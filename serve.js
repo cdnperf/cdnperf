@@ -2,12 +2,8 @@
 var path = require('path');
 
 var express = require('express');
-var taskist = require('taskist');
 
-var routes = require('./routes');
-var tasks = require('./tasks');
 var config = require('./config');
-var api = require('./api');
 
 
 main();
@@ -37,6 +33,13 @@ function main() {
         app.use(express.errorHandler());
     });
 
+    app.listen(port, function() {
+        console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
+    });
+
+    var api = require('./api');
+    var routes = require('./routes');
+
     app.get('/', routes('index'));
     app.get('/about', routes('about'));
     app.get('/resources', routes('resources'));
@@ -47,11 +50,7 @@ function main() {
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
-    app.listen(port, function() {
-        console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
-    });
-
-    taskist(config.tasks, tasks, {
+    require('taskist')(config.tasks, require('./tasks'), {
         instant: function(err) {
             if(err) {
                 return console.error(err);
