@@ -31,8 +31,8 @@
     "url": "https://bebraw@github.com/bebraw/cdnperf.git"
   },
   "scripts": {
-    "start": "node serve.js",
-    "prestart": "npm install && node_modules/james/bin/james build"
+    "prestart": "node_modules/james/bin/james build",
+    "start": "node serve.js"
   },
   "homepage": "https://github.com/bebraw/cdnperf",
   "bugs": {
