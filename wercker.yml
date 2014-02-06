@@ -43,5 +43,5 @@ deploy:
               ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME start cdnperf
         - script:
             name: purge cloudflare
-            code: james purge_cf
+            code: ssh -i $PRIVATEKEY_PATH -l root $HOSTNAME james purge_cf
 
