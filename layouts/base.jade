@@ -12,10 +12,11 @@ html(lang='en')
         link(rel='stylesheet', href='/css/all.css')
         script(src='/js/vendor/modernizr.js')
     body(ontouchstart='')
-        //if lt IE 7
-            <div class="browsehappy">
-                You are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
-            </div>
+        | <!--[if lt IE 9]><!-->
+        |    <div class="browsehappy">
+        |       You are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+        |    </div>
+        | <!--<![endif]-->
 
         section.intro.left
             a.sitelogo(href='/')
