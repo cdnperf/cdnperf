@@ -9,6 +9,8 @@ CDNperf monitors popular CDN sites and graphs this data.
 3. `cp config.template.js config.js` and adjust as needed
 4. `james` to invoke the build tool (`npm install james -g` to install it)
 
+In order to get some test data to show up, please copy `http://www.cdnperf.com/data.json` to `public/`.
+
 ## Hosting
 
 1. Set NODE\_ENV to 'production' (important as this enables view caching!)
