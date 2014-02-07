@@ -15,7 +15,8 @@
   },
   "scripts": {
     "predeploy": "james build",
-    "start": "node serve.js"
+    "start": "node serve.js",
+    "postdeploy": "james purge_cf"
   },
   "homepage": "https://github.com/bebraw/cdnperf",
   "bugs": {
