@@ -10,27 +10,10 @@
    Base styles: opinionated defaults
    ========================================================================== */
 
-html,
-button,
-input,
-select,
-textarea {
-    color: #222;
-}
-
 html {
+    color: #222;
     font-size: 1em;
     line-height: 1.4;
-}
-
-a {
-    color: #333;
-}
-a:hover{
-   color: #888;
-}
-a:visited {
-    color: #aaa;
 }
 
 /*
@@ -70,6 +53,7 @@ hr {
 audio,
 canvas,
 img,
+svg,
 video {
     vertical-align: middle;
 }
@@ -330,36 +314,28 @@ p {
     top:15%;
 }
 
+a {
+    color: #333;
+}
+a:hover{
+   color: #888;
+}
+a:visited {
+    color: #aaa;
+}
 
 
 
 
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
+
+
+
+
+
 
 /* ==========================================================================
    Helper classes
    ========================================================================== */
-
-/*
- * Image replacement
- */
-
-.ir {
-    background-color: transparent;
-    border: 0;
-    overflow: hidden;
-    /* IE 6/7 fallback */
-    *text-indent: -9999px;
-}
-
-.ir:before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 150%;
-}
 
 /*
  * Hide from both screenreaders and browsers: h5bp.com/u
@@ -430,15 +406,6 @@ p {
     clear: both;
 }
 
-/*
- * For IE 6/7 only
- * Include this rule to trigger hasLayout and contain floats.
- */
-
-.clearfix {
-    *zoom: 1;
-}
-
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
@@ -480,19 +447,12 @@ p {
 
     abbr[title]:after {
         content: " (" attr(title) ")";
-        border: none !important;
-        
     }
-    abbr[title]{
-        border: none !important;
-    }
-
 
     /*
      * Don't show links for images, or javascript/internal links
      */
 
-    .ir a:after,
     a[href^="javascript:"]:after,
     a[href^="#"]:after {
         content: "";
@@ -517,10 +477,6 @@ p {
         max-width: 100% !important;
     }
 
-    @page {
-        margin: 0.5cm;
-    }
-
     p,
     h2,
     h3 {
@@ -533,6 +489,7 @@ p {
         page-break-after: avoid;
     }
 }
+
 
 .content {
     margin-top: 3em;
