@@ -341,6 +341,10 @@ function main() {
     }
 
     function createTh(state, name, host, color, update) {
+        if(!color) {
+            console.warn('host', host, 'is missing color!');
+        }
+
         var thClass = idfy(name);
         var $e = $('<th>', {'class': 'cdn ' + thClass}).css({
             'background-color': colorToHex(color)
@@ -504,6 +508,10 @@ function main() {
     function flipColor(color) {
         /* flips color to black or white based on brightness */
         /* http://javascriptrules.com/2009/08/05/css-color-brightness-contrast-using-javascript/ */
+        if(!color) {
+            return;
+        }
+
         var brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
 
         if(brightness > 125) return [0, 0, 0];
@@ -512,6 +520,10 @@ function main() {
     }
 
     function colorToHex(color) {
+        if(!color) {
+            return;
+        }
+
         return '#' + color.map(function(v) {
             return v.toString(16);
         }).join('');
