@@ -24,6 +24,12 @@ module.exports = function(cb) {
             write(JSON.stringify(d), './public/data.json');
 
             cb(null, d);
+        }, function(err) {
+            if(err) {
+                return cb(err);
+            }
+
+            console.log('Updated data.json');
         });
     });
 };
