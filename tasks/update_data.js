@@ -115,7 +115,7 @@ function structure(data) {
             var summaries = d.summaries;
             var check = summaries.check;
 
-            if(check.name.split(' ').length > 1) {
+            if(check.name.split(' ').length > 1 && check.name.indexOf('dd') !== 0) {
                 return {
                     name: check.name,
                     host: check.hostname,
