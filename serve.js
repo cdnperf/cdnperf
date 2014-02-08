@@ -66,6 +66,8 @@ function init(app) {
     require('taskist')(config.tasks, require('./tasks'), {
         instant: function(err) {
             if(err) {
+                console.trace();
+
                 return console.error(err);
             }
 
