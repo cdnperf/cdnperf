@@ -90,76 +90,77 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-body, html{
-    width:100%;
+body, html {
+    width: 100%;
     height: 100%;
     font-size: 13px;
     line-height: 1.4em;
     color: #555;
     text-align: left;
 }
-body{
+body {
     min-width: 960px;
 }
-section{
+section {
     min-height: 100%;
     height: auto !important;
     height: 100%;
 }
-.left{
+.left {
     float: left;
 }
-.right{
-    float:right;
+.right {
+    float: right;
 }
-.intro{
-    width: 15%;
-    padding: 0 2.5% 0 2.5%;
-    background: #fff;
+.intro {
+    padding: 0 2.5%;
+    background-color: #fff;
     position: relative;
     max-width:320px;
     min-width: 160px;
+    width: 15%;
 }
-.main{
+.main {
     width: 70%;
-    padding: 0 4% 0 4%;
+    padding: 0 4%;
 }
-.latencyContainer, .legendContainer{
-    margin-top:3em;
+.latencyContainer, .legendContainer {
+    margin-top: 3em;
 }
 body, .main, .legendContainer {
-    background: #f5f5f5;
+    background-color: #f5f5f5;
 }
-ul, li, h1, p{
+ul, li, h1, p {
     padding: 0;
-    margin:0;
+    margin: 0;
     display: block;
 }
-footer{
+footer {
     padding: 0.5em 0 1em 0;
     color: #aaa;
     font-size: 0.9em;
 }
-footer a{
+footer a {
+    display: inline-block;
     margin: 0 0.8em 0 0;
     text-decoration: none;
 }
-.sitelogo{
+.sitelogo {
     line-height: 1.3em;
     font-size: 1.1em;
     font-weight: normal;
     display: block;
     height: 50px;
-    width:50px;
-    background:url('../images/bolt.png');
+    width: 50px;
+    background-image: url('../images/bolt.png');
     margin-top: 3em;
     margin-bottom: 1em;
 }
-h1{
+h1 {
     margin-top: 1em;
     margin-bottom: 1em;
 }
-h3{
+h3 {
     font-weight: bold;
     margin: 2.5em 0 0.6em 0;
     font-size: 1em;
@@ -177,22 +178,22 @@ p {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
+}
 .switch .slide-button {
     display: block;
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-  }
+}
 .switch input:focus ~ .slide-button,
 .switch input:focus + label {
     outline: 1px dotted #888;
-  }
+}
 .switch input {
     position: absolute;
     opacity: 0;
-  }
+}
 .switch label {
     position: relative;
     z-index: 2;
@@ -213,55 +214,55 @@ p {
     z-index: 1;
     width: 50%;
     height: 100%;
-  }
+}
 .switch input:last-of-type:checked ~ .slide-button {
     left: 50%;
-  }
+}
 .switch.three label,
 .switch.three .slide-button {
     width: 33.33333%;
-  }
+}
 .switch.three input:checked:nth-of-type(2) ~ .slide-button {
     left: 33.33333%;
-  }
+}
 .switch.three input:checked:last-of-type ~ .slide-button {
     left: 66.66667%;
-  }
+}
 .small{
     height: 32px;
-    background: #bbb;
+    background-color: #bbb;
     font-size: 1em;
     border-radius: 4px;
-  }
+}
 .small label {
     -webkit-transition: color 0.2s ease-out;
     -moz-transition: color 0.2s ease-out;
     -o-transition: color 0.2s ease-out;
     transition: color 0.2s ease-out;
-  }
+}
 .small label,
 .small > span {
     color: #fff;
     line-height: 32px;
     vertical-align: middle;
-  }
+}
 .small input:checked + label {
     color: #555;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  }
+}
 .small .slide-button {
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 3px;
-  }
+}
 .small > span {
     color: #555;
     text-shadow: none;
 }
 .small span {
     color: #fff;
-  }
-.big{
+}
+.big {
     float: right;
     height: 46px;
     background: none;
@@ -271,44 +272,44 @@ p {
     border-radius: 25px;
     margin: 48px 40px 0 0;
     z-index: 9999;
-  }
+}
 .big label {
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     -o-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
     opacity: 0.2;
-  }
+}
 .big label,
 .big > span {
     color: #fff;
     line-height: 36px;
     vertical-align: middle;
-  }
+}
 .big input:checked + label {
     opacity: 1;
     color: #555;
-  }
+}
 .big .slide-button {
     border: 1px solid #fff;
     background-color: #fff;
     border-radius: 23px;
-  }
-.graphicon{
+}
+.graphicon {
     background: url('../images/graph.png') no-repeat;
     height: 20px;
     width: 20px;
     top: 12px;
     left: 12px;
 }
-.mapicon{
+.mapicon {
     background: url('../images/map.png') no-repeat;
     height: 20px;
     width: 20px;
     top: 13px;
     left: 14px;
 }
-.main img{
+.main img {
     position: absolute;
     width: 100%;
     top:15%;
@@ -317,7 +318,7 @@ p {
 a {
     color: #333;
 }
-a:hover{
+a:hover {
    color: #888;
 }
 a:visited {
@@ -534,11 +535,13 @@ td {
 }
 .sponsors {
     margin-top: 0.2em;
+    width: 100%
 }
 
 .sponsor img {
-    margin-bottom: 0.5em;
+    display: block;
     max-width: 100%;
+    height: auto;
 }
 
 .twitter {
