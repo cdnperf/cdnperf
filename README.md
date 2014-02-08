@@ -1,4 +1,4 @@
-# CDNperf
+# CDNperf [![Dependency Status](https://david-dm.org/bebraw/cdnperf.png?theme=shields.io)](https://david-dm.org/bebraw/cdnperf) [![devDependency Status](https://david-dm.org/bebraw/cdnperf/dev-status.png?theme=shields.io)](https://david-dm.org/bebraw/cdnperf#info=devDependencies)
 
 CDNperf monitors popular CDN sites and graphs this data.
 
