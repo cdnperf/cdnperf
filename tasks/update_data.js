@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 
 var async = require('async');
 
@@ -21,7 +22,7 @@ module.exports = function(cb) {
 
             var d = structure(data);
 
-            write(JSON.stringify(d), './public/data.json');
+            write(JSON.stringify(d), path.join(__dirname, '../public/data.json'));
 
             cb(null, d);
         });
