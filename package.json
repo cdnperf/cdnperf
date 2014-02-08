@@ -27,25 +27,25 @@
     "monitoring"
   ],
   "dependencies": {
-    "annois": "0.3.0",
-    "async": "0.2.9",
-    "date-utils": "1.2.15",
-    "express": "3.4.7",
-    "highlight.js": "7.5.0",
-    "jade": "1.0.2",
-    "james": "0.1.15",
-    "james-compile": "0.3.0",
-    "james-uglify": "0.1.0",
-    "marked": "0.3.0",
-    "parse-env": "0.2.2",
-    "pingdom-api": "0.4.0",
-    "require-dir": "0.1.0",
-    "simple-twitter": "1.0.3",
-    "taskist": "0.3.1"
+    "annois": "~0.3.0",
+    "async": "~0.2.10",
+    "date-utils": "~1.2.15",
+    "express": "~3.4.8",
+    "highlight.js": "~8.0.0",
+    "jade": "~1.1.5",
+    "james": "~0.1.15",
+    "james-compile": "~0.3.0",
+    "james-uglify": "~0.1.0",
+    "marked": "~0.3.1",
+    "parse-env": "~0.2.2",
+    "pingdom-api": "~0.4.0",
+    "require-dir": "~0.1.0",
+    "simple-twitter": "~1.0.3",
+    "taskist": "~0.3.1"
   },
   "devDependencies": {
-    "grunt": "0.4.2",
-    "grunt-adapter": "0.1.2",
-    "grunt-cloudflare": "0.0.2"
+    "grunt": "~0.4.2",
+    "grunt-adapter": "~0.1.2",
+    "grunt-cloudflare": "~0.0.2"
   }
 }
