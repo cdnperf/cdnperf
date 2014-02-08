@@ -21,8 +21,5 @@ module.exports = {
         secret: 'replacethis',
         accessToken: 'replacethis',
         accessTokenSecret: 'replacethis'
-    },
-    features: {
-        tasksEnabled: true
     }
 };

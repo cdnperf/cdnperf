@@ -55,19 +55,17 @@ function init(app) {
     app.get('/api/' + apiPrefix + '/cdns', api.cdns.getNames);
     app.get('/api/' + apiPrefix + '/cdns/:name', api.cdns.get);
 
-    if(parseInt(config.features.tasksEnabled, 10)) {
-        require('taskist')(config.tasks, require('./tasks'), {
-            instant: function(err) {
-                if(err) {
-                    return console.error(err);
-                }
-
-                console.log('Tasks initialized!');
-
-                api.cdns.updateData(require('./public/data'));
+    require('taskist')(config.tasks, require('./tasks'), {
+        instant: function(err) {
+            if(err) {
+                return console.error(err);
             }
-        });
-    }
+
+            console.log('Tasks initialized!');
+
+            api.cdns.updateData(require('./public/data'));
+        }
+    });
 
     process.on('exit', terminator);
 
