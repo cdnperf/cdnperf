@@ -18,29 +18,16 @@ block sidebar
         .switch.three.small.durationControls
 
 block content
-    //.switch.big
-        input#graph(name='view', type='radio', checked='checked', data-caro='prev')
-        label.graphicon(for='graph', onclick='')
-
-        input#map(name='view', type='radio', data-caro='next')
-        label.mapicon(for='map', onclick='')
-
-        span.slide-button
-
-    .slides
-        .charts
-            .latencies.row
-                .chartContainer.columns
-                .uptimeContainer
-                    .info
-                        h2
-                            abbr(title='Uptime in percentage. The higher, the better.') Uptime
-                .latencyContainer
-                    .info
-                        h2
-                            abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
-        //.map
-            img(src='images/worldmap.svg')
-            p TODO
+    .charts
+        .latencies.row
+            .chartContainer.columns
+            .uptimeContainer
+                .info
+                    h2
+                        abbr(title='Uptime in percentage. The higher, the better.') Uptime
+            .latencyContainer
+                .info
+                    h2
+                        abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
 
     .legendContainer.columns

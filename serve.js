@@ -37,6 +37,14 @@ function main() {
 
         init(app);
     });
+
+    process.on('exit', terminator);
+
+    ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS',
+    'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGTERM'
+    ].forEach(function(element) {
+        process.on(element, function() { terminator(element); });
+    });
 }
 
 function init(app) {
@@ -67,13 +75,6 @@ function init(app) {
         }
     });
 
-    process.on('exit', terminator);
-
-    ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS',
-    'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGTERM'
-    ].forEach(function(element) {
-        process.on(element, function() { terminator(element); });
-    });
 }
 
 function terminator(sig) {

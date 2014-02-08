@@ -1,8 +1,6 @@
 $(main);
 
 function main() {
-    initUI();
-
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
         var state = initializeState(data.providers);
@@ -20,10 +18,6 @@ function main() {
 
         update();
     });
-
-    function initUI() {
-        var $c = $('.content').caro();
-    }
 
     function union() {
         var args = arguments;
