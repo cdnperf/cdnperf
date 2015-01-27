@@ -37,7 +37,7 @@
     "james-compile": "~0.3.0",
     "james-uglify": "~0.1.0",
     "marked": "~0.3.3",
-    "parse-env": "~0.3.0",
+    "parse-env": "~0.2.2",
     "pingdom-api": "~0.4.0",
     "require-dir": "~0.1.0",
     "simple-twitter": "~1.0.7",
