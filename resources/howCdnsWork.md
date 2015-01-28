@@ -13,11 +13,11 @@ Most of the CDNs out there use two techniques to load balance the requests. The 
 In DNS based approach when the user makes a request to content, hostname has to be resolved to an IP address. The company’s nameservers in their turn will check the user’s IP address and based on internal rules of location, uptime, load... will return the IP of a server that is best suited for the user.
 
 The problem here is that the nameservers don’t know the IP address of the user himself but rather of the DNS resolver he is using. So if a user from Australia uses USA based DNS resolvers he will most probably be served content from USA locations.
- 
+
 To overcome this problem some public DNS resolvers started using EDNS techniques to provide the real user’s IP address. The problem is that not all DNS resolvers use it and not all CDN companies read them.
 
 ## Anycast IP Addressing
 
-The second popular method is using anycast IP addressing. Basically the company uses a single IP address for all of their locations. All data-centers are assigned the same IP and with some smart BGP routing rules the user is automatically routed to closest location to him. 
+The second popular method is using anycast IP addressing. Basically the company uses a single IP address for all of their locations. All data-centers are assigned the same IP and with some smart BGP routing rules the user is automatically routed to closest location to him.
 
 This kind of load balancing is not easy to pull of and requires owning your own ASN and hardware. On the other hand there is no single point of failure since everything is offloaded to the internet infrastructure itself.

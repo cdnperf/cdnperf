@@ -9,7 +9,7 @@ The example below loads jQuery from Google. As it is possible the query might fa
 ```html
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
-	window.jQuery || document.write('<script src="js/jquery-1.8.3.min.js"><\/script>')
+    window.jQuery || document.write('<script src="js/jquery-1.8.3.min.js"><\/script>')
 </script>
 ```
 
@@ -21,10 +21,10 @@ Using CDNs with RequireJS is quite simple. You simply use the path configuration
 
 ```json
 requirejs.config({
-  paths: {
-    jquery: ['https://ajax.googleapis.com/ajax/libs/jquery/1.9.2/jquery.min.js',
-    'lib/jquery'] // Fallback
-  }
+    paths: {
+        jquery: ['https://ajax.googleapis.com/ajax/libs/jquery/1.9.2/jquery.min.js',
+        'lib/jquery'] // Fallback
+    }
 });
 ```
 
@@ -32,6 +32,6 @@ On module level you just point to jQuery as usual:
 
 ```js
 define(['jquery'], function($) {
-  //$ points to jQuery
+    //$ points to jQuery
 });
 ```
