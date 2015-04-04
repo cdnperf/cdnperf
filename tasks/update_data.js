@@ -22,9 +22,13 @@ module.exports = function(cb) {
 
             var d = structure(data);
 
-            write(JSON.stringify(d), path.join(__dirname, '../public/data.json'));
+            write(JSON.stringify(d), path.join(__dirname, '../public/data.json'), function(err) {
+                if(err) {
+                    return cb(err);
+                }
 
-            cb(null, d);
+                cb(null, d);
+            });
         });
     });
 };
@@ -156,13 +160,15 @@ function equals(a, b) {
 }
 
 // TODO: move to some utility lib
-function write(data, target) {
+function write(data, target, cb) {
     fs.writeFile(target, data, function(err) {
         if(err) {
-            return console.error(err);
+            return cb(err);
         }
 
         console.log('Wrote ' + target);
+
+        cb();
     });
 }
 
