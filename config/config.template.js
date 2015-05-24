@@ -11,6 +11,9 @@ module.exports = {
         pass: 'replacethis',
         appkey: 'replacethis'
     },
+    dotcom: {
+        auth: 'replacethis',
+    },
     cloudflare: {
         apikey: 'replacethis',
         email: 'replacethis',
