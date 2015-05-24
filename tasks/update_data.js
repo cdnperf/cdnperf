@@ -31,6 +31,8 @@ module.exports = function(cb) {
         // TODO: merge data now
         // go through latency + avg if not null
 
+        console.log('data', JSON.stringify(data[0]));
+
         var p = path.join(__dirname, '../public/data.json');
 
         writeData(data[1], p, cb);
@@ -45,6 +47,6 @@ function writeData(d, target, cb) {
 
         console.log('Wrote ' + target);
 
-        cb(null, d);
+        cb();
     });
 }

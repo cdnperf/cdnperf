@@ -29,7 +29,13 @@ module.exports = function(auth) {
                     return cb(err);
                 }
 
-                var siteData = result.DotcomMonitorOnlineReport.Site;
+                var report = result.DotcomMonitorOnlineReport;
+
+                if(!report) {
+                    return cb(new Error('Missing report!'));
+                }
+
+                var siteData = report.Site;
 
                 cb(null, {
                     providers: parseDotcomAverages(siteData)
