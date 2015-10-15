@@ -1,5 +1,5 @@
 module.exports = {
-    port: 8000,
+    port: 8090,
     ga: 'UA-XXXXX-X',
     mixpanel: 'replacethis',
     tasks: {
