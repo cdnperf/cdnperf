@@ -2,6 +2,11 @@
 var path = require('path');
 
 var express = require('express');
+var favicon = require('express-favicon');
+var morgan = require('morgan');
+var compression = require('compression');
+var helmet = require('helmet');
+var errorhandler = require('errorhandler');
 
 var config = require('./config');
 
@@ -13,24 +18,23 @@ function main() {
 
     var app = express();
 
-    app.configure(function() {
-        var halfDay = 43200000;
+    var halfDay = 43200000;
 
-        app.set('port', port);
+    app.set('port', port);
 
-        app.use(express.favicon(path.join(__dirname, 'public/images/favicon.ico')));
-        app.use(express.logger('dev'));
-        app.use(express.compress());
-        app.use(express['static'](path.join(__dirname, 'public'), {
-            maxAge: halfDay
-        }));
-
-        app.use(app.router);
-    });
-
-    app.configure('development', function() {
-        app.use(express.errorHandler());
-    });
+    if(app.get('env') !== 'production') {
+        app.use(morgan('dev'));
+        app.use(errorhandler());
+    }
+    else {
+        app.use(morgan('tiny'));
+    }
+    app.use(helmet());
+    app.use(favicon(path.join(__dirname, 'public/images/favicon.ico')));
+    app.use(compression());
+    app.use(express['static'](path.join(__dirname, 'public'), {
+        maxAge: halfDay
+    }));
 
     app.listen(port, function() {
         console.log('%s: Node (version: %s) %s started on %d ...', Date(Date.now() ), process.version, process.argv[1], port);
