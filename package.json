@@ -14,6 +14,7 @@
     "url": "https://bebraw@github.com/bebraw/cdnperf.git"
   },
   "scripts": {
+    "build": "james build",
     "predeploy": "james build",
     "start": "node serve.js",
     "postdeploy": "james purge_cf"
@@ -49,6 +50,7 @@
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-adapter": "~0.1.2",
-    "grunt-cloudflare": "~0.0.2"
+    "grunt-cloudflare": "~0.0.2",
+    "james": "^0.1.15"
   }
 }
