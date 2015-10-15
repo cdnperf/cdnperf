@@ -7,7 +7,7 @@ CDNperf monitors popular CDN sites and graphs this data.
 1. `npm install`
 2. `cd config`
 3. `cp config.template.js config.js` and adjust as needed
-4. `james` to invoke the build tool (`npm install james -g` to install it)
+4. `npm run build` to generate the static site
 
 In order to get some test data to show up, please copy
 `http://www.cdnperf.com/data.json` to `public/`.
