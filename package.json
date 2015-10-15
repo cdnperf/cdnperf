@@ -11,7 +11,7 @@
   "subdomain": "cdnperf",
   "repository": {
     "type": "git",
-    "url": "https://bebraw@github.com/bebraw/cdnperf.git"
+    "url": "https://github.com/cdnperf/cdnperf.git"
   },
   "scripts": {
     "build": "james build",
@@ -19,9 +19,9 @@
     "start": "node serve.js",
     "postdeploy": "james purge_cf"
   },
-  "homepage": "https://github.com/bebraw/cdnperf",
+  "homepage": "http://cdnperf.com",
   "bugs": {
-    "url": "https://github.com/bebraw/cdnperf/issues"
+    "url": "https://github.com/cdnpefr/cdnperf/issues"
   },
   "keywords": [
     "cdn",
