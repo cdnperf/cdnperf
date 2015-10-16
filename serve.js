@@ -44,8 +44,9 @@ function main() {
 
     process.on('exit', terminator);
 
+    // ignoring SIGPIPE on purpose
     ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS',
-    'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGTERM'
+    'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
     ].forEach(function(element) {
         process.on(element, function() { terminator(element); });
     });
