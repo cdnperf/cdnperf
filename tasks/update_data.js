@@ -6,7 +6,7 @@ var findWhere = require('lodash').findWhere;
 
 var config = require('../config');
 
-var getDotcomData = require('../lib/get_dotcom')(config.dotcom.auth);
+//var getDotcomData = require('../lib/get_dotcom')(config.dotcom.auth);
 var getPingdomData = require('../lib/get_pingdom')(config.pingdom);
 
 require('date-utils');
@@ -16,10 +16,10 @@ module.exports = function(cb) {
     var from = to.clone().addMonths(-3);
 
     async.parallel([
-        getDotcomData.bind(null, {
+        /*getDotcomData.bind(null, {
             from: from,
             to: to,
-        }),
+        }),*/
         getPingdomData.bind(null, {
             from: from,
             to: to,

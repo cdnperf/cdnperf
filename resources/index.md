@@ -19,4 +19,3 @@ This section lists CDN related resources and articles of our own. In case you th
 * [Nibbler](http://nibbler.silktide.com/)
 * [Pingdom Website Speed Test](http://tools.pingdom.com/fpt/)
 * [WebPageTest](http://www.webpagetest.org/)
-* [Dotcom Tools Website Speed Test](https://www.dotcom-tools.com/website-speed-test.aspx)
