@@ -30,11 +30,11 @@ module.exports = function(cb) {
         }
 
         // average pingdom latencies with dotcom
-        data[1].providers = combineData(data[1].providers, data[0].providers);
+        //data[1].providers = combineData(data[1].providers, data[0].providers);
 
         var p = path.join(__dirname, '../public/data.json');
 
-        writeData(p, data[1], cb);
+        writeData(p, data[0], cb);
     });
 };
 
