@@ -192,13 +192,18 @@ p {
   margin-bottom: 1em;
   padding: 1em;
   border-radius: 0.3em;
-
+}
+.uptime h2 {
+  margin-top: 0
 }
 .latency {
   background: white;
   margin-bottom: 2em;
   padding: 1em;
   border-radius: 0.3em;
+}
+.latency h2 {
+  margin-top: 0
 }
 .partners {
   text-align: center;
