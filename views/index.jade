@@ -7,27 +7,33 @@ block js
     script(src='js/vendor/Chart.js')
     script(src='js/main.js')
 
-block sidebar
+block header
     .controls
-        h3 Select request type
+        .request-type-container
+            h3.request-type-header Select request type
 
-        .switch.three.small.typeControls
+            .switch.three.small.typeControls
 
-        h3 Select duration
+        .duration-container
+            h3.duration-header Select duration
 
-        .switch.three.small.durationControls
+            .switch.three.small.durationControls
 
 block content
     .charts
         .latencies.row
             .chartContainer.columns
-            .uptimeContainer
-                .info
-                    h2
-                        abbr(title='Uptime in percentage. The higher, the better.') Uptime
-            .latencyContainer
-                .info
-                    h2
-                        abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
 
-    .legendContainer.columns
+            .uptime
+                .uptimeContainer
+                    .info
+                        h2
+                            abbr(title='Uptime in percentage. The higher, the better.') Uptime
+
+            .latency
+                .latencyContainer
+                    .info
+                        h2
+                            abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
+
+                .legendContainer.columns

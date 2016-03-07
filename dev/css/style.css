@@ -1,113 +1,241 @@
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-*:before,
-*:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 
-body,
-html {
-    color: #555;
-    font-size: 13px;
-    line-height: 1.4em;
-    min-width: 960px;
-    text-align: left;
-    width: 100%;
-    height: 100%;
-}
-
-body {
-    background-color: #f5f5f5;
-}
-
-section {
-    min-height: 100%;
-    height: 100%;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
-
-.intro {
-    padding: 0 2.5%;
-    background-color: #fff;
-    position: relative;
-    max-width: 320px;
-    min-width: 160px;
-    width: 20%;
-}
-
-.main {
-    background-color: #f5f5f5;
-    padding: 0 5%;
-    width: 80%;
-}
-
-.latencyContainer,
-.legendContainer {
-    margin-top: 3em;
-}
-
-.legendContainer {
-    background-color: #f5f5f5;
-}
-
-ul,
-li,
-h1,
-p {
-    display: block;
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
     margin: 0;
     padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
-
-footer {
-    color: #aaa;
-    font-size: 0.9em;
-    padding: 0.5em 0 1em 0;
-}
-
-footer a {
-    display: inline-block;
-    margin: 0 0.8em 0 0;
-    text-decoration: none;
-}
-
-.sitelogo {
-    background-image: url('../images/bolt.png');
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
     display: block;
-    font-size: 1.1em;
-    font-weight: normal;
-    line-height: 1.3em;
-    margin-top: 3em;
-    margin-bottom: 1em;
-    width: 50px;
-    height: 50px;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
+/* browser upgrade prompt */
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* fonts */
+body {
+  font-family: sans-serif;
+}
+
+/* nav */
+nav {
+  background: white;
+  overflow: auto;
+}
+.logo-container {
+  float: left;
+
+  margin-left: 2em;
+  padding: 1em;
+}
+.logo-container a {
+  text-decoration: none;
+}
+.logo-container .logo {
+  display: inline;
+}
+.logo-container .text {
+  display: inline;
+  margin-left: 0.5em;
+}
+.logo-container .first {
+  display: inline;
+  color: black;
+  font-weight: 600;
+}
+.logo-container .second {
+  display: inline;
+  color: #00dd79;
+}
+.nav-container {
+  float: right;
+
+  margin-right: 2em;
+  padding: 1em;
+}
+.nav-items {
+  display: inline;
+
+  list-style: none;
+}
+.nav-item {
+  display: inline;
+
+  margin-right: 1em;
+}
+.social-container {
+  float: right;
+  padding: 1em;
+}
+.twitter-follow-button {
+  margin-right: 0.5em;
+}
+.social-follow, .social-tweet {
+  display: inline;
+  padding: 0.25em;
+}
+
+/* header */
+header {
+  color: white;
+  background: #00dd79;
+  text-align: center;
+}
 h1 {
-    margin-top: 1em;
-    margin-bottom: 1em;
+  font-size: 175%;
+
+  padding-top: 1em;
+  padding-bottom: 0.25em;
+}
+h2 {
+  font-size: 125%;
+
+  padding-bottom: 1em;
+}
+.request-type-container {
+  color: black;
+}
+.request-type-header {
+
+}
+.request-type {
+
+}
+.duration-container {
+  color: black;
+}
+.duration-amount {
+
+}
+.request-type-container, .duration-container {
+  width: 200px;
+  display: inline-block;
+  margin: 1em;
+}
+.request-type-header, .duration-header {
+  margin: 0.5em;
 }
 
-h3 {
-    font-size: 1em;
-    font-weight: bold;
-    margin: 2.5em 0 0.6em 0;
+/* article */
+body, article {
+  background: #dae0e4;
 }
-
+article {
+  max-width: 950px;
+  margin: 0 auto;
+}
+h2, h3, h4 {
+  margin-top: 1em;
+}
 p {
-    margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.5;
+}
+.help {
+
+}
+.uptime {
+  background: white;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  padding: 1em;
+  border-radius: 0.3em;
+
+}
+.latency {
+  background: white;
+  margin-bottom: 2em;
+  padding: 1em;
+  border-radius: 0.3em;
+}
+.partners {
+  text-align: center;
+}
+.partners h2 {
+  padding: 0;
+}
+.partners-container {
+  margin: 1em;
+}
+.partner {
+  margin: 1em;
+}
+
+/* footer */
+footer {
+  background: #333333;
+  padding: 1em;
+}
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+/* abbr */
+abbr:first-child {
+    text-transform: capitalize;
+}
+
+abbr[title] {
+    cursor: help;
+}
+
+/* disqus */
+#disqus_thread {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .switch {
@@ -191,13 +319,15 @@ p {
 
 .small label,
 .small > span {
-    color: #fff;
+    color: black;
+    background: white;
     line-height: 32px;
     vertical-align: middle;
 }
 
 .small input:checked + label {
-    color: #555;
+    color: white;
+    background: black;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
@@ -334,47 +464,4 @@ td {
 
 .visibility.selected {
     opacity: 1.0;
-}
-
-.sponsors {
-    margin-top: 0.2em;
-    width: 100%
-}
-
-.sponsor img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
-
-.twitter {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.twitter iframe {
-    margin-right: 1em;
-}
-
-.links {
-    border-top: 1px solid #ddd;
-    list-style-type: none;
-    margin: 3em 0 0 0;
-    padding-top: 1em;
-}
-
-.links li {
-    display: inline-block;
-}
-
-abbr:first-child {
-    text-transform: capitalize;
-}
-
-abbr[title] {
-    cursor: help;
-}
-
-#disqus_thread {
-    margin-top: 2em;
 }

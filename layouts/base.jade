@@ -1,81 +1,90 @@
 doctype html
-html(lang='en')
-    head
-        meta(charset='utf-8')
-        meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        title CDN performance in numbers - CDNperf
-        meta(name='description', content='CDNperf measures JavaScript CDN performance and helps you get started.')
-        meta(name='viewport', content='width=1200')
-        link(rel='shortcut icon', href='/images/favicon.ico')
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title CDN performance in numbers - CDNperf
+    meta(name='description', content='CDNperf measures JavaScript CDN performance and helps you get started.')
+    meta(name='viewport', content='width=1200')
+    link(rel='shortcut icon', href='/images/favicon.ico')
 
-        link(rel='stylesheet', href='/css/all.css')
-        script(src='/js/vendor/modernizr.js')
-    body(ontouchstart='')
-        <!--[if lt IE 9]><div class="browserupgrade">You are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+    link(rel='stylesheet', href='/css/all.css')
+    script(src='/js/vendor/modernizr.js')
+  body(ontouchstart='')
+    <!--[if lt IE 9]><div class="browserupgrade">You are using an outdated browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
 
-        section.intro.left
-            a.sitelogo(href='/')
+    nav
+      .logo-container
+        a(href='/')
+            img.logo(src='/images/bolt.png', alt='CDNperf', width='25', height='25')
+            .text
+                .first CDN
+                .second perf
 
-            :markdown
-                **CDNperf** finds you fast and reliable JavaScript CDNs that make your websites snappy and happy!
+      .social-container
+        a.twitter-follow-button.social-follow(href='https://twitter.com/cdnperf', data-show-count='false') Follow @cdnperf
+        a.twitter-share-button.social-share(href='https://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
 
-            block sidebar
+      .nav-container
+        ul.nav-items
+          li.nav-item
+            a(href='/api') API
+          li.nav-item
+            a(href='/resources') Resources
+          li.nav-item
+            a.issueTracker(href='https://github.com/bebraw/cdnperf/issues', target='_blank') Issues
+          li.nav-item
+            a(href='/about') About
 
-            footer
-                .sponsors
-                    a.sponsor(href='http://www.jsdelivr.com/')
-                        img(src='/images/jsdelivr.png', alt='jsDelivr', width='102', height='42')
+    header
+      h1 Find fast and reliable JavaScript CDNs
+      h2 To make your sites snappy and happy!
 
-                    a.sponsor(href='http://jster.net/')
-                        img(src='/images/jster.png', alt='JSter', width='102', height='42')
+      block header
 
-                    a.sponsor(href='http://survivejs.com/')
-                        img(src='/images/survivejs.png', alt='SurviveJS', width='172', height='42')
+    article
+      block content
 
-                    a.sponsor(href='https://www.pingdom.com/')
-                        img(src='/images/pingdom.png', alt='Pingdom', width='102', height='42')
+    article
+      .partners
+        h2 Our Partners:
+        .partners-container
+          a.partner(href='http://www.jsdelivr.com/')
+            img(src='/images/jsdelivr.png', alt='jsDelivr', width='102', height='42')
 
-                    a.sponsor(href='https://www.dotcom-monitor.com/web-application-monitoring-tools/')
-                        img(src='/images/dotcom.png', alt='Dotcom', width='102', height='11')
+          a.partner(href='http://jster.net/')
+            img(src='/images/jster.png', alt='JSter', width='102', height='42')
 
-                ul.links
-                    li
-                        a(href='/api') API
-                    li
-                        a(href='/resources') Resources
-                    li
-                        a.issueTracker(href='https://github.com/bebraw/cdnperf/issues', target='_blank') Issues
-                    li
-                        a(href='/about') About
+          a.partner(href='http://survivejs.com/')
+            img(src='/images/survivejs.png', alt='SurviveJS', width='172', height='42')
 
-                .twitter
-                    a.twitter-follow-button(href='https://twitter.com/cdnperf', data-show-count='false') Follow @cdnperf
-                    a.twitter-share-button(href='https://twitter.com/share', data-text='#cdnperf - #CDN performance in numbers', data-count='horizontal') Tweet
+          a.partner(href='https://www.pingdom.com/')
+            img(src='/images/pingdom.png', alt='Pingdom', width='102', height='42')
 
-        section.main.right
-            .content
-                block content
+    footer
+      div
+        a(href='http://prospectone.pl/') © 2016 Prospect One Sp z.o.o.
 
-        script(src='/js/vendor/jquery.js')
+    script(src='/js/vendor/jquery.js')
 
-        script
-            :uglify
-                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    script
+        :uglify
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-                ga('create', '#{ga}', 'cdnperf.com');
-                ga('send', 'pageview');
+            ga('create', '#{ga}', 'cdnperf.com');
+            ga('send', 'pageview');
 
-                (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
-                mixpanel.init("#{mixpanel}");
+            (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+            mixpanel.init("#{mixpanel}");
 
-                $(function() {
-                    var val = localStorage.getItem('index');
-                    if(val) $('.indexUrl').attr('href', val);
-                });
+            $(function() {
+                var val = localStorage.getItem('index');
+                if(val) $('.indexUrl').attr('href', val);
+            });
 
-        script(async src='//platform.twitter.com/widgets.js')
+    script(async src='//platform.twitter.com/widgets.js')
 
-        block js
+    block js
