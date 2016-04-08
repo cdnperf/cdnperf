@@ -119,6 +119,16 @@ nav {
 .nav-item {
   display: inline;
   margin-right: 3em;
+  position: relative;
+}
+.nav-item.active:before {
+  color: #6ad378;
+  font-family: FontAwesome;
+  content: "\f0d8";
+  position: absolute;
+  bottom: -34px;
+  left: calc(50% - 7px);
+  font-size: 24px;
 }
 .nav-item a, .nav-item a:visited {
   color: #969ea6;
@@ -127,6 +137,7 @@ nav {
 .social-container {
   float: right;
   padding: 24px 20px 24px 0;
+  min-width: 201px;
 }
 .twitter-follow-button {
   margin-right: 0.5em;
@@ -278,7 +289,7 @@ p {
   margin-top: 0;
   margin-bottom: 1em;
 }
-.latencySection, .about, #disqus_thread, .resources {
+.latencySection, .about, #disqus_thread, .resources, .api {
   background: white;
   margin-bottom: 2em;
   padding: 1em;
