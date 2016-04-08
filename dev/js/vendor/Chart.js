@@ -1393,14 +1393,7 @@
 				this.y = this.chart.height - halfHeight;
 			}
 
-			//Decide whether to align left or right based on position on canvas
-			if (this.x > this.chart.width/2){
-				this.x -= this.xOffset + this.width;
-			} else {
-				this.x += this.xOffset;
-			}
-
-
+			this.x += this.xOffset;
 		},
 		getLineHeight : function(index){
 			var baseLineHeight = this.y - (this.height/2) + this.yPadding,
@@ -3079,7 +3072,7 @@
 			helpers.each(this.segments,function(segment){
 				segment.save();
 			});
-			
+
 			this.reflow();
 			this.render();
 		},

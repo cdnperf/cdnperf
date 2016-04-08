@@ -9,7 +9,13 @@ function main() {
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
         var updateWithRoute, router;
 
-        $(window).on('resize', update);
+        $(window).on('resize', function () {
+            tooltips.forEach(function (tooltip) {
+                if (tooltip) {
+                    tooltipPosition(tooltip);
+                }
+            });
+        });
 
         router = initializeRouter(state, update);
 
@@ -235,17 +241,25 @@ function main() {
         }
 
         $c.append(data.labels.map(function(label, index) {
+            var i;
             var $div = $('<div></div>').css({
                 float: 'left',
                 width: (100 / data.labels.length) + '%',
                 height: '100%'
-            }).attr('data-label', label);
+            }).attr('data-label', label).on('mouseover', function () {
+                var int = setInterval(function () {
+                    if ($(tooltips[i].drop.drop).is(':visible')) {
+                        tooltipPosition(tooltips[i]);
+                        clearInterval(int);
+                    }
+                }, 5);
+            });
 
-            tooltips.push(new Tooltip({
+            i = tooltips.push(new Tooltip({
                 target: $div[0],
                 content: '<strong>' + label + '</strong>' + (tooltipCb(data, index)),
                 position: 'top center'
-            }));
+            })) - 1;
 
             return $div;
         })).css('background', 'linear-gradient(to right, ' + points.join(',') + ')');
@@ -373,9 +387,24 @@ function main() {
 			});
 
 			tooltips[ti].open();
+            tooltipPosition(tooltips[ti]);
         };
 
         charts.push(new Chart(ctx, {}, tooltipCb).Line(data, opts));
+    }
+
+    function tooltipPosition (tooltip) {
+        var pat = /\([^)]+\)/,
+            wid = parseFloat(getComputedStyle(tooltip.drop.content).width),
+            trX = parseFloat(tooltip.drop.drop.style.transform.match(pat)[0].substr(1));
+
+        if (trX < 0) {
+            tooltip.drop.drop.style.transform = tooltip.drop.drop.style.transform.replace(pat, '(0px)');
+        }
+
+        if (trX > window.innerWidth - wid - 20) {
+            tooltip.drop.drop.style.transform = tooltip.drop.drop.style.transform.replace(pat, '(' + (window.innerWidth - wid - 20) + 'px)');
+        }
     }
 
     function op(fn, accessor) {
