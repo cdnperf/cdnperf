@@ -152,7 +152,9 @@ header h2 {
   font-weight: 500;
 
   margin-top: .4em;
-  padding-bottom: 1em;
+}
+.controls {
+  margin-top: 1em;
 }
 .request-type-container {
   color: black;
@@ -188,10 +190,14 @@ article {
   max-width: 1560px;
   min-width: 920px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 20px;
 }
 h2, h3, h4 {
   margin-top: 1em;
+}
+article h1 {
+  font-size: 1.6em;
+  font-weight: 700;
 }
 article h2 {
   font-size: 1.2em;
@@ -264,7 +270,6 @@ p {
 }
 .uptimeSection {
   background: white;
-  margin-top: 2em;
   margin-bottom: 1em;
   padding: 1em 1em 3.5em;
   border-radius: 0.3em;
@@ -273,7 +278,7 @@ p {
   margin-top: 0;
   margin-bottom: 1em;
 }
-.latencySection {
+.latencySection, .about, #disqus_thread {
   background: white;
   margin-bottom: 2em;
   padding: 1em;
@@ -285,11 +290,12 @@ p {
 }
 .partners {
   text-align: center;
-  margin: 4em;
+  margin-bottom: 2em;
 }
 .partners h2 {
   font-size: 2em;
   font-weight: 500;
+  margin-top: 0;
 }
 .partners-container {
   margin: 2em;
@@ -503,15 +509,17 @@ abbr[title] {
 }
 
 a {
-  color: #333;
+  color: #0096ff;
+  text-decoration: none;
 }
 
 a:hover {
-   color: #888;
+  color: #0096ff;
+  text-decoration: underline;
 }
 
 a:visited {
-  color: #aaa;
+  color: #0096ff;
 }
 
 .content {
