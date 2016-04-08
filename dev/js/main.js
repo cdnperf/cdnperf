@@ -426,7 +426,7 @@ function main() {
             'color': '#fff'
         }).text(name).appendTo($e);
 
-        var $icon = $('<i>', {'class': 'visibility fa fa-check-square'}).css({
+        var $icon = $('<i>', {'class': 'visibility fa'}).css({
             'color': '#fff'
         }).on('click', function() {
             $icon.toggleClass('fa-check-square fa-square');
@@ -436,7 +436,11 @@ function main() {
             update();
         }).appendTo($e);
 
-        if(within(state.providers, thClass)) $icon.addClass('fa-check-square');
+        if(within(state.providers, thClass)) {
+            $icon.addClass('fa-check-square');
+        } else {
+            $icon.addClass('fa-square');
+        }
 
         return $e;
     }
