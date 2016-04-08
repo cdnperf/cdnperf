@@ -10,12 +10,12 @@ block js
 block header
     .controls
         .request-type-container
-            h3.request-type-header Select request type
+            h3.request-type-header Select request type:
 
             .switch.three.small.typeControls
 
         .duration-container
-            h3.duration-header Select duration
+            h3.duration-header Select duration:
 
             .switch.three.small.durationControls
 
@@ -24,16 +24,21 @@ block content
         .latencies.row
             .chartContainer.columns
 
-            .uptime
+            .uptimeSection
                 .uptimeContainer
                     .info
-                        h2
-                            abbr(title='Uptime in percentage. The higher, the better.') Uptime
+                        h2 Uptime
+                            span.expl Uptime in percentage. The higher, the better.
 
-            .latency
+            .latencySection
                 .latencyContainer
                     .info
-                        h2
-                            abbr(title='Latency is given as average for the defined range of time. The lower, the better.') Latency
+                        h2 Latency
+                            span.expl Latency is given as average for the defined range of time. The lower, the better.
 
-                .legendContainer.columns
+                .legendContainer
+                    .columns
+                    .notes(style='white-space: pre')
+                        |1 - Latency in ms as average per day, the lower the better.
+                        |2 - Uptime in percentage as average per day. The higher the better.
+                        |3 - Total downtime.
