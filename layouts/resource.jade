@@ -3,8 +3,15 @@ extends base
 block content
     #disqus_thread
 
+block js
     script
         :uglify
+            $('.nav-item a').each(function() {
+                if ($(this).attr('href') === location.pathname) {
+                    return !$(this).parent().addClass('active');
+                }
+            });
+
             var disqus_shortname = 'cdnperf';
 
             (function() {

@@ -4,7 +4,7 @@ CDNperf started as a collaboration between [jsDelivr](http://www.jsdelivr.com/),
 
 ## Sponsors
 
-It would not have been possible to develop CDNperf without sponsors. We are grateful to [Pingdom](https://www.pingdom.com/) for providing access to their data.
+It would not have been possible to develop CDNperf without sponsors. We are grateful to [Pingdom](https://www.pingdom.com/) and [Dotcom-Monitor](https://www.dotcom-monitor.com/) for providing access to their data.
 
 ## Improving
 

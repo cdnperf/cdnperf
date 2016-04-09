@@ -8,6 +8,9 @@ html
     meta(name='viewport', content='width=1200')
     link(rel='shortcut icon', href='/images/favicon.ico')
 
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700')
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/fontawesome/4.5.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/tooltip/1.2.0/tooltip-theme-arrows.css')
     link(rel='stylesheet', href='/css/all.css')
     script(src='/js/vendor/modernizr.js')
   body(ontouchstart='')
@@ -16,7 +19,7 @@ html
     nav
       .logo-container
         a(href='/')
-            img.logo(src='/images/bolt.png', alt='CDNperf', width='25', height='25')
+            img.logo(src='/images/bolt.png', alt='CDNperf', width='50', height='50')
             .text
                 .first CDN
                 .second perf
@@ -37,8 +40,8 @@ html
             a(href='/about') About
 
     header
-      h1 Find fast and reliable JavaScript CDNs
-      h2 To make your sites snappy and happy!
+      h1 Finds you fast and reliable JavaScript CDNs
+      h2 that make your websites snappy and happy!
 
       block header
 
@@ -50,20 +53,22 @@ html
         h2 Our Partners:
         .partners-container
           a.partner(href='http://www.jsdelivr.com/')
-            img(src='/images/jsdelivr.png', alt='jsDelivr', width='102', height='42')
+            img(src='/images/jsdelivr.png', alt='jsDelivr', width='198', height='48')
 
           a.partner(href='http://jster.net/')
-            img(src='/images/jster.png', alt='JSter', width='102', height='42')
+            img(src='/images/jster.png', alt='JSter', width='138', height='48')
 
           a.partner(href='http://survivejs.com/')
-            img(src='/images/survivejs.png', alt='SurviveJS', width='172', height='42')
+            img(src='/images/survivejs.png', alt='SurviveJS', width='230', height='48')
 
           a.partner(href='https://www.pingdom.com/')
-            img(src='/images/pingdom.png', alt='Pingdom', width='102', height='42')
+            img(src='/images/pingdom.png', alt='Pingdom', width='152', height='48')
 
     footer
       div
         a(href='http://prospectone.pl/') © 2016 Prospect One Sp z.o.o.
+        a(href='http://prospectone.pl/' class='pull-right')
+          img(src='/images/prospect-one.png')
 
     script(src='/js/vendor/jquery.js')
 

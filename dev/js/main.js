@@ -1,20 +1,28 @@
 $(main);
 
 function main() {
+    var tooltips = [], charts = [];
+
     $.getJSON('./data.json', function(d) {
         var data = attachColors(groupData(d));
         var state = initializeState(data.providers);
         var update = updateAll.bind(undefined, $('.content.row'), data, state);
         var updateWithRoute, router;
 
-        $(window).on('resize', update);
+        $(window).on('resize', function () {
+            tooltips.forEach(function (tooltip) {
+                if (tooltip && $(tooltip.drop.drop).is(':visible')) {
+                    tooltipPosition(tooltip);
+                }
+            });
+        });
 
         router = initializeRouter(state, update);
 
         updateWithRoute = union(update, updateRoute.bind(undefined, state, router));
 
         createControls(state, updateWithRoute);
-        createLegend($('.legendContainer'), data, state, updateWithRoute);
+        createLegend($('.legendContainer .columns'), data, state, updateWithRoute);
 
         update();
     });
@@ -143,11 +151,11 @@ function main() {
     }
 
     function createTypes(state, update) {
-        $controls($('.typeControls'), state, update, 'type', ['ping', 'http', 'https'], 'http');
+        $controls($('.typeControls'), state, update, 'type', ['ping', 'http', 'https'], state.type || 'http');
     }
 
     function createAmounts(state, update) {
-        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90], 90);
+        $controls($('.durationControls'), state, update, 'amount', [7, 30, 90], state.amount || 90);
     }
 
     function $controls($p, state, update, type, items, selected) {
@@ -180,27 +188,84 @@ function main() {
     }
 
     function updateAll($p, data, state) {
+        cleanup();
         updateCharts($p, data, state);
         updateLegend($p, data, state);
     }
 
-    function updateCharts($p, data, state) {
-        updateChart($('.uptimeContainer'), data, state, 'uptime', 100, function(v) {
-            var day = 100 * 60 * 60 * 24 * 1000;
-            var val = (100 - v.value) / day;
-
-            v.value += ' %, ' + calculateDowntime(val) + ' downtime';
-
-            return v;
+    function cleanup() {
+        tooltips.splice(0).forEach(function(tooltip) {
+            if (tooltip && tooltip.drop && tooltip.drop.content){
+				tooltip.destroy();
+			}
         });
-        updateChart($('.latencyContainer'), data, state, 'latency', 300, function(v) {
-            v.value += ' ms';
 
-            return v;
+        charts.splice(0).forEach(function(chart) {
+            if (chart) {
+                chart.destroy();
+            }
         });
     }
 
-    function updateChart($p, data, state, category, height, tooltipCb) {
+    function updateCharts($p, data, state) {
+        var providers = Object.keys(data.providers);
+
+        updateUptimeChart($('.uptimeContainer'), data, state, 'uptime', 70, function(data, index) {
+            return $('<div></div>').append($('<table class="tooltip-table tooltip-table-uptime"><col align="left"><col align="right"></table>').append(data.datasets.map(function(provider, i) {
+                return $('<tr></tr>')
+                    .append($('<td><span class="tooltip-dot" style="background-color: ' + provider.pointColor + ';"></span></td>')
+                    .append(providers[i])).append($('<td></td>').html(provider.data[index].toFixed(3) + '% <span class="downtime">' + calculateDowntime((100 - provider.data[index]) / (100 * 60 * 60 * 24 * 1000)) + ' downtime</span>'));
+            }))).html();
+        });
+        updateLatencyChart($('.latencyContainer'), data, state, 'latency', 300, function(tooltip) {
+           return '<strong>' + tooltip.title + '</strong>' + $('<div></div>').append($('<table class="tooltip-table"><col align="left"><col align="right"></table>').append(tooltip.labels.map(function(label, i) {
+                return $('<tr></tr>')
+                    .append($('<td><span class="tooltip-dot" style="background-color: ' + tooltip.legendColors[i].stroke + ';"></span></td>')
+                    .append(state.providers[i])).append($('<td></td>').html(parseFloat(label).toFixed(3) + ' ms'));
+            }))).html();
+        });
+    }
+
+    function updateUptimeChart($el, data, state, category, height, tooltipCb) {
+        data = getData(data, state, category);
+        var points = data.labels.map(function(label, index) {
+            return data.datasets.every(function(ds) {
+                return ds.data[index] === 100;
+            }) ? '#6ad378' : '#ffef3c';
+        });
+
+        var $c = $el.find('.uptime-chart').empty();
+
+        if (!$c.length) {
+            $c = $('<div class="uptime-chart"></div>').css('height', height).appendTo($el);
+        }
+
+        $c.append(data.labels.map(function(label, index) {
+            var i;
+            var $div = $('<div></div>').css({
+                float: 'left',
+                width: (100 / data.labels.length) + '%',
+                height: '100%'
+            }).attr('data-label', label).on('mouseover', function () {
+                var int = setInterval(function () {
+                    if ($(tooltips[i].drop.drop).is(':visible')) {
+                        tooltipPosition(tooltips[i]);
+                        clearInterval(int);
+                    }
+                }, 5);
+            });
+
+            i = tooltips.push(new Tooltip({
+                target: $div[0],
+                content: '<strong>' + label + '</strong>' + (tooltipCb(data, index)),
+                position: 'top center'
+            })) - 1;
+
+            return $div;
+        })).css('background', 'linear-gradient(to right, ' + points.join(',') + ')');
+    }
+
+    function  updateLatencyChart($p, data, state, category, height, tooltipCb) {
         var $canvas = $('.chart:first', $p);
         var ctx, width;
 
@@ -222,10 +287,7 @@ function main() {
         });
 
         updateType(data, state, 'uptime', function(state, values) {
-            var val = average(values.slice(-state.amount));
-            var month = 100 * 60 * 60 * 24 * 1000 * 30;
-
-            return $('<abbr>').attr('title', calculateDowntime((100 - val) / month) + ' downtime').text(val.toFixed(3) + ' %');
+            return average(values.slice(-state.amount)).toFixed(3) + ' %';
         });
 
         updateType(data, state, 'downtime', function(state, values) {
@@ -275,34 +337,74 @@ function main() {
         // https://github.com/nnnick/Chart.js/issues/76
         var min = minimum(data.datasets.map(op(minimum, prop('data'))));
         var max = maximum(data.datasets.map(op(maximum, prop('data'))));
-        var opts;
+        var ti, hp = $('<div></div>').css({ position: 'absolute', top: 0, left: 0 }).appendTo('body'), opts = {
+            responsive: true,
+            scaleFontSize: 13,
+            scaleFontFamily: 'Ubuntu, sans-serif',
+            scaleFontColor: '#969ea6',
+            animation: true,
+            animationSteps: 10,
+            datasetFill: false,
+        };
 
         if(max == min) {
-            opts = {
-                animation: true,
-                animationSteps: 10,
-                datasetFill: false,
-                scaleOverride : true,
-                scaleSteps : 3,
-                scaleStepWidth : 1,
-                scaleStartValue : max - 3
-            };
+            opts.scaleOverride = true;
+            opts.scaleSteps = 3;
+            opts.scaleStepWidth = 1;
+            opts.scaleStartValue = max - 3;
         }
         else {
-            opts = {
-                animation: true,
-                animationSteps: 10,
-                datasetFill: false,
-                pointDot: true,
-                scaleShowGridLines: true,
-                scaleGridLineColor: 'rgba(224,224,224,0.5)',
-                scaleGridLineWidth: 1,
-                pointDotRadius: 3,
-                bezierCurve: false
-            };
+            opts.pointDot = true;
+            opts.scaleShowGridLines = true;
+            opts.scaleGridLineColor = 'rgba(224,224,224,0.5)';
+            opts.scaleGridLineWidth = 1;
+            opts.pointDotRadius = 3;
+            opts.bezierCurve = false;
         }
 
-        new Chart(ctx, {}, tooltipCb).Line(data, opts);
+        opts.customTooltips = function(tooltip) {
+            var tt = tooltips[ti];
+
+			if (tt && tt.drop && tt.drop.content){
+				tt.destroy();
+                tooltips[ti] = null;
+			}
+
+            if (!tooltip) {
+                return;
+            }
+
+            ti = tooltips.push(new Tooltip({
+                target: hp[0],
+                content: tooltipCb(tooltip),
+                position: 'top center'
+            })) - 1;
+
+			hp.css({
+				top: $(ctx.canvas).offset().top,
+				left: $(ctx.canvas).offset().left,
+				transform: 'translateX(' + (tooltip.x - 10) + 'px) translateY(' + tooltip.yPadding + 'px) translateZ(0px)'
+			});
+
+			tooltips[ti].open();
+            tooltipPosition(tooltips[ti]);
+        };
+
+        charts.push(new Chart(ctx, {}, tooltipCb).Line(data, opts));
+    }
+
+    function tooltipPosition (tooltip) {
+        var pat = /\([^)]+\)/,
+            wid = parseFloat(getComputedStyle(tooltip.drop.content).width),
+            trX = parseFloat(tooltip.drop.drop.style.transform.match(pat)[0].substr(1));
+
+        if (trX < 0) {
+            tooltip.drop.drop.style.transform = tooltip.drop.drop.style.transform.replace(pat, '(0px)');
+        }
+
+        if (trX > window.innerWidth - wid - 20) {
+            tooltip.drop.drop.style.transform = tooltip.drop.drop.style.transform.replace(pat, '(' + (window.innerWidth - wid - 20) + 'px)');
+        }
     }
 
     function op(fn, accessor) {
@@ -335,9 +437,9 @@ function main() {
             createTh(state, name, host, color, update).appendTo($header);
         }
 
-        createRow(state, providers, 'latency', 'Latency in ms as average per day, the lower the better').appendTo($table);
-        createRow(state, providers, 'uptime', 'Uptime in percentage as average per day. The higher the better. Note that downtimes are given on hover as an estimate per 30 days.').appendTo($table);
-        createRow(state, providers, 'downtime', 'Total downtime').appendTo($table);
+        createRow(state, providers, 'latency', 'Latency <sup>1</sup>').appendTo($table);
+        createRow(state, providers, 'uptime', 'Uptime <sup>2</sup>').appendTo($table);
+        createRow(state, providers, 'downtime', 'Downtime <sup>3</sup>').appendTo($table);
     }
 
     function createTh(state, name, host, color, update) {
@@ -349,22 +451,25 @@ function main() {
         var $e = $('<th>', {'class': 'cdn ' + thClass}).css({
             'background-color': colorToHex(color)
         });
-        var inverseColor = colorToHex(flipColor(color));
         $('<a>', {href: 'http://' + host}).css({
-            'color': inverseColor
+            'color': '#fff'
         }).text(name).appendTo($e);
 
-        var $icon = $('<i>', {'class': 'visibility foundicon-eyeball'}).css({
-            'color': inverseColor
+        var $icon = $('<i>', {'class': 'visibility fa'}).css({
+            'color': '#fff'
         }).on('click', function() {
-            $icon.toggleClass('selected');
+            $icon.toggleClass('fa-check-square fa-square');
 
-            toggleItem(state.providers, idfy(name), $icon.hasClass('selected'));
+            toggleItem(state.providers, idfy(name), $icon.hasClass('fa-check-square'));
 
             update();
         }).appendTo($e);
 
-        if(within(state.providers, thClass)) $icon.addClass('selected');
+        if(within(state.providers, thClass)) {
+            $icon.addClass('fa-check-square');
+        } else {
+            $icon.addClass('fa-square');
+        }
 
         return $e;
     }
@@ -386,18 +491,17 @@ function main() {
         return val.toLowerCase().replace(/[ \-\(\)]+/g, '_').replace(/\.+/g, '');
     }
 
-    function createRow(state, providers, type, tooltip) {
+    function createRow(state, providers, id, title) {
         var $row = $('<tr>');
-        var name, provider, values, value, tdClass;
+        var name, provider, tdClass;
 
-        var $td = $('<td>', {'class': type}).appendTo($row);
-        $('<abbr>', {title: tooltip}).text(type).appendTo($td);
+        $('<td>', {'class': id + ' title'}).html(title).appendTo($row);
 
         for(name in providers) {
             provider = providers[name];
             tdClass = idfy(name);
 
-            $('<td>', {'class': type + ' ' + tdClass}).appendTo($row);
+            $('<td>', {'class': id + ' ' + tdClass}).appendTo($row);
         }
 
         return $row;
@@ -439,7 +543,7 @@ function main() {
             if(amount == 90) d.addDays(-(90 - i * 3 - 1));
             else d.addDays(-(amount - i - 1));
 
-            ret.push(d.toString('dd MMM'));
+            ret.push(d.toString('dd MMM') + (amount == 90 ? ' - ' + d.addDays(2).toString('dd MMM') : ''));
         }
 
         return ret;
@@ -475,9 +579,15 @@ function main() {
     }
 
     function pickPoints(amount, data) {
-        // TODO: maybe there's a better way? now it skips the contribution of
-        // the neighboring days
-        if(amount == 90) return everyNth(3, data);
+        if(amount == 90) {
+            var nd = [];
+
+            for (var i = 0; i < 90; i += 3) {
+                nd.push(((data[i] + data[i + 1] + data[i + 2]) / 3));
+            }
+
+            return nd;
+        }
 
         return data;
     }
@@ -531,13 +641,13 @@ function main() {
 
     function getColor(index) {
         return [
-            [216, 79, 68],
-            [174, 227, 214],
-            [243, 213, 162],
-            [93, 150, 215],
+            [232, 77, 61],
+            [75, 184, 157],
+            [246, 174, 78],
+            [84, 138, 200],
             [68, 68, 68],
-            [227, 136, 235],
-            [170, 221, 94]
+            [174, 90, 160],
+            [81, 177, 105]
         ][index];
     }
 
