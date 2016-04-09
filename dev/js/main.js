@@ -383,7 +383,7 @@ function main() {
 			hp.css({
 				top: $(ctx.canvas).offset().top,
 				left: $(ctx.canvas).offset().left,
-				transform: 'translateX(' + tooltip.x + 'px) translateY(' + tooltip.yPadding + 'px) translateZ(0px)'
+				transform: 'translateX(' + (tooltip.x - 10) + 'px) translateY(' + tooltip.yPadding + 'px) translateZ(0px)'
 			});
 
 			tooltips[ti].open();
