@@ -312,7 +312,12 @@ p {
   margin: 2em;
 }
 .partner {
-  margin: 2em;
+  margin: 1em;
+}
+@media (min-width: 1280px) {
+  .partner {
+    margin: 2em;
+  }
 }
 
 /* footer */
