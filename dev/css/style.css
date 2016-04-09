@@ -545,7 +545,12 @@ a:visited {
 .legend {
   margin-bottom: 0;
   width: 100%;
-  table-layout: fixed;
+}
+
+@media (min-width: 1280px) {
+  .legend {
+    table-layout: fixed;
+  }
 }
 
 .legend th {

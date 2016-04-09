@@ -11,7 +11,7 @@ function main() {
 
         $(window).on('resize', function () {
             tooltips.forEach(function (tooltip) {
-                if (tooltip) {
+                if (tooltip && $(tooltip.drop.drop).is(':visible')) {
                     tooltipPosition(tooltip);
                 }
             });
